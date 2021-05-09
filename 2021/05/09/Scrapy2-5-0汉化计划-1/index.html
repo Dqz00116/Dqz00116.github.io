@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python,Scrapy," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="通过 &#96;scrapy&#96;  命令行工具控制Scrapy框架，为了与子命令进行区分，我们将命令行工具称为 Scrapy工具（Scrapy tool），当然你也可以叫她（命令行工具娘）命令集（ commands ）或者Scrapy命令集（ Scrapy  commands ）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scrapy2.5.0汉化计划[1]">
+<meta property="og:url" content="http://yoursite.com/2021/05/09/Scrapy2-5-0%E6%B1%89%E5%8C%96%E8%AE%A1%E5%88%92-1/index.html">
+<meta property="og:site_name" content="藤原豆腐店">
+<meta property="og:description" content="通过 &#96;scrapy&#96;  命令行工具控制Scrapy框架，为了与子命令进行区分，我们将命令行工具称为 Scrapy工具（Scrapy tool），当然你也可以叫她（命令行工具娘）命令集（ commands ）或者Scrapy命令集（ Scrapy  commands ）">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-05-09T12:03:26.000Z">
+<meta property="article:modified_time" content="2021-05-09T12:04:46.395Z">
+<meta property="article:author" content="源渋">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Scrapy">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/05/09/Scrapy2-5-0汉化计划-1/"/>
+
+
+
+
+
+  <title>Scrapy2.5.0汉化计划[1] | 藤原豆腐店</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">藤原豆腐店</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/09/Scrapy2-5-0%E6%B1%89%E5%8C%96%E8%AE%A1%E5%88%92-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="源渋">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="藤原豆腐店">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Scrapy2.5.0汉化计划[1]</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-05-09T20:03:26+08:00">
+                2021-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  通过 `scrapy`  命令行工具控制Scrapy框架，为了与子命令进行区分，我们将命令行工具称为 Scrapy工具（Scrapy tool），当然你也可以叫她（命令行工具娘）命令集（ commands ）或者Scrapy命令集（ Scrapy  commands ）
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-命令行工具"><a href="#1-命令行工具" class="headerlink" title="1.命令行工具"></a>1.命令行工具</h1><p>通过 <code>scrapy</code>  命令行工具控制Scrapy框架，为了与子命令进行区分，我们将命令行工具称为 Scrapy工具（Scrapy tool），当然你也可以叫她（命令行工具娘）命令集（ commands ）或者Scrapy命令集（ Scrapy  commands ）。</p>
+<p>Scrapy工具为不同的目的提供多种服♂务，每一个命令都可以设置不同的参数和选项。</p>
+<h2 id="配置设定"><a href="#配置设定" class="headerlink" title="配置设定"></a>配置设定</h2><p>Scrapy框架会在以下标准路径中的INI风格的配置文件 <code>scrapy.cfg</code>里寻找配置参数：</p>
+<ol>
+<li><code>/etc/scrapy.cfg</code> 或者 <code>c:\scrapy\scrapy.cfg</code> (系统默认)；</li>
+<li>全局设定（用户自定）中的<code>~/.config/scrapy.cfg</code> (<code>$XDG_CONFIG_HOME</code>) 和<code>~/.scrapy.cfg</code> (<code>$HOME</code>) ；</li>
+<li>Scrapy项目根目录中的 <code>scrapy.cfg</code> ；</li>
+</ol>
+<p>（涉及Linux就是知识盲区了，呜呜呜…… ）</p>
+<p>（在WIN10使用Pycharm的话实际只需要关注第3条）</p>
+<p>这些文档中设定会按照列出顺序的优先级进行合并（我自己页不会翻译了），意思就是用户自定的参数值的优先级高于系统默认的参数值的优先级，而当在项目中进行配置设定时，配置参数将会继承来自用户自定或者系统默认的参数值。</p>
+<p>你也可以通过一些环境变量配置Scrapy框架，例如：</p>
+<ul>
+<li><code>SCRAPY_SETTINGS_MODULE</code></li>
+<li><code>SCRAPY_PROJECT</code></li>
+<li><code>SCRAPY_PYTHON_SHELL</code></li>
+</ul>
+<p>（没用过，都不认识）</p>
+<h2 id="Scrapy项目的默认结构"><a href="#Scrapy项目的默认结构" class="headerlink" title="Scrapy项目的默认结构"></a>Scrapy项目的默认结构</h2><p>在深♂入理解命令行工具以及她的子命令之前，我们需要先了解一个Scrapy项目的目录结构。</p>
+<p>目录结构是可以修改的，但是所有的Scrapy项目在默认情况下都有相似</p>
+<p>的文件结构。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">scrapy.cfg</span><br><span class="line">myproject&#x2F;</span><br><span class="line">    __init__.py</span><br><span class="line">    items.py</span><br><span class="line">    middlewares.py</span><br><span class="line">    pipelines.py</span><br><span class="line">    settings.py</span><br><span class="line">    spiders&#x2F;</span><br><span class="line">        __init__.py</span><br><span class="line">        spider1.py</span><br><span class="line">        spider2.py</span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
+
+<p><code>scrapy.cfg</code>所在的目录是整个项目的根目录，<code>scrapy.cfg</code>包含了定义在项目设置中的Python模块的声明（就是别名啦），例如：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[settings]</span></span><br><span class="line"><span class="attr">default</span> = myproject.settings</span><br></pre></td></tr></table></figure>
+
+<h2 id="在项目之间共享根目录"><a href="#在项目之间共享根目录" class="headerlink" title="在项目之间共享根目录"></a>在项目之间共享根目录</h2><p>一个包含<code>scrapy.cfg</code>文件的根目录可以同时被多个Scrapy项目共享，每一个项目都可以有自己的设置模块。</p>
+<p>也就是说，你得在<code>scrapy.cfg</code>文件中的<code>[setting]</code>下面定义一个或多个配置模块的别名，例如：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[settings]</span></span><br><span class="line"><span class="attr">default</span> = myproject1.settings</span><br><span class="line"><span class="attr">project1</span> = myproject1.settings</span><br><span class="line"><span class="attr">project2</span> = myproject2.settings</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，  <code>scrapy</code>  命令行工具会使用默认设置。（这特么不是废话吗？）在使用命令行工具时也可以利用环境变量<code>SCRAPY_PROJECT</code>指定不同的项目：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> scrapy settings --get BOT_NAME</span></span><br><span class="line">Project 1 Bot</span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> SCRAPY_PROJECT=project2</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> scrapy settings --get BOT_NAME</span></span><br><span class="line">Project 2 Bot</span><br></pre></td></tr></table></figure>
+
+<p>（setting的具体用法下面会讲，这里在用setting举例子，我第一次看也很迷惑）</p>
+<h2 id="Scrapy工具的结构"><a href="#Scrapy工具的结构" class="headerlink" title="Scrapy工具的结构"></a>Scrapy工具的结构</h2><p>你可以尝试不带参数启动运行 Scrapy 工具，控制台会打印Scrapy工具的使用说明和命令集：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Scrapy X.Y - no active project</span><br><span class="line"></span><br><span class="line">Usage:</span><br><span class="line">  scrapy &lt;command&gt; [options] [args]</span><br><span class="line"></span><br><span class="line">Available commands:</span><br><span class="line">  crawl         Run a spider</span><br><span class="line">  fetch         Fetch a URL using the Scrapy downloader</span><br><span class="line">[...]</span><br></pre></td></tr></table></figure>
+
+<p>如果你在一个 Scrapy 项目中，第一行打印内容为当前活♂动的项目。上面的例子是在项目外运行的，如果在项目不带参数运行Scrapy 工具的话，你可能在控制台看到这样的输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Scrapy X.Y - project: myproject</span><br><span class="line"></span><br><span class="line">Usage:</span><br><span class="line">  scrapy &lt;command&gt; [options] [args]</span><br><span class="line"></span><br><span class="line">[...]</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建-Scrapy项目"><a href="#创建-Scrapy项目" class="headerlink" title="创建 Scrapy项目"></a>创建 Scrapy项目</h2><p>正片开始！使用<code>scrapy</code>工具的第一个仪式当然是创建项目啦！！！</p>
+<p>在命令行创建项目：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy startproject myproject [project_dir]</span><br></pre></td></tr></table></figure>
+
+<p>这个命令将会在 <code>project_dir</code>  目录下创建一个Scrapy项目，如果<code>project_dir</code>  目录没有被指定，那么目录将会被命名为<code>myproject</code></p>
+<p>项目创建之后，你就可以进♂入项目目录了：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd project_dir</span><br></pre></td></tr></table></figure>
+
+<p>你可以在这里使用<code>scrapy</code>工具的管理和控制你的项目。</p>
+<h2 id="控♂制Scrapy项目"><a href="#控♂制Scrapy项目" class="headerlink" title="控♂制Scrapy项目"></a>控♂制Scrapy项目</h2><p>在项目中使用<code>scrapy</code>工具控制和管理你的项目。</p>
+<p>例如创建一个名为mydomain新爬虫<code>spider</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider mydomain mydomain.com</span><br></pre></td></tr></table></figure>
+
+<p>一些Scrapy命令（比如<code>crawl</code>）必须在项目内才能有效运行。在下一个条目中你可以了解到哪些Scrapy命令需要在项目内运行，哪些不需要在项目内运行。</p>
+<p><strong>注意，不同项目中的命令运行效果可能会有略微差异。例如，当url与一些特定的爬虫产生联系时，fetch命令会继承爬虫的运行效果。这当然是有意的，fetch命令被用于检查爬虫如何获取页面。</strong></p>
+<p>（这一段的翻译有待改进，得根据实际效果重新修正）</p>
+<h2 id="commond命令集"><a href="#commond命令集" class="headerlink" title="commond命令集"></a>commond命令集</h2><p>这一节将会详述内置命令集及其使用示例。记住！靓仔！当你想要深入了♂解一个命令时，你可以：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy &lt;command&gt; -h</span><br></pre></td></tr></table></figure>
+
+<p>什么？你全都要了解？那你可以：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy -h</span><br></pre></td></tr></table></figure>
+
+<p>Srcapy中有两种命令，一种只能在项目中运行——项目命令（ Project-specific commands ），一种可以脱离项目运行——全局命令（ Global commands ），道理是这么个道理，但实际在项目中运行时，这两种命令的运行效果略有差异（它们使用了相同的设定值，这些设定值来自项目继承的设定）</p>
+<p>全局命令：</p>
+<ul>
+<li><code>startproject</code></li>
+<li><code>genspider</code></li>
+<li><code>settings</code></li>
+<li><code>runspider</code></li>
+<li><code>shell</code></li>
+<li><code>fetch</code></li>
+<li><code>view</code></li>
+<li><code>version</code></li>
+</ul>
+<p>项目命令：</p>
+<ul>
+<li><code>crawl</code></li>
+<li><code>check</code></li>
+<li><code>list</code></li>
+<li><code>edit</code></li>
+<li><code>parse</code></li>
+<li><code>bench</code></li>
+</ul>
+<h3 id="startporject"><a href="#startporject" class="headerlink" title="startporject"></a>startporject</h3><ul>
+<li>用法： <code>scrapy startproject &lt;project_name&gt; [project_dir]</code></li>
+<li>必须在项目中使用🐎：当然不需要！</li>
+</ul>
+<p>在<code>project_dir</code>目录下创建一个名为<code>project_name</code>的新项目，如果<code>project_dir</code>参数缺省，则目录名默认为项目名<code>project_name</code></p>
+<p>使用示例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> scrapy startproject myproject</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="genspider"><a href="#genspider" class="headerlink" title="genspider"></a>genspider</h3><ul>
+<li>用法： <code>scrapy genspider [-t template] &lt;name&gt; &lt;domain&gt;</code></li>
+<li>必须在项目中使用🐎：当然不需要！</li>
+</ul>
+<p>当该命令在项目内部被使用时，会在当前文件夹或当前项目中的  <code>spiders</code>  文件夹中创建一个新的爬虫。<code>template</code>参数用以指定预定义模板，<code>&lt;name&gt;</code>参数设定爬虫的名称，<code>&lt;domain&gt;</code>参数指定爬虫的域。（域是一个很重要的概念，下面会讲）</p>
+<p>使用示例： </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> scrapy genspider -l</span></span><br><span class="line">Available templates:</span><br><span class="line">  basic</span><br><span class="line">  crawl</span><br><span class="line">  csvfeed</span><br><span class="line">  xmlfeed</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> scrapy genspider example example.com</span></span><br><span class="line">Created spider 'example' using template 'basic'</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> scrapy genspider -t crawl scrapyorg scrapy.org</span></span><br><span class="line">Created spider 'scrapyorg' using template 'crawl'</span><br></pre></td></tr></table></figure>
+
+<p>这是一个基于预定义模板创建爬虫的快捷命令，当然你也可以通过其他方法创建自己的爬虫，比如用你自己的源码创建爬虫。</p>
+<h3 id="crawl"><a href="#crawl" class="headerlink" title="crawl"></a>crawl</h3><ul>
+<li>用法： <code>scrapy crawl &lt;spider&gt;</code></li>
+<li>必须在项目中使用！</li>
+</ul>
+<p>该命令启动爬虫并获取数据。</p>
+<p>使用示例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> scrapy crawl myspider</span></span><br><span class="line">[ ... myspider starts crawling ... ]</span><br></pre></td></tr></table></figure>
+
+<h3 id="check"><a href="#check" class="headerlink" title="check"></a>check</h3><ul>
+<li>用法： <code>crapy check [-l] &lt;spider&gt;</code></li>
+<li>得在项目中使用！</li>
+</ul>
+<p>该命令用于执行<code>Spider</code>的Conract检查，Contract 的作用就是通过一系列的简单约定来替代单元测试。</p>
+<p>（搞不懂有什么好处，这玩意儿作者自己都想删除，什么？你自己写代码不做测试？那这个接口你大可不用管了，把麻烦都留给测试员吧！）</p>
+<p>使用示例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> scrapy check -l</span></span><br><span class="line">first_spider</span><br><span class="line">  * parse</span><br><span class="line">  * parse_item</span><br><span class="line">second_spider</span><br><span class="line">  * parse</span><br><span class="line">  * parse_item</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> scrapy check</span></span><br><span class="line">[FAILED] first_spider:parse_item</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; <span class="string">'RetailPricex'</span> field is missing</span></span><br><span class="line"></span><br><span class="line">[FAILED] first_spider:parse</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; Returned 92 requests, expected 0..4</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="list"><a href="#list" class="headerlink" title="list"></a>list</h3><ul>
+<li>用法：<code>scrapy list</code></li>
+<li>得在项目中使用！</li>
+</ul>
+<p>该命令列出当前项目中所有可用的爬虫，一只爬虫打印一行。</p>
+<p>使用示例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> scrapy list</span></span><br><span class="line">spider1</span><br><span class="line">spider2</span><br></pre></td></tr></table></figure>
+
+<h3 id="edit"><a href="#edit" class="headerlink" title="edit"></a>edit</h3><ul>
+<li>用法：<code>scrapy edit &lt;spider&gt;</code></li>
+<li>得在项目中使用！</li>
+</ul>
+<p>IDE：时代变了，edit！！！</p>
+<p>该命令用以编辑爬虫。使用IDE（比如Pycharm）的同志们可以忽略这条命令。</p>
+<p>使用示例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> scrapy edit spider1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Scrapy/" rel="tag"># Scrapy</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/05/09/Scrapy2-5-0%E6%B1%89%E5%8C%96%E8%AE%A1%E5%88%92-0/" rel="next" title="Scrapy2.5.0汉化计划[0]">
+                <i class="fa fa-chevron-left"></i> Scrapy2.5.0汉化计划[0]
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">源渋</p>
+              <p class="site-description motion-element" itemprop="description">既没有想奋力赢得的目标，也变不成无欲无求的傻瓜</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-命令行工具"><span class="nav-number">1.</span> <span class="nav-text">1.命令行工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置设定"><span class="nav-number">1.1.</span> <span class="nav-text">配置设定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scrapy项目的默认结构"><span class="nav-number">1.2.</span> <span class="nav-text">Scrapy项目的默认结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在项目之间共享根目录"><span class="nav-number">1.3.</span> <span class="nav-text">在项目之间共享根目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scrapy工具的结构"><span class="nav-number">1.4.</span> <span class="nav-text">Scrapy工具的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-Scrapy项目"><span class="nav-number">1.5.</span> <span class="nav-text">创建 Scrapy项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控♂制Scrapy项目"><span class="nav-number">1.6.</span> <span class="nav-text">控♂制Scrapy项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#commond命令集"><span class="nav-number">1.7.</span> <span class="nav-text">commond命令集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#startporject"><span class="nav-number">1.7.1.</span> <span class="nav-text">startporject</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#genspider"><span class="nav-number">1.7.2.</span> <span class="nav-text">genspider</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#crawl"><span class="nav-number">1.7.3.</span> <span class="nav-text">crawl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#check"><span class="nav-number">1.7.4.</span> <span class="nav-text">check</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#list"><span class="nav-number">1.7.5.</span> <span class="nav-text">list</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#edit"><span class="nav-number">1.7.6.</span> <span class="nav-text">edit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#null"><span class="nav-number">1.7.7.</span> <span class="nav-text"></span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">源渋</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
