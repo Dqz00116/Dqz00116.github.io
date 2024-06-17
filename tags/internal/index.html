@@ -123,7 +123,7 @@
 
 
 
-  <title>浅析RMI远程过程调用 | The Way conforms to the natural order</title>
+  <title>Tag: internal | The Way conforms to the natural order</title>
   
 
 
@@ -142,7 +142,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -270,194 +270,54 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block tag">
 
-  
+    <div id="posts" class="posts-collapse">
+      <div class="collection-title">
+        <h1>internal<small>Tag</small>
+        </h1>
+      </div>
 
-  
-  
-  
+      
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.nekonet.cn/2021/12/20/%E6%B5%85%E6%9E%90RMI%E8%BF%9C%E7%A8%8B%E8%BF%87%E7%A8%8B%E8%B0%83%E7%94%A8/">
+    <header class="post-header">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Way conforms to the natural order">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
+            <a class="post-title-link" href="/2024/06/17/Unity-%E6%B5%85%E6%9E%90internal%E4%BF%AE%E9%A5%B0%E7%AC%A6/" itemprop="url">
+              
+                <span itemprop="name">Unity 浅析internal修饰符</span>
+              
+            </a>
         
-          <h1 class="post-title" itemprop="name headline">浅析RMI远程过程调用</h1>
-        
+      </h2>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-12-20T12:08:24+08:00">2021-12-20</time>
-            
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2024-06-17T22:29:02+08:00"
+              content="2024-06-17" >
+          06-17
+        </time>
+      </div>
 
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
-          
-
-          
-            <div class="post-wordcount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">2.2k</span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">2 mins.</span>
-              
-            </div>
-          
-
-          
-              <div class="post-description">
-                  编写一个客户端服务器实例，逐行解析使用的各种类
-              </div>
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>最近需要做一个分布式项目，要求基于RMI构建一个数据库中间件。</p>
-<p>写一个简单的RMI客户端服务器实例，加强对远程过程调用的理解🐒</p>
-<h2 id="远程过程调用"><a href="#远程过程调用" class="headerlink" title="远程过程调用"></a>远程过程调用</h2><p><strong>远程过程调用（ Remote Method Invocation ）</strong>，即一个设备的Java代码可以通过网络远程调用另一个设备中的某个Java方法。</p>
-<p><img src="https://gitee.com/Dqz00116/pic/raw/master/img/202112201600074.png"></p>
-<h2 id="简单的RMI客户端服务器实例"><a href="#简单的RMI客户端服务器实例" class="headerlink" title="简单的RMI客户端服务器实例"></a>简单的RMI客户端服务器实例</h2><p>场景：客户端远程调用一个服务器中的getSession方法，服务器返回方法执行的结果——字符串Hello！</p>
-<h3 id="Client"><a href="#Client" class="headerlink" title="Client"></a><strong>Client</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> RemoteException, NotBoundException &#123;</span><br><span class="line">        <span class="type">Registry</span> <span class="variable">registry</span> <span class="operator">=</span> LocateRegistry.getRegistry(<span class="string">&quot;localhost&quot;</span>, <span class="number">1099</span>);</span><br><span class="line">        <span class="type">SayHello</span> <span class="variable">sayHello</span> <span class="operator">=</span> (SayHello) registry.lookup(<span class="string">&quot;Hello&quot;</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> sayHello.getSession();</span><br><span class="line">        System.out.println(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Java/" rel="tag"># Java</a>
-          
-            <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag"># 分布式</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2021/07/08/Mybatis%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE%E4%B8%8E%E5%AE%9E%E4%BE%8B%E6%9E%84%E9%80%A0/" rel="next" title="Mybatis——文件配置与实例构造">
-                <i class="fa fa-chevron-left"></i> Mybatis——文件配置与实例构造
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2024/06/16/C-%E6%B3%9B%E5%9E%8B%E6%B5%85%E6%9E%90/" rel="prev" title="C# 浅析泛型">
-                C# 浅析泛型 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
-
-    <div class="post-spread">
       
     </div>
+
   </div>
+  
+  
+  
+
+  
 
 
           </div>
@@ -465,10 +325,6 @@
 
 
           
-
-  
-
-
 
         </div>
         
@@ -489,17 +345,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -518,7 +365,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -529,7 +376,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -594,22 +441,6 @@
       </section>
 
       
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E8%BF%87%E7%A8%8B%E8%B0%83%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">远程过程调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84RMI%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%9E%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">简单的RMI客户端服务器实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Client"><span class="nav-number">2.1.</span> <span class="nav-text">Client</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
 
       
 
@@ -635,7 +466,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="Site words total count">19k</span>
+    <span title="Site words total count">23k</span>
   
 
   
@@ -644,7 +475,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="Site reading time">19 mins.</span>
+    <span title="Site reading time">23 mins.</span>
   
 </div>
 
@@ -772,10 +603,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=6.0.0"></script>
-
-
 
   
 

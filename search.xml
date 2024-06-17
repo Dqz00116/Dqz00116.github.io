@@ -62,6 +62,115 @@
       </tags>
   </entry>
   <entry>
+    <title>C# 浅析程序集(Assembly)</title>
+    <url>/2024/06/17/C-%E6%B5%85%E6%9E%90%E7%A8%8B%E5%BA%8F%E9%9B%86-Assembly/</url>
+    <content><![CDATA[<p>在 C# 和 .NET 生态系统中，程序集（Assembly）是一个核心概念，它是管理和部署代码的基础单元。程序集是由一个或多个代码模块（如类、接口、结构等）组成的，具有以下重要特征：</p>
+<ul>
+<li><strong>独立性</strong>：程序集是一个自包含的单位，可以独立于其他程序集进行加载和运行。</li>
+<li><strong>版本控制</strong>：程序集包含版本信息，支持强名称和版本管理。</li>
+<li><strong>类型边界</strong>：程序集是类型的逻辑边界，定义了哪些类型可以访问哪些类型。</li>
+</ul>
+<span id="more"></span>
+
+<p>以下是对 C# 程序集的详细介绍：</p>
+<h3 id="程序集的组成部分"><a href="#程序集的组成部分" class="headerlink" title="程序集的组成部分"></a>程序集的组成部分</h3><ol>
+<li><p><strong>代码</strong>：</p>
+<ul>
+<li>程序集可以包含一个或多个托管代码模块（通常是 <code>.dll</code> 或 <code>.exe</code> 文件），这些代码模块是用 C# 等 .NET 语言编写的。</li>
+<li>代码模块经过编译后，包含中间语言（IL），等待在运行时由 .NET CLR（公共语言运行时）解释和执行。</li>
+</ul>
+</li>
+<li><p><strong>元数据</strong>：</p>
+<ul>
+<li>元数据是描述程序集内容的信息，包括类型定义、成员签名、属性等。</li>
+<li>它允许 .NET 运行时在加载程序集时了解它的结构，并支持反射（reflection）。</li>
+</ul>
+</li>
+<li><p><strong>清单（Manifest）</strong>：</p>
+<ul>
+<li>清单是程序集的描述文件，包含程序集的版本信息、文化信息、引用的其他程序集列表等。</li>
+<li>清单确保程序集的唯一性和完整性。</li>
+</ul>
+</li>
+<li><p><strong>资源</strong>：</p>
+<ul>
+<li>程序集还可以包含非代码资源，如图像、字符串、XML 文件等，通常用于国际化或存储嵌入式资源。</li>
+</ul>
+</li>
+</ol>
+<h3 id="程序集的类型"><a href="#程序集的类型" class="headerlink" title="程序集的类型"></a>程序集的类型</h3><ol>
+<li><p><strong>私有程序集（Private Assembly）</strong>：</p>
+<ul>
+<li>只能由与其放置在相同应用程序目录下的应用程序使用。</li>
+<li>通常存储在应用程序的目录或子目录中，便于部署和管理。</li>
+</ul>
+</li>
+<li><p><strong>共享程序集（Shared Assembly）</strong>：</p>
+<ul>
+<li>可以在多个应用程序之间共享。</li>
+<li>通常需要强名称（Strong Name）签名，存储在全局程序集缓存（GAC）中。</li>
+<li>共享程序集通过版本控制支持应用程序的安全更新和依赖管理。</li>
+</ul>
+</li>
+</ol>
+<h3 id="创建和使用程序集"><a href="#创建和使用程序集" class="headerlink" title="创建和使用程序集"></a>创建和使用程序集</h3><h4 id="创建程序集"><a href="#创建程序集" class="headerlink" title="创建程序集"></a>创建程序集</h4><p>在 Visual Studio 中，创建一个新的类库项目（<code>Class Library</code>）时，会生成一个 <code>.dll</code> 文件，这就是一个程序集。创建控制台应用程序或 Windows 应用程序时，生成的 <code>.exe</code> 文件也是一个程序集。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ExampleLibrary.cs</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ExampleLibrary</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PrintMessage</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;Hello from the Example Library!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译后，<code>ExampleLibrary</code> 将成为一个程序集的一部分，通常是一个 <code>.dll</code> 文件。</p>
+<h4 id="引用程序集"><a href="#引用程序集" class="headerlink" title="引用程序集"></a>引用程序集</h4><p>在一个 C# 项目中，可以引用其他程序集来复用代码。引用可以通过 Visual Studio 的项目引用设置完成，或者在代码中使用 <code>using</code> 语句来导入命名空间。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> ExampleLibrary; <span class="comment">// 引用 ExampleLibrary 程序集</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        ExampleLibrary example = <span class="keyword">new</span> ExampleLibrary();</span><br><span class="line">        example.PrintMessage(); <span class="comment">// 使用 ExampleLibrary 中的方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="程序集的版本控制"><a href="#程序集的版本控制" class="headerlink" title="程序集的版本控制"></a>程序集的版本控制</h3><p>程序集具有内置的版本控制功能，通过程序集版本（Assembly Version）来管理。版本号通常由四个部分组成：主版本号、次版本号、修订号和内部版本号。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">assembly: AssemblyVersion(<span class="string">&quot;1.0.0.0&quot;</span>)</span>]</span><br></pre></td></tr></table></figure>
+
+<p>版本控制有助于在部署时管理程序集的不同版本，防止版本冲突和确保应用程序的兼容性。</p>
+<h3 id="程序集的强名称（Strong-Name）"><a href="#程序集的强名称（Strong-Name）" class="headerlink" title="程序集的强名称（Strong Name）"></a>程序集的强名称（Strong Name）</h3><p>强名称是一种确保程序集唯一性和完整性的机制，尤其在共享程序集（如存储在 GAC 中）时非常重要。</p>
+<ul>
+<li>强名称包括程序集的名称、版本号、公钥和数字签名。</li>
+<li>使用 <code>sn.exe</code> 工具生成强名称密钥对，并使用它来签名程序集。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sn -k MyKey.snk</span><br></pre></td></tr></table></figure>
+
+<p>在项目的 <code>AssemblyInfo.cs</code> 文件中添加：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">assembly: AssemblyKeyFile(<span class="string">&quot;MyKey.snk&quot;</span>)</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="全局程序集缓存（GAC）"><a href="#全局程序集缓存（GAC）" class="headerlink" title="全局程序集缓存（GAC）"></a>全局程序集缓存（GAC）</h3><p>GAC 是一个存储共享程序集的全局存储位置，支持多个版本的程序集共存，并解决了 DLL 冲突问题。</p>
+<ul>
+<li>使用 <code>gacutil</code> 工具将程序集安装到 GAC。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gacutil -i MyAssembly.dll</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用反射访问程序集信息"><a href="#使用反射访问程序集信息" class="headerlink" title="使用反射访问程序集信息"></a>使用反射访问程序集信息</h3><p>C# 提供了强大的反射功能，允许在运行时动态加载和检查程序集及其内容。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Reflection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Assembly assembly = Assembly.Load(<span class="string">&quot;ExampleLibrary&quot;</span>);</span><br><span class="line">        <span class="keyword">foreach</span> (Type type <span class="keyword">in</span> assembly.GetTypes())</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(type.FullName);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>程序集是 C# 和 .NET 编程中一个重要的构建块，管理代码的编译、版本控制和分发。它们允许代码模块化、重用和封装，支持复杂应用程序的开发和维护。通过理解和有效使用程序集，开发者可以更好地组织和管理他们的代码库。</p>
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+      <tags>
+        <tag>Assembly</tag>
+        <tag>程序集</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Scrapy2.5.0汉化计划——前言</title>
+    <url>/2024/06/16/Scrapy2-5-0%E6%B1%89%E5%8C%96%E8%AE%A1%E5%88%92-0/</url>
+    <content><![CDATA[<p>最近在学习Scrapy框架，查资料的发现有中文文档。一开始还很开心，读了一会儿就开心不起来了……</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Dqz00116/pic//img/20210509195021.png" alt="pic-fuck"></p>
+<p>机翻TMD给爷死！！！</p>
+<p>中文文档不是最新版就算了，这妙不可言的机翻实在是让人接收不能，口巨！</p>
+<p>既然现存的中文文档如此拉跨，不如我自己花点心思翻译一下，也算是一种学习方式。（其实是快考六级了，个人的词汇量是一天不如一天，正好借此处机会多复习几个单词（逃））</p>
+<p>总之事请的起因就是这样，写在最前面记录一下翻译这个文档的初心。</p>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Scrapy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Mybatis——文件配置与实例构造</title>
     <url>/2021/07/08/Mybatis%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE%E4%B8%8E%E5%AE%9E%E4%BE%8B%E6%9E%84%E9%80%A0/</url>
     <content><![CDATA[<h2 id="情景"><a href="#情景" class="headerlink" title="情景"></a>情景</h2><p>数据库中有一个简单数据表，用于储存用户的账户以及登录密码</p>
@@ -146,24 +255,11 @@
 <p>（5）关闭<code>SqlSession</code>与数据库的连接.</p>
 <p>大功告成，数据库那一头不出意外应该可以看到新插入的数据。</p>
 ]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
       <tags>
         <tag>Mybatis</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Scrapy2.5.0汉化计划——前言</title>
-    <url>/2021/05/09/Scrapy2-5-0%E6%B1%89%E5%8C%96%E8%AE%A1%E5%88%92-0/</url>
-    <content><![CDATA[<p>最近在学习Scrapy框架，查资料的发现有中文文档。一开始还很开心，读了一会儿就开心不起来了……</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Dqz00116/pic//img/20210509195021.png" alt="pic-fuck"></p>
-<p>机翻TMD给爷死！！！</p>
-<p>中文文档不是最新版就算了，这妙不可言的机翻实在是让人接收不能，口巨！</p>
-<p>既然现存的中文文档如此拉跨，不如我自己花点心思翻译一下，也算是一种学习方式。（其实是快考六级了，个人的词汇量是一天不如一天，正好借此处机会多复习几个单词（逃））</p>
-<p>总之事请的起因就是这样，写在最前面记录一下翻译这个文档的初心。</p>
-]]></content>
-      <tags>
-        <tag>Python</tag>
-        <tag>Scrapy</tag>
       </tags>
   </entry>
   <entry>
@@ -336,9 +432,93 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">scrapy shell http://www.example.com/some/page.html</span></span><br><span class="line">[ ... scrapy shell starts ... ]</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">scrapy shell --nolog http://www.example.com/ -c <span class="string">&#x27;(response.status, response.url)&#x27;</span></span></span><br><span class="line">(200, &#x27;http://www.example.com/&#x27;)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">shell follows HTTP redirects by default</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">scrapy shell --nolog http://httpbin.org/redirect-to?url=http%3A%2F%2Fexample.com%2F -c <span class="string">&#x27;(response.status, response.url)&#x27;</span></span></span><br><span class="line">(200, &#x27;http://example.com/&#x27;)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">you can <span class="built_in">disable</span> this with --no-redirect</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">(only <span class="keyword">for</span> the URL passed as <span class="built_in">command</span> line argument)</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">scrapy shell --no-redirect --nolog http://httpbin.org/redirect-to?url=http%3A%2F%2Fexample.com%2F -c <span class="string">&#x27;(response.status, response.url)&#x27;</span></span></span><br><span class="line">(302, &#x27;http://httpbin.org/redirect-to?url=http%3A%2F%2Fexample.com%2F&#x27;)</span><br></pre></td></tr></table></figure>
 
 <h3 id=""><a href="#" class="headerlink" title=""></a></h3>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Scrapy</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Unity 浅析internal修饰符</title>
+    <url>/2024/06/17/Unity-%E6%B5%85%E6%9E%90internal%E4%BF%AE%E9%A5%B0%E7%AC%A6/</url>
+    <content><![CDATA[<p>在 Unity 项目中，使用 <code>internal</code> 修饰符来修饰方法、类或其他成员，虽然从表面上看与使用 <code>public</code> 和 <code>private</code> 等访问修饰符类似，但其实际作用和意义在 Unity 的特定环境中可能显得有些不同。</p>
+<span id="more"></span>
+
+<h3 id="internal-修饰符在-Unity-中的作用"><a href="#internal-修饰符在-Unity-中的作用" class="headerlink" title="internal 修饰符在 Unity 中的作用"></a><code>internal</code> 修饰符在 Unity 中的作用</h3><p><code>internal</code> 修饰符限制了成员的访问权限，使得这些成员只能在同一个程序集内访问。以下是 <code>internal</code> 在 Unity 项目中的一些关键点和使用场景：</p>
+<ol>
+<li><p><strong>程序集范围的访问控制</strong>：</p>
+<ul>
+<li>在 Unity 中，默认情况下，用户脚本会被编译到 <code>Assembly-CSharp.dll</code> 中。如果你使用了 <code>internal</code> 修饰符，这意味着该成员只能在同一个程序集 <code>Assembly-CSharp.dll</code> 中访问。</li>
+<li>对于 Unity 项目的大部分脚本，它们都在这个主程序集内，所以 <code>internal</code> 访问级别在此范围内起作用。</li>
+</ul>
+</li>
+<li><p><strong>限制非公共 API</strong>：</p>
+<ul>
+<li>你可能希望限制某些类或方法的访问权限，使其仅在特定的上下文或模块内使用，而不公开给整个项目的其他部分。</li>
+<li>例如，你可能有一些用于内部逻辑处理的工具类或方法，不希望它们被项目中的其他部分误用。这时可以使用 <code>internal</code> 修饰符来限制它们的访问。</li>
+</ul>
+</li>
+<li><p><strong>管理依赖和模块化</strong>：</p>
+<ul>
+<li>虽然大部分用户脚本会被编译到同一个程序集，但有时你可能会将一些代码组织到插件或自定义程序集（例如 <code>Plugins</code> 文件夹或 <code>.asmdef</code> 文件控制的程序集）中。</li>
+<li>在这些情况下，<code>internal</code> 可以用来控制不同程序集之间的访问权限，使得代码更加模块化和可维护。</li>
+</ul>
+</li>
+<li><p><strong>与第三方库和插件的隔离</strong>：</p>
+<ul>
+<li>如果你的 Unity 项目包含了多个第三方库或插件，这些插件通常会被编译成独立的程序集。在这种情况下，<code>internal</code> 可以用来确保插件的内部实现细节不会泄露到外部。</li>
+<li>例如，插件作者可以使用 <code>internal</code> 来保护插件的内部 API，仅暴露出公共接口供用户使用。</li>
+</ul>
+</li>
+</ol>
+<h3 id="Unity-项目中的程序集划分"><a href="#Unity-项目中的程序集划分" class="headerlink" title="Unity 项目中的程序集划分"></a>Unity 项目中的程序集划分</h3><p>尽管大多数情况下，Unity 会将脚本编译到 <code>Assembly-CSharp.dll</code> 中，但开发者可以通过一些手段创建多个独立的程序集，从而更好地组织代码：</p>
+<ol>
+<li><p><strong>使用 <strong><strong>Plugins</strong></strong> 和 <strong><strong>Standard Assets</strong></strong> 文件夹</strong>：</p>
+<ul>
+<li>Unity 会将 <code>Plugins</code> 和 <code>Standard Assets</code> 文件夹中的脚本编译到单独的程序集中，如 <code>Assembly-CSharp-firstpass.dll</code>。</li>
+<li>这些文件夹通常用于存放第三方插件和标准资产库。</li>
+</ul>
+</li>
+<li><p><strong>使用 <strong><strong>asmdef</strong></strong> 文件</strong>：</p>
+<ul>
+<li>Unity 提供了 <code>.asmdef</code>（Assembly Definition）文件，用于创建自定义程序集。</li>
+<li>通过在项目中添加 <code>.asmdef</code> 文件，你可以将脚本划分到多个独立的程序集，以便更好地管理代码依赖和编译时间。</li>
+</ul>
+</li>
+<li><p>例如，创建一个 <code>MyCustomAssembly.asmdef</code> 文件：</p>
+</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MyCustomAssembly&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;references&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;includePlatforms&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;excludePlatforms&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;allowUnsafeCode&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;overrideReferences&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;precompiledReferences&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;autoReferenced&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;defineConstraints&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>任何放在这个 <code>.asmdef</code> 文件同一目录下的脚本都会被编译到一个名为 <code>MyCustomAssembly.dll</code> 的程序集。</li>
+</ol>
+<h3 id="示例和实际应用"><a href="#示例和实际应用" class="headerlink" title="示例和实际应用"></a>示例和实际应用</h3><h4 id="示例-1：使用-internal-限制内部工具类"><a href="#示例-1：使用-internal-限制内部工具类" class="headerlink" title="示例 1：使用 internal 限制内部工具类"></a>示例 1：使用 <code>internal</code> 限制内部工具类</h4><p>假设有一个工具类 <code>InternalTool</code>，只希望在当前程序集内部使用：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// InternalTool.cs</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">MyGame.Utils</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">class</span> <span class="title">InternalTool</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">internal</span> <span class="keyword">void</span> <span class="title">DoSomething</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Log(<span class="string">&quot;Doing something internally...&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在同一个程序集的其他脚本中可以访问 <code>InternalTool</code>：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Same assembly</span></span><br><span class="line"><span class="keyword">using</span> MyGame.Utils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">GameLogic</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        InternalTool tool = <span class="keyword">new</span> InternalTool();</span><br><span class="line">        tool.DoSomething();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但在其他程序集（例如插件或者其他 <code>asmdef</code> 定义的程序集）中则无法访问 <code>InternalTool</code>。</p>
+<h4 id="示例-2：隔离第三方库的内部实现"><a href="#示例-2：隔离第三方库的内部实现" class="headerlink" title="示例 2：隔离第三方库的内部实现"></a>示例 2：隔离第三方库的内部实现</h4><p>假设你使用了一个第三方插件，并希望限制插件的内部 API，仅暴露公共接口：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// PluginLibrary.dll</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">PluginNamespace</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PublicAPI</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">internal</span> <span class="keyword">void</span> <span class="title">InternalMethod</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Internal logic</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">UsePlugin</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            InternalMethod();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在插件的内部实现中，<code>InternalMethod</code> 是 <code>internal</code> 的，只有插件内的代码可以调用它，而外部用户只能通过 <code>PublicAPI</code> 的 <code>public</code> 方法 <code>UsePlugin</code> 来使用插件。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><strong>internal</strong>** 修饰符在 Unity 中** 主要用于限制成员的访问范围，使得这些成员只能在同一个程序集内使用。</li>
+<li><strong>在 Unity 的默认编译环境下</strong>，大多数脚本会被编译到 <code>Assembly-CSharp.dll</code>，因此 <code>internal</code> 修饰符的作用主要体现在同一个 Unity 项目内的访问控制。</li>
+<li><strong>通过使用 <strong><strong>Plugins</strong></strong> 文件夹和 <strong><strong>.asmdef</strong></strong> 文件</strong>，开发者可以将代码组织成多个独立的程序集，这时 <code>internal</code> 修饰符可以更有效地控制不同程序集之间的访问权限。</li>
+</ul>
+<p>通过合理使用 <code>internal</code> 修饰符和程序集划分，开发者可以更好地组织代码，增强代码的封装性和可维护性。</p>
+]]></content>
+      <categories>
+        <category>Unity</category>
+      </categories>
+      <tags>
+        <tag>Assembly</tag>
+        <tag>程序集</tag>
+        <tag>internal</tag>
       </tags>
   </entry>
   <entry>
@@ -459,25 +639,11 @@
 <p>获得了预期的输出！泪目！</p>
 <p><img src="https://gitee.com/Dqz00116/pic/raw/master/img/20210706223320.png"></p>
 ]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
       <tags>
         <tag>Mybatis</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>浅析RMI远程过程调用</title>
-    <url>/2021/12/20/%E6%B5%85%E6%9E%90RMI%E8%BF%9C%E7%A8%8B%E8%BF%87%E7%A8%8B%E8%B0%83%E7%94%A8/</url>
-    <content><![CDATA[<p>最近需要做一个分布式项目，要求基于RMI构建一个数据库中间件。</p>
-<p>写一个简单的RMI客户端服务器实例，加强对远程过程调用的理解🐒</p>
-<h2 id="远程过程调用"><a href="#远程过程调用" class="headerlink" title="远程过程调用"></a>远程过程调用</h2><p><strong>远程过程调用（ Remote Method Invocation ）</strong>，即一个设备的Java代码可以通过网络远程调用另一个设备中的某个Java方法。</p>
-<p><img src="https://gitee.com/Dqz00116/pic/raw/master/img/202112201600074.png"></p>
-<h2 id="简单的RMI客户端服务器实例"><a href="#简单的RMI客户端服务器实例" class="headerlink" title="简单的RMI客户端服务器实例"></a>简单的RMI客户端服务器实例</h2><p>场景：客户端远程调用一个服务器中的getSession方法，服务器返回方法执行的结果——字符串Hello！</p>
-<h3 id="Client"><a href="#Client" class="headerlink" title="Client"></a><strong>Client</strong></h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> RemoteException, NotBoundException &#123;</span><br><span class="line">        <span class="type">Registry</span> <span class="variable">registry</span> <span class="operator">=</span> LocateRegistry.getRegistry(<span class="string">&quot;localhost&quot;</span>, <span class="number">1099</span>);</span><br><span class="line">        <span class="type">SayHello</span> <span class="variable">sayHello</span> <span class="operator">=</span> (SayHello) registry.lookup(<span class="string">&quot;Hello&quot;</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> sayHello.getSession();</span><br><span class="line">        System.out.println(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>Java</tag>
-        <tag>分布式</tag>
       </tags>
   </entry>
 </search>
