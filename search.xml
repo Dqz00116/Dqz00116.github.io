@@ -63,6 +63,40 @@
       </tags>
   </entry>
   <entry>
+    <title>C++ 浅析CRTP</title>
+    <url>/2024/07/21/C-%E6%B5%85%E6%9E%90CRTP/</url>
+    <content><![CDATA[<p>Curiously Recurring Template Pattern（CRTP）是一种在 C++ 中使用模板编程的设计模式。CRTP 是一种变体的模板模式，它允许在基类中使用派生类的类型信息，从而实现一些高级的编程技巧和优化。具体来说，CRTP 的基本形式是让派生类将自己作为模板参数传递给基类。</p>
+<span id="more"></span>
+
+<h3 id="CRTP-的基本形式"><a href="#CRTP-的基本形式" class="headerlink" title="CRTP 的基本形式"></a>CRTP 的基本形式</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Derived&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">interface</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="built_in">static_cast</span>&lt;Derived*&gt;(<span class="keyword">this</span>)-&gt;<span class="built_in">implementation</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 可以在基类中定义一些通用的行为</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">commonMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 通用的实现</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Derived</span> : <span class="keyword">public</span> Base&lt;Derived&gt; &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">implementation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Derived implementation&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Derived d;</span><br><span class="line">    d.<span class="built_in">interface</span>();  <span class="comment">// 输出 &quot;Derived implementation&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>Derived</code> 类将自己作为模板参数传递给基类 <code>Base</code>。然后，在 <code>Base</code> 类中，可以使用 <code>static_cast&lt;Derived*&gt;(this)</code> 将 <code>this</code> 指针转换为 <code>Derived</code> 类的指针，从而调用 <code>Derived</code> 类中的方法。这个做法利用了模板的延迟实例化，即模板代码只有在被实例化时才会生成实际代码。在 CRTP 中，基类 <code>Base&lt;Derived&gt;</code> 只是一种模板，它并不会在定义时立即实例化。当派生类 <code>Derived</code> 继承 <code>Base&lt;Derived&gt;</code> 并使用 <code>Base</code> 的方法时，编译器才会实例化模板，并检查 <code>Derived</code> 是否具有 <code>implementation</code> 方法。</p>
+<h3 id="CRTP-的优点"><a href="#CRTP-的优点" class="headerlink" title="CRTP 的优点"></a>CRTP 的优点</h3><ol>
+<li><strong>零开销的静态多态</strong>：CRTP 允许在编译时确定类型，从而避免了运行时的虚函数调用开销。与传统的虚函数表机制相比，CRTP 可以提供更高的性能。</li>
+<li><strong>代码复用</strong>：CRTP 允许基类提供通用的实现，同时让派生类能够定制特定的行为。这种方式可以实现代码复用，同时保持灵活性。</li>
+<li><strong>静态接口检查</strong>：通过 CRTP，可以在编译时检查派生类是否实现了特定的接口或方法，从而提高代码的可靠性。</li>
+</ol>
+<h3 id="CRTP-的应用场景"><a href="#CRTP-的应用场景" class="headerlink" title="CRTP 的应用场景"></a>CRTP 的应用场景</h3><ol>
+<li><strong>静态多态</strong>：CRTP 可以用于实现静态多态，允许在编译时确定类型，从而避免运行时的开销。</li>
+<li><strong>混入类（Mixin classes）</strong>：CRTP 可以用于实现混入类，将不同的功能模块通过继承组合在一起。</li>
+<li><strong>静态接口</strong>：CRTP 可以用于定义静态接口，在编译时检查派生类是否实现了特定的方法。</li>
+</ol>
+<h3 id="例子：实现一个简单的混入类"><a href="#例子：实现一个简单的混入类" class="headerlink" title="例子：实现一个简单的混入类"></a>例子：实现一个简单的混入类</h3><p>假设我们想要创建一个计数器功能，可以通过 CRTP 实现一个计数器混入类：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// CRTP基类，用于计数功能</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Derived&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Counter</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Counter</span>() &#123; ++count; &#125;</span><br><span class="line">    ~<span class="built_in">Counter</span>() &#123; --count; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">static</span> <span class="type">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> count; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> count;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Derived&gt;</span><br><span class="line"><span class="type">int</span> Counter&lt;Derived&gt;::count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 派生类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> : <span class="keyword">public</span> Counter&lt;MyClass&gt; &#123;</span><br><span class="line">    <span class="comment">// MyClass的其他功能</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    MyClass obj1;</span><br><span class="line">    MyClass obj2;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;MyClass count: &quot;</span> &lt;&lt; MyClass::<span class="built_in">getCount</span>() &lt;&lt; std::endl;  <span class="comment">// 输出 &quot;MyClass count: 2&quot;</span></span><br><span class="line">    &#123;</span><br><span class="line">        MyClass obj3;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;MyClass count: &quot;</span> &lt;&lt; MyClass::<span class="built_in">getCount</span>() &lt;&lt; std::endl;  <span class="comment">// 输出 &quot;MyClass count: 3&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;MyClass count: &quot;</span> &lt;&lt; MyClass::<span class="built_in">getCount</span>() &lt;&lt; std::endl;  <span class="comment">// 输出 &quot;MyClass count: 2&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>Counter</code> 类通过 CRTP 为派生类 <code>MyClass</code> 提供计数功能。每次创建和销毁 <code>MyClass</code> 对象时，计数器都会增加和减少。通过这种方式，可以将计数功能与具体类的实现分离，从而实现代码复用。</p>
+<p>CRTP 是一种强大的 C++ 编程技巧，可以用来实现高效的、灵活的和类型安全的代码。在实际应用中，根据具体需求选择合适的设计模式和编程技巧，可以大大提高代码的质量和可维护性。</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>CRTP</tag>
+        <tag>设计模式</tag>
+        <tag>模板</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C# 浅析引用(Reference)</title>
     <url>/2024/06/22/C-%E6%B5%85%E6%9E%90%E5%BC%95%E7%94%A8-Reference/</url>
     <content><![CDATA[<p>在 C#中，“引用”主要有两种不同的概念：引用类型（Reference Types）和引用参数（Ref&#x2F;Out Parameters）。这些概念在内存管理、参数传递和对象操作方面发挥着关键作用。以下是对 C#中引用的详细介绍：</p>
@@ -286,98 +320,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Mybatis——文件配置与实例构造</title>
-    <url>/2021/07/08/Mybatis%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE%E4%B8%8E%E5%AE%9E%E4%BE%8B%E6%9E%84%E9%80%A0/</url>
-    <content><![CDATA[<h2 id="情景"><a href="#情景" class="headerlink" title="情景"></a>情景</h2><p>数据库中有一个简单数据表，用于储存用户的账户以及登录密码</p>
-<p><img src="https://gitee.com/Dqz00116/pic/raw/master/img/20210708150702.png"></p>
-<p>需要通过Mybatis对该数据表插入新数据</p>
-<p>为了实现这目的，我们需要：</p>
-<ul>
-<li>文件配置</li>
-<li>写一点Java类</li>
-</ul>
-<h2 id="文件配置"><a href="#文件配置" class="headerlink" title="文件配置"></a>文件配置</h2><p>文件配置涉及两个文件：</p>
-<p><code>mybatis-config.xml</code>：所有使用Mybatis的项目通用的配置文件，包含全局配置信息</p>
-<p><code>UserMapper.xml</code>：自定义映射器的配置文件</p>
-<h3 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h3><p>首先配置<code>mybatis-config.xml</code>，该文件需要置于Maven项目文件的<code>src/java/resources</code>路径中。</p>
-<p><code>mybatis-config.xml</code>包含了Mybatis的所有的配置信息。</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">configuration</span></span></span><br><span class="line"><span class="meta">        <span class="keyword">PUBLIC</span> <span class="string">&quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">        <span class="string">&quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- changes from the defaults for testing --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;cacheEnabled&quot;</span> <span class="attr">value</span>=<span class="string">&quot;false&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;useGeneratedKeys&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;defaultExecutorType&quot;</span> <span class="attr">value</span>=<span class="string">&quot;REUSE&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="配置数据库连接"><a href="#配置数据库连接" class="headerlink" title="配置数据库连接"></a>配置数据库连接</h4><p>在数据库之前，先连接数据库。Mybatis使用JDBC驱动连接MySQL，<code>mybatis-config.xml</code>的数据库连接信息填在环境配置中，环境配置的结构如下</p>
-<ul>
-<li>environments（环境配置）<ul>
-<li>environment（环境变量）<ul>
-<li>transactionManager（事务管理器）</li>
-<li>dataSource（数据源）</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>按照下列模板填写数据库连接信息：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">environments</span> <span class="attr">default</span>=<span class="string">&quot;development&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">environment</span> <span class="attr">id</span>=<span class="string">&quot;development&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">transactionManager</span> <span class="attr">type</span>=<span class="string">&quot;jdbc&quot;</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dataSource</span> <span class="attr">type</span>=<span class="string">&quot;POOLED&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driver&quot;</span> <span class="attr">value</span>=<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;url&quot;</span> <span class="attr">value</span>=<span class="string">&quot;jdbc:mysql://localhost:3306/XXX?serverTimezone=UTC&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span> <span class="attr">value</span>=<span class="string">&quot;XXX&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;XXX&quot;</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dataSource</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">environment</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">environments</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>环境配置具体内容有点多，之后再详谈（逃</p>
-<h4 id="配置映射器"><a href="#配置映射器" class="headerlink" title="配置映射器"></a>配置映射器</h4><p>数据库连接配置完成，数据库连上了，如何操作数据库？</p>
-<p>使用映射器，用映射器定义SQL映射，从而对数据库进行增删改查。</p>
-<p>当然，在本例中只需要进行增——插入操作，所以我们需要建立一个映射器去实现插入操作，起名为UserMapper，UserMapper对应一个配置文件<code>UserMapper.xml</code></p>
-<p>在编写映射器之前，我们需要先在全局配置文件<code>mybatis-config.xml</code>中定位映射器配置文件，Mybatis提供<code>&lt;mappers&gt;</code>声明自定义映射器的配置文件位置。</p>
-<p>在刚刚填写的数据库连接信息下插入声明<code>UserMapper.xml</code>文件位置的信息：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mappers</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">mapper</span> <span class="attr">resource</span>=<span class="string">&quot;mappers/UserMapper.xml&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mappers</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>自定义映射器的配置文件与全局配置文件应在同一目录，本项目中<code>UserMapper.xml</code>在<code>resources/mapper</code>路径下。</p>
-<h3 id="映射器配置"><a href="#映射器配置" class="headerlink" title="映射器配置"></a>映射器配置</h3><p>我们最终执行的是一个简单的插入操作，所以我们需要在<code>UserMapper.xml</code>建立一个插入映射<code>&lt;insert&gt;</code></p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">&quot;insertUser&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;User&quot;</span>&gt;</span></span><br><span class="line">    INSERT INTO DBTEST(USER_NAME, PASS_WORD) VALUES (#&#123;username&#125;,#&#123;password&#125;)</span><br><span class="line">	<span class="comment">&lt;!-- 这里sql结尾不能加分号，否则报“ORA-00911”的错误 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><code>id</code>需要和映射器中的方法名对应，所以后面在构造映射器时，我们需要在映射器中写一个名为<code>insertUser</code>的方法。</p>
-<p><code>parameterType</code>代表传入的参数类型，这里我们选择自定义类型<code>User</code>作为传入参数的类型。</p>
-<p><code>username</code>、<code>password</code>都是User中的私有属性，代表插入的用户民与密码。</p>
-<p>User的具体实现会在下一个部分说明。</p>
-<h2 id="写一点JAVA类"><a href="#写一点JAVA类" class="headerlink" title="写一点JAVA类"></a>写一点JAVA类</h2><p>完成文件配置后，为了达到通过Java程序插入数据的目的，还得写一点Java类：</p>
-<p>映射器：<code>UserMapper</code></p>
-<p>Java Bean：<code>User</code></p>
-<p>数据工厂：<code>MyBatisUtil</code></p>
-<h4 id="构造映射器UserMapper"><a href="#构造映射器UserMapper" class="headerlink" title="构造映射器UserMapper"></a>构造映射器UserMapper</h4><p><code>UserMapper</code>是数据库映射接口，在<code>UserMapper.xml</code>声明了一个<code>id</code>为<code>insertUser</code>映射，因此我们需要在<code>UserMapper</code>中写一个与之对应的方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserMapper</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insertUser</span><span class="params">(User user)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="编写Java-Bean：User"><a href="#编写Java-Bean：User" class="headerlink" title="编写Java Bean：User"></a>编写Java Bean：User</h4><p>通过<code>User</code>将欲插入的数据传给映射器<code>UserMapper</code>。</p>
-<p><code>User</code>包含两个私有属性：</p>
-<ul>
-<li>username</li>
-<li>password</li>
-</ul>
-<p>对应数据表中用户名与密码。</p>
-<p>编写对应的<code>get</code>和<code>set</code>方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUsername</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUsername</span><span class="params">(String username)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.username = username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getPassword</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPassword</span><span class="params">(String password)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">User</span><span class="params">(String username, String password)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.username = username;</span><br><span class="line">        <span class="built_in">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">User</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="数据工厂MyBatisUtil"><a href="#数据工厂MyBatisUtil" class="headerlink" title="数据工厂MyBatisUtil"></a>数据工厂MyBatisUtil</h4><p>有了映射器，传递数据的Java Bean，Mybatis还需要实例化一个<code>SqlSessionFactory</code>，才能对数据库进行操作。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.ibatis.io.Resources;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.session.SqlSessionFactoryBuilder;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.Reader;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyBatisUtil</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> SqlSessionFactory sqlSessionFactory;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">resource</span> <span class="operator">=</span> <span class="string">&quot;mybatis-config.xml&quot;</span>;</span><br><span class="line">        <span class="type">Reader</span> <span class="variable">reader</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            reader = Resources.getResourceAsReader(resource);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            System.out.println(e.getMessage());</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        sqlSessionFactory = <span class="keyword">new</span> <span class="title class_">SqlSessionFactoryBuilder</span>().build(reader);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> SqlSessionFactory <span class="title function_">getSqlSessionFactory</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> sqlSessionFactory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> <code>SqlSessionFactoryBuilder</code> 会根据我们之前配置的配置文件构造一个<code>SqlSessionFactory</code>，所以我们不需要重复构造<code>SqlSessionFactory</code>，只用通过数据工厂MyBatisUtil传入我们需要调用的映射器，就可以获得<code>SqlSessionFactory</code>返回对应的<code>SqlSession</code>，从而对数据库进行操纵。</p>
-<p>很麻烦对吗，是的很麻烦。</p>
-<p><del>这么做当然是值得的，我们成功降低了耦合！！！</del></p>
-<p>OK，到这里我们已经完成所有准备工作，芜湖！接下来只需要编写一个测试程序来进行插入操作！</p>
-<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>在搞事之前，先在测试类中声明一个数据工厂<code>sqlSessionFactory</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">SqlSessionFactory</span> <span class="variable">sqlSessionFactory</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">	sqlSessionFactory = MyBatisUtil.getSqlSessionFactory();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>编写一个<code>testAdd</code>方法用以插入数据:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">testAdd</span><span class="params">()</span> &#123;</span><br><span class="line">	<span class="type">SqlSession</span> <span class="variable">sqlSession</span> <span class="operator">=</span> sqlSessionFactory.openSession();</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		<span class="type">UserMapper</span> <span class="variable">userMapper</span> <span class="operator">=</span> sqlSession.getMapper(UserMapper.class);  <span class="comment">// (1)</span></span><br><span class="line">		<span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;mybatis&quot;</span>,<span class="string">&quot;114514&quot;</span>);  <span class="comment">// (2)</span></span><br><span class="line">		userMapper.insertUser(user);  <span class="comment">// (3)</span></span><br><span class="line">		sqlSession.commit();  <span class="comment">// (4)</span></span><br><span class="line">	&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">		sqlSession.close();  <span class="comment">// (5)</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>（1）映射器<code>UserMapper</code>从<code>sqlSessionFactory</code>获取了对应的<code>SqlSession</code>；</p>
-<p>（2）实例化一个<code>User</code>对象user，user包含了需要插入到数据表的用户名与密码(“mybatis”,”114514”);</p>
-<p>（3）映射器<code>UserMapper</code>调用对应<code>&lt;insert id=&quot;insertUser&quot;&gt;</code>的<code>insertUser</code>方法，传入user对象；</p>
-<p>（4）<code>SqlSession</code>向数据库提交刚刚的插入操作；</p>
-<p>（5）关闭<code>SqlSession</code>与数据库的连接.</p>
-<p>大功告成，数据库那一头不出意外应该可以看到新插入的数据。</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>C# 浅析类型转换(Conversion)</title>
     <url>/2024/06/22/C-%E6%B5%85%E6%9E%90%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2-Conversion/</url>
     <content><![CDATA[<p>在 C#中，类型转换是指将一个数据类型转换为另一个数据类型的过程。C#提供了多种类型转换的方式，包括隐式转换、显式转换、使用内置方法进行的转换，以及通过自定义转换运算符来实现的转换。了解这些转换方式有助于编写健壮、安全的代码。</p>
@@ -518,6 +460,98 @@
       </categories>
       <tags>
         <tag>Scrapy</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mybatis——文件配置与实例构造</title>
+    <url>/2021/07/08/Mybatis%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE%E4%B8%8E%E5%AE%9E%E4%BE%8B%E6%9E%84%E9%80%A0/</url>
+    <content><![CDATA[<h2 id="情景"><a href="#情景" class="headerlink" title="情景"></a>情景</h2><p>数据库中有一个简单数据表，用于储存用户的账户以及登录密码</p>
+<p><img src="https://gitee.com/Dqz00116/pic/raw/master/img/20210708150702.png"></p>
+<p>需要通过Mybatis对该数据表插入新数据</p>
+<p>为了实现这目的，我们需要：</p>
+<ul>
+<li>文件配置</li>
+<li>写一点Java类</li>
+</ul>
+<h2 id="文件配置"><a href="#文件配置" class="headerlink" title="文件配置"></a>文件配置</h2><p>文件配置涉及两个文件：</p>
+<p><code>mybatis-config.xml</code>：所有使用Mybatis的项目通用的配置文件，包含全局配置信息</p>
+<p><code>UserMapper.xml</code>：自定义映射器的配置文件</p>
+<h3 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h3><p>首先配置<code>mybatis-config.xml</code>，该文件需要置于Maven项目文件的<code>src/java/resources</code>路径中。</p>
+<p><code>mybatis-config.xml</code>包含了Mybatis的所有的配置信息。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">configuration</span></span></span><br><span class="line"><span class="meta">        <span class="keyword">PUBLIC</span> <span class="string">&quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">        <span class="string">&quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- changes from the defaults for testing --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;cacheEnabled&quot;</span> <span class="attr">value</span>=<span class="string">&quot;false&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;useGeneratedKeys&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;defaultExecutorType&quot;</span> <span class="attr">value</span>=<span class="string">&quot;REUSE&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="配置数据库连接"><a href="#配置数据库连接" class="headerlink" title="配置数据库连接"></a>配置数据库连接</h4><p>在数据库之前，先连接数据库。Mybatis使用JDBC驱动连接MySQL，<code>mybatis-config.xml</code>的数据库连接信息填在环境配置中，环境配置的结构如下</p>
+<ul>
+<li>environments（环境配置）<ul>
+<li>environment（环境变量）<ul>
+<li>transactionManager（事务管理器）</li>
+<li>dataSource（数据源）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>按照下列模板填写数据库连接信息：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">environments</span> <span class="attr">default</span>=<span class="string">&quot;development&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">environment</span> <span class="attr">id</span>=<span class="string">&quot;development&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">transactionManager</span> <span class="attr">type</span>=<span class="string">&quot;jdbc&quot;</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dataSource</span> <span class="attr">type</span>=<span class="string">&quot;POOLED&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driver&quot;</span> <span class="attr">value</span>=<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;url&quot;</span> <span class="attr">value</span>=<span class="string">&quot;jdbc:mysql://localhost:3306/XXX?serverTimezone=UTC&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span> <span class="attr">value</span>=<span class="string">&quot;XXX&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;XXX&quot;</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dataSource</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">environment</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">environments</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>环境配置具体内容有点多，之后再详谈（逃</p>
+<h4 id="配置映射器"><a href="#配置映射器" class="headerlink" title="配置映射器"></a>配置映射器</h4><p>数据库连接配置完成，数据库连上了，如何操作数据库？</p>
+<p>使用映射器，用映射器定义SQL映射，从而对数据库进行增删改查。</p>
+<p>当然，在本例中只需要进行增——插入操作，所以我们需要建立一个映射器去实现插入操作，起名为UserMapper，UserMapper对应一个配置文件<code>UserMapper.xml</code></p>
+<p>在编写映射器之前，我们需要先在全局配置文件<code>mybatis-config.xml</code>中定位映射器配置文件，Mybatis提供<code>&lt;mappers&gt;</code>声明自定义映射器的配置文件位置。</p>
+<p>在刚刚填写的数据库连接信息下插入声明<code>UserMapper.xml</code>文件位置的信息：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mappers</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">mapper</span> <span class="attr">resource</span>=<span class="string">&quot;mappers/UserMapper.xml&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mappers</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>自定义映射器的配置文件与全局配置文件应在同一目录，本项目中<code>UserMapper.xml</code>在<code>resources/mapper</code>路径下。</p>
+<h3 id="映射器配置"><a href="#映射器配置" class="headerlink" title="映射器配置"></a>映射器配置</h3><p>我们最终执行的是一个简单的插入操作，所以我们需要在<code>UserMapper.xml</code>建立一个插入映射<code>&lt;insert&gt;</code></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">&quot;insertUser&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;User&quot;</span>&gt;</span></span><br><span class="line">    INSERT INTO DBTEST(USER_NAME, PASS_WORD) VALUES (#&#123;username&#125;,#&#123;password&#125;)</span><br><span class="line">	<span class="comment">&lt;!-- 这里sql结尾不能加分号，否则报“ORA-00911”的错误 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>id</code>需要和映射器中的方法名对应，所以后面在构造映射器时，我们需要在映射器中写一个名为<code>insertUser</code>的方法。</p>
+<p><code>parameterType</code>代表传入的参数类型，这里我们选择自定义类型<code>User</code>作为传入参数的类型。</p>
+<p><code>username</code>、<code>password</code>都是User中的私有属性，代表插入的用户民与密码。</p>
+<p>User的具体实现会在下一个部分说明。</p>
+<h2 id="写一点JAVA类"><a href="#写一点JAVA类" class="headerlink" title="写一点JAVA类"></a>写一点JAVA类</h2><p>完成文件配置后，为了达到通过Java程序插入数据的目的，还得写一点Java类：</p>
+<p>映射器：<code>UserMapper</code></p>
+<p>Java Bean：<code>User</code></p>
+<p>数据工厂：<code>MyBatisUtil</code></p>
+<h4 id="构造映射器UserMapper"><a href="#构造映射器UserMapper" class="headerlink" title="构造映射器UserMapper"></a>构造映射器UserMapper</h4><p><code>UserMapper</code>是数据库映射接口，在<code>UserMapper.xml</code>声明了一个<code>id</code>为<code>insertUser</code>映射，因此我们需要在<code>UserMapper</code>中写一个与之对应的方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserMapper</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insertUser</span><span class="params">(User user)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="编写Java-Bean：User"><a href="#编写Java-Bean：User" class="headerlink" title="编写Java Bean：User"></a>编写Java Bean：User</h4><p>通过<code>User</code>将欲插入的数据传给映射器<code>UserMapper</code>。</p>
+<p><code>User</code>包含两个私有属性：</p>
+<ul>
+<li>username</li>
+<li>password</li>
+</ul>
+<p>对应数据表中用户名与密码。</p>
+<p>编写对应的<code>get</code>和<code>set</code>方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUsername</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUsername</span><span class="params">(String username)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.username = username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getPassword</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPassword</span><span class="params">(String password)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">User</span><span class="params">(String username, String password)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.username = username;</span><br><span class="line">        <span class="built_in">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">User</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据工厂MyBatisUtil"><a href="#数据工厂MyBatisUtil" class="headerlink" title="数据工厂MyBatisUtil"></a>数据工厂MyBatisUtil</h4><p>有了映射器，传递数据的Java Bean，Mybatis还需要实例化一个<code>SqlSessionFactory</code>，才能对数据库进行操作。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.ibatis.io.Resources;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.session.SqlSessionFactoryBuilder;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.Reader;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyBatisUtil</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> SqlSessionFactory sqlSessionFactory;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">resource</span> <span class="operator">=</span> <span class="string">&quot;mybatis-config.xml&quot;</span>;</span><br><span class="line">        <span class="type">Reader</span> <span class="variable">reader</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            reader = Resources.getResourceAsReader(resource);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            System.out.println(e.getMessage());</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        sqlSessionFactory = <span class="keyword">new</span> <span class="title class_">SqlSessionFactoryBuilder</span>().build(reader);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> SqlSessionFactory <span class="title function_">getSqlSessionFactory</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> sqlSessionFactory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <code>SqlSessionFactoryBuilder</code> 会根据我们之前配置的配置文件构造一个<code>SqlSessionFactory</code>，所以我们不需要重复构造<code>SqlSessionFactory</code>，只用通过数据工厂MyBatisUtil传入我们需要调用的映射器，就可以获得<code>SqlSessionFactory</code>返回对应的<code>SqlSession</code>，从而对数据库进行操纵。</p>
+<p>很麻烦对吗，是的很麻烦。</p>
+<p><del>这么做当然是值得的，我们成功降低了耦合！！！</del></p>
+<p>OK，到这里我们已经完成所有准备工作，芜湖！接下来只需要编写一个测试程序来进行插入操作！</p>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>在搞事之前，先在测试类中声明一个数据工厂<code>sqlSessionFactory</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">SqlSessionFactory</span> <span class="variable">sqlSessionFactory</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">	sqlSessionFactory = MyBatisUtil.getSqlSessionFactory();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编写一个<code>testAdd</code>方法用以插入数据:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">testAdd</span><span class="params">()</span> &#123;</span><br><span class="line">	<span class="type">SqlSession</span> <span class="variable">sqlSession</span> <span class="operator">=</span> sqlSessionFactory.openSession();</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		<span class="type">UserMapper</span> <span class="variable">userMapper</span> <span class="operator">=</span> sqlSession.getMapper(UserMapper.class);  <span class="comment">// (1)</span></span><br><span class="line">		<span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;mybatis&quot;</span>,<span class="string">&quot;114514&quot;</span>);  <span class="comment">// (2)</span></span><br><span class="line">		userMapper.insertUser(user);  <span class="comment">// (3)</span></span><br><span class="line">		sqlSession.commit();  <span class="comment">// (4)</span></span><br><span class="line">	&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">		sqlSession.close();  <span class="comment">// (5)</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（1）映射器<code>UserMapper</code>从<code>sqlSessionFactory</code>获取了对应的<code>SqlSession</code>；</p>
+<p>（2）实例化一个<code>User</code>对象user，user包含了需要插入到数据表的用户名与密码(“mybatis”,”114514”);</p>
+<p>（3）映射器<code>UserMapper</code>调用对应<code>&lt;insert id=&quot;insertUser&quot;&gt;</code>的<code>insertUser</code>方法，传入user对象；</p>
+<p>（4）<code>SqlSession</code>向数据库提交刚刚的插入操作；</p>
+<p>（5）关闭<code>SqlSession</code>与数据库的连接.</p>
+<p>大功告成，数据库那一头不出意外应该可以看到新插入的数据。</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Mybatis</tag>
       </tags>
   </entry>
   <entry>
@@ -902,6 +936,53 @@
       </categories>
       <tags>
         <tag>Mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何在unreal4.27-release对Android14（TargetSDK 34）进行打包</title>
+    <url>/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/</url>
+    <content><![CDATA[<p>目前<code>unreal4-27-release</code>安卓移动端支持最高的<code>TargetVersion</code>是33，谷歌商店在7月初要求所有的应用的<code>TargetVersion</code>必须升级到34，否则无法将无法更新。为了解决这个问题，我基于<code>unreal4-27-release</code>进行了一些处理，以下是处理过程的记录：</p>
+<span id="more"></span>
+
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><h3 id="Android14-版本的变化"><a href="#Android14-版本的变化" class="headerlink" title="Android14 版本的变化"></a>Android14 版本的变化</h3><p>Android14 版本具体变化可以参考 <a href="https://developer.android.com/about/versions/14/behavior-changes-14">Behavior changes: Apps targeting Android 14 or higher</a>，对于 <code>ue4.27</code> 影响最大的变化是：</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/XIgmbmzAZo1dCFxwfYecs6Kjnze.png" class="">
+
+<p>Android14 以上的 <code>context-registered receivers</code> 中，<code>registerReceiver</code> 移除了无 <code>tag</code> 参数的实现：</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/QFumbXUOGowHkTx8tVacFFonnST.png" class="">
+
+<h3 id="ue4-27-存在的问题"><a href="#ue4-27-存在的问题" class="headerlink" title="ue4.27 存在的问题"></a><code>ue4.27</code> 存在的问题</h3><p><code>ue4.27</code> 的在非 <code>Shipping</code> 版本使用的命令行调试器 <code>consoleCmdReceiver</code> 和 <code>Google PAD</code> 中的旧版本库都使用了无 <code>tag</code> 参数的实现，例如：</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/UMpdbLdNvoUCF3xdMh9c5jPmnBh.png" class="">
+
+<p>因此运行在 Android14 版本设备的包会因为这个问题导致闪退，例如：</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/Xv9MbKn3joM644xewj9c6f2inec.png" class="">
+
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>目前已知会依赖这个接口的有：</p>
+<ol>
+<li><code>com/epicgames/ue4/GameActivity.java</code> 中 <code>onStart()</code> 的命令行调试器 <code>consoleCmdReceiver</code></li>
+<li><code>Google PAD</code> 插件注入的 <code>AssetPackStateUpdateListener</code></li>
+</ol>
+<h3 id="GameActivity-的修改"><a href="#GameActivity-的修改" class="headerlink" title="GameActivity 的修改"></a><code>GameActivity</code> 的修改</h3><p><code>ue4.27</code> 发行版会在 <code>\Engine\Build\Android\Java</code> 路径放置一个特殊的 <code>gradle</code> 工程，这个工程中的部分 <code>.template</code> 文件会在打包过程中被虚幻特殊处理，将 UPL 中标记为注入 <code>&lt;insert&gt;</code> 的内容合并到这个文件，最后将合并的内容替换为 <code>.java</code> 文件，因此我们可以通过修改 <code>\src\com\epicgames\ue4\GameActivity.java.template</code>，处理 <code>consoleCmdReceiver</code> 的注册：</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/Lf5TbpIcjoU6cmxyeW8cppIin7c.png" class="">
+
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/VwnSbUcw7oRFWbx0ReXcRGSVngb.png" class="">
+
+<p>在修改之后打包生成的 <code>gradle</code> 工程，我们可以查看到生效的修改：</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/CKSKbkoSZoUUCQxC0micaaiKnch.png" class="">
+
+<h3 id="Google-PAD-插件的修改"><a href="#Google-PAD-插件的修改" class="headerlink" title="Google PAD 插件的修改"></a><code>Google PAD</code> 插件的修改</h3><p><code>ue4.27</code> 发行版 <code>Google PAD</code> 插件的会引入一个已经被舍弃的依赖：<code>com.google.android.play:core</code>，这个依赖在 <code>Google PAD</code> 插件插件中可以被 <code>com.google.android.play:asset-delivery</code> 完全替代，详情见 <a href="https://developer.android.com/guide/playcore#java-kotlin-asset-delivery">Overview of the Google Play Core libraries </a>，因此我们需要修改插件注入的依赖，这里选择的版本是 2.1.0：</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/CrJUbHkOloVmOCxfxi2cNrVtnLe.png" class="">
+
+<p>同时需要删除如图的引入，这些引入仅在 <code>com.google.android.play:core</code>，需要同步移除</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/ESDTb5RhboSQwLxDcXhcVsYWn1f.png" class="">
+
+]]></content>
+      <categories>
+        <category>Unreal</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Ureal</tag>
+        <tag>Mobile Game</tag>
       </tags>
   </entry>
 </search>
