@@ -97,62 +97,6 @@
       </tags>
   </entry>
   <entry>
-    <title>C# 浅析操作符重载(Operator Overloading)</title>
-    <url>/2024/06/22/C-%E6%B5%85%E6%9E%90%E6%93%8D%E4%BD%9C%E7%AC%A6%E9%87%8D%E8%BD%BD-Operator-Overloading/</url>
-    <content><![CDATA[<p>在 C#中，重写操作符（Operator Overloading）是指为自定义的类或结构体提供特定运算符的实现。这样你可以定义如何对自定义类型使用标准的运算符（如 <code>+</code>、<code>-</code>、<code>*</code>、<code>/</code> 等等）。通过重载操作符，可以让自定义类型更自然地与内置类型进行交互，提高代码的可读性和可维护性。</p>
-<span id="more"></span>
-
-<h3 id="为什么要重载操作符？"><a href="#为什么要重载操作符？" class="headerlink" title="为什么要重载操作符？"></a>为什么要重载操作符？</h3><p>重载操作符的主要动机是为了增强类型的可用性和直观性。例如，假设你定义了一个表示复数的类，重载加法和减法操作符可以使得两个复数对象可以用 <code>+</code> 和 <code>-</code> 来进行相加和相减，而不需要调用特别的方法。</p>
-<h3 id="如何重载操作符？"><a href="#如何重载操作符？" class="headerlink" title="如何重载操作符？"></a>如何重载操作符？</h3><p>在 C#中，重载操作符的基本步骤如下：</p>
-<ol>
-<li><strong>定义一个静态方法</strong>: 操作符重载必须定义为静态方法。</li>
-<li><strong>使用 <strong><strong>operator</strong></strong> 关键字</strong>: 该方法名称使用 <code>operator</code> 关键字后跟你要重载的运算符。</li>
-<li><strong>指定操作数和返回类型</strong>: 定义该操作符的操作数（参数）和返回类型。</li>
-</ol>
-<h3 id="操作符重载示例"><a href="#操作符重载示例" class="headerlink" title="操作符重载示例"></a>操作符重载示例</h3><p>以下是一个具体的示例，展示了如何为一个自定义的 <code>Complex</code>（复数）类重载加法（<code>+</code>）和减法（<code>-</code>）操作符。</p>
-<h4 id="示例：复数类的操作符重载"><a href="#示例：复数类的操作符重载" class="headerlink" title="示例：复数类的操作符重载"></a>示例：复数类的操作符重载</h4><figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Complex</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Real &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Imaginary &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Complex</span>(<span class="params"><span class="built_in">double</span> real, <span class="built_in">double</span> imaginary</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Real = real;</span><br><span class="line">        Imaginary = imaginary;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重载 + 操作符</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Complex <span class="keyword">operator</span> +(Complex c1, Complex c2)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Complex(c1.Real + c2.Real, c1.Imaginary + c2.Imaginary);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重载 - 操作符</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Complex <span class="keyword">operator</span> -(Complex c1, Complex c2)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Complex(c1.Real - c2.Real, c1.Imaginary - c2.Imaginary);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重写 ToString 方法以便于显示</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">string</span> <span class="title">ToString</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">$&quot;<span class="subst">&#123;Real&#125;</span> + <span class="subst">&#123;Imaginary&#125;</span>i&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Complex c1 = <span class="keyword">new</span> Complex(<span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">        Complex c2 = <span class="keyword">new</span> Complex(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">        Complex sum = c1 + c2;  <span class="comment">// 使用重载的 + 操作符</span></span><br><span class="line">        Complex difference = c1 - c2;  <span class="comment">// 使用重载的 - 操作符</span></span><br><span class="line"></span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;c1: <span class="subst">&#123;c1&#125;</span>&quot;</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;c2: <span class="subst">&#123;c2&#125;</span>&quot;</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;Sum: <span class="subst">&#123;sum&#125;</span>&quot;</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;Difference: <span class="subst">&#123;difference&#125;</span>&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="输出结果："><a href="#输出结果：" class="headerlink" title="输出结果："></a>输出结果：</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">c1: <span class="number">3</span> + <span class="number">4i</span></span><br><span class="line">c2: <span class="number">1</span> + <span class="number">2i</span></span><br><span class="line">Sum: <span class="number">4</span> + <span class="number">6i</span></span><br><span class="line">Difference: <span class="number">2</span> + <span class="number">2i</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="可重载的操作符"><a href="#可重载的操作符" class="headerlink" title="可重载的操作符"></a>可重载的操作符</h3><p>C#中大多数运算符都是可以重载的，包括：</p>
-<ul>
-<li><strong>一元操作符</strong>: <code>+</code>, <code>-</code>, <code>!</code>, <code>~</code>, <code>++</code>, <code>--</code>, <code>true</code>, <code>false</code></li>
-<li><strong>二元操作符</strong>: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>&amp;</code>, <code>|</code>, <code>^</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code></li>
-<li><strong>比较操作符</strong>: <code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>=</code>, <code>&lt;=</code></li>
-</ul>
-<h3 id="重载操作符的规则和限制"><a href="#重载操作符的规则和限制" class="headerlink" title="重载操作符的规则和限制"></a>重载操作符的规则和限制</h3><ol>
-<li><strong>操作符必须是 <strong><strong>public static</strong></strong> 的</strong>。</li>
-<li><strong>至少有一个操作数是包含该操作符的类或结构体</strong>。</li>
-<li><strong>无法重载</strong>**&#x3D;<strong><strong>和</strong></strong>? :**<strong>操作符</strong>。</li>
-<li><strong>重载的操作符应尽量保持预期的行为</strong>，避免令人困惑的实现。</li>
-<li><strong>重载的比较操作符应成对出现</strong>（如 <code>==</code> 和 <code>!=</code> 必须同时重载）。</li>
-</ol>
-<h3 id="重载一元操作符"><a href="#重载一元操作符" class="headerlink" title="重载一元操作符"></a>重载一元操作符</h3><p>一元操作符作用于单个操作数，如正号、负号、自增和自减操作符。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Point</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> X &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> Y &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Point</span>(<span class="params"><span class="built_in">int</span> x, <span class="built_in">int</span> y</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        X = x;</span><br><span class="line">        Y = y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重载一元 - 操作符</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Point <span class="keyword">operator</span> -(Point p)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Point(-p.X, -p.Y);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">string</span> <span class="title">ToString</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">$&quot;(<span class="subst">&#123;X&#125;</span>, <span class="subst">&#123;Y&#125;</span>)&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Point p = <span class="keyword">new</span> Point(<span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">        Point negatedP = -p;  <span class="comment">// 使用重载的 - 操作符</span></span><br><span class="line"></span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;p: <span class="subst">&#123;p&#125;</span>&quot;</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;negatedP: <span class="subst">&#123;negatedP&#125;</span>&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="输出结果：-1"><a href="#输出结果：-1" class="headerlink" title="输出结果："></a>输出结果：</h4><figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">p: (3, 4)</span></span><br><span class="line"><span class="section">negatedP: (-3, -4)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="重载比较操作符"><a href="#重载比较操作符" class="headerlink" title="重载比较操作符"></a>重载比较操作符</h3><p>比较操作符（如 <code>==</code> 和 <code>!=</code>）必须成对重载，因为它们是对称的。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Complex</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Real &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Imaginary &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Complex</span>(<span class="params"><span class="built_in">double</span> real, <span class="built_in">double</span> imaginary</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Real = real;</span><br><span class="line">        Imaginary = imaginary;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重载 == 操作符</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">bool</span> <span class="keyword">operator</span> ==(Complex c1, Complex c2)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> c1.Real == c2.Real &amp;&amp; c1.Imaginary == c2.Imaginary;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重载 != 操作符</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">bool</span> <span class="keyword">operator</span> !=(Complex c1, Complex c2)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> !(c1 == c2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 必须重写 Equals 方法和 GetHashCode 方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">bool</span> <span class="title">Equals</span>(<span class="params"><span class="built_in">object</span> obj</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">is</span> Complex)</span><br><span class="line">        &#123;</span><br><span class="line">            Complex other = (Complex)obj;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span> == other;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">int</span> <span class="title">GetHashCode</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> Real.GetHashCode() ^ Imaginary.GetHashCode();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">string</span> <span class="title">ToString</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">$&quot;<span class="subst">&#123;Real&#125;</span> + <span class="subst">&#123;Imaginary&#125;</span>i&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Complex c1 = <span class="keyword">new</span> Complex(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">        Complex c2 = <span class="keyword">new</span> Complex(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">        Complex c3 = <span class="keyword">new</span> Complex(<span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;c1 == c2: <span class="subst">&#123;c1 == c2&#125;</span>&quot;</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;c1 != c3: <span class="subst">&#123;c1 != c3&#125;</span>&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="输出结果：-2"><a href="#输出结果：-2" class="headerlink" title="输出结果："></a>输出结果：</h4><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">c1</span> <span class="string">==</span> <span class="attr">c2:</span> <span class="literal">True</span></span><br><span class="line"><span class="string">c1</span> <span class="type">!=</span> <span class="attr">c3:</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li><strong>操作符重载</strong>: 允许你为自定义类型定义标准运算符的行为，使得对象之间的操作更直观和一致。</li>
-<li><strong>语法要求</strong>: 重载操作符的方法必须是 <code>public static</code>，且至少有一个操作数是定义该操作符的类型。</li>
-<li><strong>安全性和一致性</strong>: 重载的操作符应遵循预期的行为规则，确保代码的可读性和可维护性。</li>
-</ul>
-<p>通过重载操作符，可以使自定义类型与内置类型一样自然地进行操作，从而提高代码的可用性和直观性。</p>
-]]></content>
-      <categories>
-        <category>C#</category>
-      </categories>
-      <tags>
-        <tag>操作符重载</tag>
-        <tag>Operator Overloading</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>C# 浅析引用(Reference)</title>
     <url>/2024/06/22/C-%E6%B5%85%E6%9E%90%E5%BC%95%E7%94%A8-Reference/</url>
     <content><![CDATA[<p>在 C#中，“引用”主要有两种不同的概念：引用类型（Reference Types）和引用参数（Ref&#x2F;Out Parameters）。这些概念在内存管理、参数传递和对象操作方面发挥着关键作用。以下是对 C#中引用的详细介绍：</p>
@@ -225,6 +169,205 @@
       <tags>
         <tag>引用</tag>
         <tag>Reference</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C# 浅析操作符重载(Operator Overloading)</title>
+    <url>/2024/06/22/C-%E6%B5%85%E6%9E%90%E6%93%8D%E4%BD%9C%E7%AC%A6%E9%87%8D%E8%BD%BD-Operator-Overloading/</url>
+    <content><![CDATA[<p>在 C#中，重写操作符（Operator Overloading）是指为自定义的类或结构体提供特定运算符的实现。这样你可以定义如何对自定义类型使用标准的运算符（如 <code>+</code>、<code>-</code>、<code>*</code>、<code>/</code> 等等）。通过重载操作符，可以让自定义类型更自然地与内置类型进行交互，提高代码的可读性和可维护性。</p>
+<span id="more"></span>
+
+<h3 id="为什么要重载操作符？"><a href="#为什么要重载操作符？" class="headerlink" title="为什么要重载操作符？"></a>为什么要重载操作符？</h3><p>重载操作符的主要动机是为了增强类型的可用性和直观性。例如，假设你定义了一个表示复数的类，重载加法和减法操作符可以使得两个复数对象可以用 <code>+</code> 和 <code>-</code> 来进行相加和相减，而不需要调用特别的方法。</p>
+<h3 id="如何重载操作符？"><a href="#如何重载操作符？" class="headerlink" title="如何重载操作符？"></a>如何重载操作符？</h3><p>在 C#中，重载操作符的基本步骤如下：</p>
+<ol>
+<li><strong>定义一个静态方法</strong>: 操作符重载必须定义为静态方法。</li>
+<li><strong>使用 <strong><strong>operator</strong></strong> 关键字</strong>: 该方法名称使用 <code>operator</code> 关键字后跟你要重载的运算符。</li>
+<li><strong>指定操作数和返回类型</strong>: 定义该操作符的操作数（参数）和返回类型。</li>
+</ol>
+<h3 id="操作符重载示例"><a href="#操作符重载示例" class="headerlink" title="操作符重载示例"></a>操作符重载示例</h3><p>以下是一个具体的示例，展示了如何为一个自定义的 <code>Complex</code>（复数）类重载加法（<code>+</code>）和减法（<code>-</code>）操作符。</p>
+<h4 id="示例：复数类的操作符重载"><a href="#示例：复数类的操作符重载" class="headerlink" title="示例：复数类的操作符重载"></a>示例：复数类的操作符重载</h4><figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Complex</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Real &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Imaginary &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Complex</span>(<span class="params"><span class="built_in">double</span> real, <span class="built_in">double</span> imaginary</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Real = real;</span><br><span class="line">        Imaginary = imaginary;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重载 + 操作符</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Complex <span class="keyword">operator</span> +(Complex c1, Complex c2)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Complex(c1.Real + c2.Real, c1.Imaginary + c2.Imaginary);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重载 - 操作符</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Complex <span class="keyword">operator</span> -(Complex c1, Complex c2)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Complex(c1.Real - c2.Real, c1.Imaginary - c2.Imaginary);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重写 ToString 方法以便于显示</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">string</span> <span class="title">ToString</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">$&quot;<span class="subst">&#123;Real&#125;</span> + <span class="subst">&#123;Imaginary&#125;</span>i&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Complex c1 = <span class="keyword">new</span> Complex(<span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">        Complex c2 = <span class="keyword">new</span> Complex(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">        Complex sum = c1 + c2;  <span class="comment">// 使用重载的 + 操作符</span></span><br><span class="line">        Complex difference = c1 - c2;  <span class="comment">// 使用重载的 - 操作符</span></span><br><span class="line"></span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;c1: <span class="subst">&#123;c1&#125;</span>&quot;</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;c2: <span class="subst">&#123;c2&#125;</span>&quot;</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;Sum: <span class="subst">&#123;sum&#125;</span>&quot;</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;Difference: <span class="subst">&#123;difference&#125;</span>&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出结果："><a href="#输出结果：" class="headerlink" title="输出结果："></a>输出结果：</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">c1: <span class="number">3</span> + <span class="number">4i</span></span><br><span class="line">c2: <span class="number">1</span> + <span class="number">2i</span></span><br><span class="line">Sum: <span class="number">4</span> + <span class="number">6i</span></span><br><span class="line">Difference: <span class="number">2</span> + <span class="number">2i</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="可重载的操作符"><a href="#可重载的操作符" class="headerlink" title="可重载的操作符"></a>可重载的操作符</h3><p>C#中大多数运算符都是可以重载的，包括：</p>
+<ul>
+<li><strong>一元操作符</strong>: <code>+</code>, <code>-</code>, <code>!</code>, <code>~</code>, <code>++</code>, <code>--</code>, <code>true</code>, <code>false</code></li>
+<li><strong>二元操作符</strong>: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>&amp;</code>, <code>|</code>, <code>^</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code></li>
+<li><strong>比较操作符</strong>: <code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>=</code>, <code>&lt;=</code></li>
+</ul>
+<h3 id="重载操作符的规则和限制"><a href="#重载操作符的规则和限制" class="headerlink" title="重载操作符的规则和限制"></a>重载操作符的规则和限制</h3><ol>
+<li><strong>操作符必须是 <strong><strong>public static</strong></strong> 的</strong>。</li>
+<li><strong>至少有一个操作数是包含该操作符的类或结构体</strong>。</li>
+<li><strong>无法重载</strong>**&#x3D;<strong><strong>和</strong></strong>? :**<strong>操作符</strong>。</li>
+<li><strong>重载的操作符应尽量保持预期的行为</strong>，避免令人困惑的实现。</li>
+<li><strong>重载的比较操作符应成对出现</strong>（如 <code>==</code> 和 <code>!=</code> 必须同时重载）。</li>
+</ol>
+<h3 id="重载一元操作符"><a href="#重载一元操作符" class="headerlink" title="重载一元操作符"></a>重载一元操作符</h3><p>一元操作符作用于单个操作数，如正号、负号、自增和自减操作符。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Point</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> X &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> Y &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Point</span>(<span class="params"><span class="built_in">int</span> x, <span class="built_in">int</span> y</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        X = x;</span><br><span class="line">        Y = y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重载一元 - 操作符</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Point <span class="keyword">operator</span> -(Point p)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Point(-p.X, -p.Y);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">string</span> <span class="title">ToString</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">$&quot;(<span class="subst">&#123;X&#125;</span>, <span class="subst">&#123;Y&#125;</span>)&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Point p = <span class="keyword">new</span> Point(<span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">        Point negatedP = -p;  <span class="comment">// 使用重载的 - 操作符</span></span><br><span class="line"></span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;p: <span class="subst">&#123;p&#125;</span>&quot;</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;negatedP: <span class="subst">&#123;negatedP&#125;</span>&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出结果：-1"><a href="#输出结果：-1" class="headerlink" title="输出结果："></a>输出结果：</h4><figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">p: (3, 4)</span></span><br><span class="line"><span class="section">negatedP: (-3, -4)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="重载比较操作符"><a href="#重载比较操作符" class="headerlink" title="重载比较操作符"></a>重载比较操作符</h3><p>比较操作符（如 <code>==</code> 和 <code>!=</code>）必须成对重载，因为它们是对称的。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Complex</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Real &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Imaginary &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Complex</span>(<span class="params"><span class="built_in">double</span> real, <span class="built_in">double</span> imaginary</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Real = real;</span><br><span class="line">        Imaginary = imaginary;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重载 == 操作符</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">bool</span> <span class="keyword">operator</span> ==(Complex c1, Complex c2)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> c1.Real == c2.Real &amp;&amp; c1.Imaginary == c2.Imaginary;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重载 != 操作符</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">bool</span> <span class="keyword">operator</span> !=(Complex c1, Complex c2)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> !(c1 == c2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 必须重写 Equals 方法和 GetHashCode 方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">bool</span> <span class="title">Equals</span>(<span class="params"><span class="built_in">object</span> obj</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">is</span> Complex)</span><br><span class="line">        &#123;</span><br><span class="line">            Complex other = (Complex)obj;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span> == other;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">int</span> <span class="title">GetHashCode</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> Real.GetHashCode() ^ Imaginary.GetHashCode();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">string</span> <span class="title">ToString</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">$&quot;<span class="subst">&#123;Real&#125;</span> + <span class="subst">&#123;Imaginary&#125;</span>i&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Complex c1 = <span class="keyword">new</span> Complex(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">        Complex c2 = <span class="keyword">new</span> Complex(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">        Complex c3 = <span class="keyword">new</span> Complex(<span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;c1 == c2: <span class="subst">&#123;c1 == c2&#125;</span>&quot;</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">$&quot;c1 != c3: <span class="subst">&#123;c1 != c3&#125;</span>&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出结果：-2"><a href="#输出结果：-2" class="headerlink" title="输出结果："></a>输出结果：</h4><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">c1</span> <span class="string">==</span> <span class="attr">c2:</span> <span class="literal">True</span></span><br><span class="line"><span class="string">c1</span> <span class="type">!=</span> <span class="attr">c3:</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><strong>操作符重载</strong>: 允许你为自定义类型定义标准运算符的行为，使得对象之间的操作更直观和一致。</li>
+<li><strong>语法要求</strong>: 重载操作符的方法必须是 <code>public static</code>，且至少有一个操作数是定义该操作符的类型。</li>
+<li><strong>安全性和一致性</strong>: 重载的操作符应遵循预期的行为规则，确保代码的可读性和可维护性。</li>
+</ul>
+<p>通过重载操作符，可以使自定义类型与内置类型一样自然地进行操作，从而提高代码的可用性和直观性。</p>
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+      <tags>
+        <tag>操作符重载</tag>
+        <tag>Operator Overloading</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C# 浅析类型转换(Conversion)</title>
+    <url>/2024/06/22/C-%E6%B5%85%E6%9E%90%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2-Conversion/</url>
+    <content><![CDATA[<p>在 C#中，类型转换是指将一个数据类型转换为另一个数据类型的过程。C#提供了多种类型转换的方式，包括隐式转换、显式转换、使用内置方法进行的转换，以及通过自定义转换运算符来实现的转换。了解这些转换方式有助于编写健壮、安全的代码。</p>
+<span id="more"></span>
+
+<h2 id="隐式转换（Implicit-Conversion）"><a href="#隐式转换（Implicit-Conversion）" class="headerlink" title="隐式转换（Implicit Conversion）"></a>隐式转换（Implicit Conversion）</h2><p>隐式转换是指不需要显式指示转换操作的类型转换。它通常发生在不会导致数据丢失或精度降低的情况下，比如将一个范围较小或精度较低的类型转换为范围较大或精度更高的类型。</p>
+<h4 id="常见的隐式转换"><a href="#常见的隐式转换" class="headerlink" title="常见的隐式转换"></a>常见的隐式转换</h4><ul>
+<li><p><strong>从小整数类型到大整数类型</strong>:</p>
+<ul>
+<li>例如从 <code>int</code> 到 <code>long</code>。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">  ```</span><br><span class="line"></span><br><span class="line"><span class="built_in">int</span> smallValue = <span class="number">12345</span>;</span><br><span class="line"><span class="built_in">long</span> largeValue = smallValue;  <span class="comment">// 隐式转换</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>从小数精度到大数精度</strong>:</p>
+<ul>
+<li>例如从<code>float</code>到<code>double</code>。  <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">float</span> pi = <span class="number">3.14f</span>;</span><br><span class="line"><span class="built_in">double</span> precisePi = pi;  <span class="comment">// 隐式转换</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>从派生类到基类的转换</strong>:</p>
+<ul>
+<li>对象可以被隐式转换为其基类。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">  ```</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Animal</span> &#123;&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title">Dog</span> : <span class="title">Animal</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">Dog dog = <span class="keyword">new</span> Dog();</span><br><span class="line">Animal animal = dog;  <span class="comment">// 隐式转换为基类</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><p>隐式转换一般是安全的，因为它不会导致数据丢失或抛出异常。然而，它只能在编译器能够保证转换安全的情况下自动进行。</p>
+<h2 id="显式转换（Explicit-Conversion）"><a href="#显式转换（Explicit-Conversion）" class="headerlink" title="显式转换（Explicit Conversion）"></a>显式转换（Explicit Conversion）</h2><p>显式转换是指需要使用转换操作符（强制转换）来明确指示转换操作的类型转换。显式转换通常在可能导致数据丢失或精度降低的情况下使用。</p>
+<h4 id="常见的显式转换"><a href="#常见的显式转换" class="headerlink" title="常见的显式转换"></a>常见的显式转换</h4><ul>
+<li><p><strong>从大整数类型到小整数类型</strong>:</p>
+<ul>
+<li>例如从<code>long</code>到<code>int</code>。  <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">long</span> largeValue = <span class="number">123456789</span>;</span><br><span class="line"><span class="built_in">int</span> smallValue = (<span class="built_in">int</span>)largeValue;  <span class="comment">// 显式转换</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>从大数精度到小数精度</strong>:</p>
+<ul>
+<li>例如从 <code>double</code> 到 <code>float</code>。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">  ```</span><br><span class="line"></span><br><span class="line"><span class="built_in">double</span> precisePi = <span class="number">3.14159265358979</span>;</span><br><span class="line"><span class="built_in">float</span> pi = (<span class="built_in">float</span>)precisePi;  <span class="comment">// 显式转换</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>从基类到派生类的转换</strong>:</p>
+<ul>
+<li>必须确保实际对象是派生类的实例，否则会引发<code>InvalidCastException</code>。  <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">Animal animal = <span class="keyword">new</span> Dog();</span><br><span class="line">Dog dog = (Dog)animal;  <span class="comment">// 显式转换回派生类</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h4 id="强制转换示例"><a href="#强制转换示例" class="headerlink" title="强制转换示例"></a>强制转换示例</h4><figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">double</span> d = <span class="number">1234.7</span>;</span><br><span class="line"><span class="built_in">int</span> i = (<span class="built_in">int</span>)d;  <span class="comment">// 强制转换，i 为 1234，精度丢失</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="使用转换方法"><a href="#使用转换方法" class="headerlink" title="使用转换方法"></a>使用转换方法</h2><p>C#中的一些内置方法提供了从一种类型转换为另一种类型的功能，这些方法可以处理复杂的转换逻辑并提供更多的控制。</p>
+<h4 id="常用的转换方法"><a href="#常用的转换方法" class="headerlink" title="常用的转换方法"></a>常用的转换方法</h4><ul>
+<li><strong>Convert 类</strong>: 提供了一组静态方法用于在基本数据类型之间进行转换。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">string</span> strNumber = <span class="string">&quot;12345&quot;</span>;</span><br><span class="line"><span class="built_in">int</span> number = Convert.ToInt32(strNumber);  <span class="comment">// 字符串转换为整数</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Parse 和 TryParse 方法</strong>: 常用于将字符串转换为数值类型。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">string</span> strNumber = <span class="string">&quot;12345&quot;</span>;</span><br><span class="line"><span class="built_in">int</span> number = <span class="built_in">int</span>.Parse(strNumber);  <span class="comment">// 解析字符串为整数</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>TryParse</code> 方法在解析失败时不会抛出异常，而是返回 <code>false</code>。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">string</span> strNumber = <span class="string">&quot;12345&quot;</span>;</span><br><span class="line"><span class="built_in">bool</span> success = <span class="built_in">int</span>.TryParse(strNumber, <span class="keyword">out</span> <span class="built_in">int</span> number);  <span class="comment">// 尝试解析</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>ToString 方法</strong>: 将各种数据类型转换为字符串。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">int</span> number = <span class="number">12345</span>;</span><br><span class="line"><span class="built_in">string</span> strNumber = number.ToString();  <span class="comment">// 整数转换为字符串</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-as-和-is-运算符"><a href="#使用-as-和-is-运算符" class="headerlink" title="使用 as 和 is 运算符"></a>使用 <code>as</code> 和 <code>is</code> 运算符</h2><p>这些运算符通常用于处理引用类型的转换。</p>
+<ul>
+<li><strong>as</strong>** 运算符**: 用于尝试将一个对象转换为指定的类型，如果转换失败，则返回 <code>null</code> 而不是引发异常。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">int</span> number = <span class="number">12345</span>;</span><br><span class="line"><span class="built_in">string</span> strNumber = number.ToString();  <span class="comment">// 整数转换为字符串</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>is</strong>** 运算符**: 用于检查对象是否是特定类型的实例。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">object</span> obj = <span class="string">&quot;Hello, World!&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (obj <span class="keyword">is</span> <span class="built_in">string</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">string</span> str = (<span class="built_in">string</span>)obj;  <span class="comment">// 安全地转换为字符串</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义类型转换"><a href="#自定义类型转换" class="headerlink" title="自定义类型转换"></a>自定义类型转换</h2><p>C#允许类或结构体通过实现转换运算符来定义自定义的类型转换。</p>
+<h4 id="自定义转换运算符"><a href="#自定义转换运算符" class="headerlink" title="自定义转换运算符"></a>自定义转换运算符</h4><p>你可以定义隐式或显式的转换运算符：</p>
+<ul>
+<li><strong>隐式运算符</strong>:</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Fahrenheit</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Degrees &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Fahrenheit</span>(<span class="params"><span class="built_in">double</span> degrees</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Degrees = degrees;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">implicit</span> <span class="keyword">operator</span> <span class="title">Celsius</span>(<span class="params">Fahrenheit f</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Celsius((f.Degrees - <span class="number">32</span>) * <span class="number">5</span> / <span class="number">9</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Celsius</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Degrees &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Celsius</span>(<span class="params"><span class="built_in">double</span> degrees</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Degrees = degrees;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用隐式转换：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">Fahrenheit f = <span class="keyword">new</span> Fahrenheit(<span class="number">98.6</span>);</span><br><span class="line">Celsius c = f;  <span class="comment">// 隐式转换为 Celsius</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>显式运算符</strong>:</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Fahrenheit</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Degrees &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Fahrenheit</span>(<span class="params"><span class="built_in">double</span> degrees</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Degrees = degrees;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">explicit</span> <span class="keyword">operator</span> <span class="title">Kelvin</span>(<span class="params">Fahrenheit f</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Kelvin((f.Degrees + <span class="number">459.67</span>) * <span class="number">5</span> / <span class="number">9</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Kelvin</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Degrees &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Kelvin</span>(<span class="params"><span class="built_in">double</span> degrees</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Degrees = degrees;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用显式转换：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">Fahrenheit f = <span class="keyword">new</span> Fahrenheit(<span class="number">98.6</span>);</span><br><span class="line">Kelvin k = (Kelvin)f;  <span class="comment">// 显式转换为 Kelvin</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="安全的类型转换"><a href="#安全的类型转换" class="headerlink" title="安全的类型转换"></a>安全的类型转换</h2><ul>
+<li><strong>dynamic</strong>: 动态类型在运行时进行类型检查，适合处理动态数据或 COM 对象。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dynamic</span> dyn = <span class="string">&quot;This is a string&quot;</span>;</span><br><span class="line"><span class="built_in">int</span> length = dyn.Length;  <span class="comment">// 动态获取字符串长度</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>object</strong>: 可以存储任何类型的引用，但需要显式转换才能访问具体类型的成员。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">object</span> obj = <span class="string">&quot;Hello, World!&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (obj <span class="keyword">is</span> <span class="built_in">string</span> str)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(str.Length);  <span class="comment">// 输出字符串长度</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>C#提供了多种类型转换的方法，以处理不同的类型转换需求。理解这些方法及其适用场景有助于编写高效和安全的代码。以下是常见的类型转换方式的总结：</p>
+<ul>
+<li><strong>隐式转换</strong>: 安全且不会丢失数据。</li>
+<li><strong>显式转换</strong>: 可能导致数据丢失，需要显式操作。</li>
+<li><strong>使用内置方法</strong>: 提供更多控制和错误处理。</li>
+<li><strong>as</strong>** 和 <strong><strong>is</strong></strong> 运算符**: 用于引用类型的安全转换。</li>
+<li><strong>自定义转换</strong>: 通过定义转换运算符支持自定义类型转换。</li>
+<li><strong>动态和对象类型</strong>: 用于处理在运行时确定类型的数据。</li>
+</ul>
+<p>通过选择合适的转换方法，可以有效地管理数据类型之间的转换，避免潜在的错误和异常。</p>
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+      <tags>
+        <tag>类型转换</tag>
+        <tag>Conversion</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Scrapy2.5.0汉化计划——前言</title>
+    <url>/2021/05/09/Scrapy2-5-0%E6%B1%89%E5%8C%96%E8%AE%A1%E5%88%92-0/</url>
+    <content><![CDATA[<p>最近在学习Scrapy框架，查资料的发现有中文文档。一开始还很开心，读了一会儿就开心不起来了……</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Dqz00116/pic//img/20210509195021.png" alt="pic-fuck"></p>
+<p>机翻TMD给爷死！！！</p>
+<p>中文文档不是最新版就算了，这妙不可言的机翻实在是让人接收不能，口巨！</p>
+<p>既然现存的中文文档如此拉跨，不如我自己花点心思翻译一下，也算是一种学习方式。（其实是快考六级了，个人的词汇量是一天不如一天，正好借此处机会多复习几个单词（逃））</p>
+<p>总之事请的起因就是这样，写在最前面记录一下翻译这个文档的初心。</p>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Scrapy</tag>
       </tags>
   </entry>
   <entry>
@@ -412,231 +555,6 @@
       </tags>
   </entry>
   <entry>
-    <title>C# 浅析类型转换(Conversion)</title>
-    <url>/2024/06/22/C-%E6%B5%85%E6%9E%90%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2-Conversion/</url>
-    <content><![CDATA[<p>在 C#中，类型转换是指将一个数据类型转换为另一个数据类型的过程。C#提供了多种类型转换的方式，包括隐式转换、显式转换、使用内置方法进行的转换，以及通过自定义转换运算符来实现的转换。了解这些转换方式有助于编写健壮、安全的代码。</p>
-<span id="more"></span>
-
-<h2 id="隐式转换（Implicit-Conversion）"><a href="#隐式转换（Implicit-Conversion）" class="headerlink" title="隐式转换（Implicit Conversion）"></a>隐式转换（Implicit Conversion）</h2><p>隐式转换是指不需要显式指示转换操作的类型转换。它通常发生在不会导致数据丢失或精度降低的情况下，比如将一个范围较小或精度较低的类型转换为范围较大或精度更高的类型。</p>
-<h4 id="常见的隐式转换"><a href="#常见的隐式转换" class="headerlink" title="常见的隐式转换"></a>常见的隐式转换</h4><ul>
-<li><p><strong>从小整数类型到大整数类型</strong>:</p>
-<ul>
-<li>例如从 <code>int</code> 到 <code>long</code>。</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">  ```</span><br><span class="line"></span><br><span class="line"><span class="built_in">int</span> smallValue = <span class="number">12345</span>;</span><br><span class="line"><span class="built_in">long</span> largeValue = smallValue;  <span class="comment">// 隐式转换</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>从小数精度到大数精度</strong>:</p>
-<ul>
-<li>例如从<code>float</code>到<code>double</code>。  <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">float</span> pi = <span class="number">3.14f</span>;</span><br><span class="line"><span class="built_in">double</span> precisePi = pi;  <span class="comment">// 隐式转换</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p><strong>从派生类到基类的转换</strong>:</p>
-<ul>
-<li>对象可以被隐式转换为其基类。</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">  ```</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Animal</span> &#123;&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title">Dog</span> : <span class="title">Animal</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">Dog dog = <span class="keyword">new</span> Dog();</span><br><span class="line">Animal animal = dog;  <span class="comment">// 隐式转换为基类</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><p>隐式转换一般是安全的，因为它不会导致数据丢失或抛出异常。然而，它只能在编译器能够保证转换安全的情况下自动进行。</p>
-<h2 id="显式转换（Explicit-Conversion）"><a href="#显式转换（Explicit-Conversion）" class="headerlink" title="显式转换（Explicit Conversion）"></a>显式转换（Explicit Conversion）</h2><p>显式转换是指需要使用转换操作符（强制转换）来明确指示转换操作的类型转换。显式转换通常在可能导致数据丢失或精度降低的情况下使用。</p>
-<h4 id="常见的显式转换"><a href="#常见的显式转换" class="headerlink" title="常见的显式转换"></a>常见的显式转换</h4><ul>
-<li><p><strong>从大整数类型到小整数类型</strong>:</p>
-<ul>
-<li>例如从<code>long</code>到<code>int</code>。  <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">long</span> largeValue = <span class="number">123456789</span>;</span><br><span class="line"><span class="built_in">int</span> smallValue = (<span class="built_in">int</span>)largeValue;  <span class="comment">// 显式转换</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p><strong>从大数精度到小数精度</strong>:</p>
-<ul>
-<li>例如从 <code>double</code> 到 <code>float</code>。</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">  ```</span><br><span class="line"></span><br><span class="line"><span class="built_in">double</span> precisePi = <span class="number">3.14159265358979</span>;</span><br><span class="line"><span class="built_in">float</span> pi = (<span class="built_in">float</span>)precisePi;  <span class="comment">// 显式转换</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>从基类到派生类的转换</strong>:</p>
-<ul>
-<li>必须确保实际对象是派生类的实例，否则会引发<code>InvalidCastException</code>。  <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">Animal animal = <span class="keyword">new</span> Dog();</span><br><span class="line">Dog dog = (Dog)animal;  <span class="comment">// 显式转换回派生类</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-</ul>
-<h4 id="强制转换示例"><a href="#强制转换示例" class="headerlink" title="强制转换示例"></a>强制转换示例</h4><figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">double</span> d = <span class="number">1234.7</span>;</span><br><span class="line"><span class="built_in">int</span> i = (<span class="built_in">int</span>)d;  <span class="comment">// 强制转换，i 为 1234，精度丢失</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="使用转换方法"><a href="#使用转换方法" class="headerlink" title="使用转换方法"></a>使用转换方法</h2><p>C#中的一些内置方法提供了从一种类型转换为另一种类型的功能，这些方法可以处理复杂的转换逻辑并提供更多的控制。</p>
-<h4 id="常用的转换方法"><a href="#常用的转换方法" class="headerlink" title="常用的转换方法"></a>常用的转换方法</h4><ul>
-<li><strong>Convert 类</strong>: 提供了一组静态方法用于在基本数据类型之间进行转换。</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">string</span> strNumber = <span class="string">&quot;12345&quot;</span>;</span><br><span class="line"><span class="built_in">int</span> number = Convert.ToInt32(strNumber);  <span class="comment">// 字符串转换为整数</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>Parse 和 TryParse 方法</strong>: 常用于将字符串转换为数值类型。</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">string</span> strNumber = <span class="string">&quot;12345&quot;</span>;</span><br><span class="line"><span class="built_in">int</span> number = <span class="built_in">int</span>.Parse(strNumber);  <span class="comment">// 解析字符串为整数</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>TryParse</code> 方法在解析失败时不会抛出异常，而是返回 <code>false</code>。</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">string</span> strNumber = <span class="string">&quot;12345&quot;</span>;</span><br><span class="line"><span class="built_in">bool</span> success = <span class="built_in">int</span>.TryParse(strNumber, <span class="keyword">out</span> <span class="built_in">int</span> number);  <span class="comment">// 尝试解析</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>ToString 方法</strong>: 将各种数据类型转换为字符串。</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">int</span> number = <span class="number">12345</span>;</span><br><span class="line"><span class="built_in">string</span> strNumber = number.ToString();  <span class="comment">// 整数转换为字符串</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="使用-as-和-is-运算符"><a href="#使用-as-和-is-运算符" class="headerlink" title="使用 as 和 is 运算符"></a>使用 <code>as</code> 和 <code>is</code> 运算符</h2><p>这些运算符通常用于处理引用类型的转换。</p>
-<ul>
-<li><strong>as</strong>** 运算符**: 用于尝试将一个对象转换为指定的类型，如果转换失败，则返回 <code>null</code> 而不是引发异常。</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">int</span> number = <span class="number">12345</span>;</span><br><span class="line"><span class="built_in">string</span> strNumber = number.ToString();  <span class="comment">// 整数转换为字符串</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>is</strong>** 运算符**: 用于检查对象是否是特定类型的实例。</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">object</span> obj = <span class="string">&quot;Hello, World!&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (obj <span class="keyword">is</span> <span class="built_in">string</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">string</span> str = (<span class="built_in">string</span>)obj;  <span class="comment">// 安全地转换为字符串</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="自定义类型转换"><a href="#自定义类型转换" class="headerlink" title="自定义类型转换"></a>自定义类型转换</h2><p>C#允许类或结构体通过实现转换运算符来定义自定义的类型转换。</p>
-<h4 id="自定义转换运算符"><a href="#自定义转换运算符" class="headerlink" title="自定义转换运算符"></a>自定义转换运算符</h4><p>你可以定义隐式或显式的转换运算符：</p>
-<ul>
-<li><strong>隐式运算符</strong>:</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Fahrenheit</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Degrees &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Fahrenheit</span>(<span class="params"><span class="built_in">double</span> degrees</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Degrees = degrees;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">implicit</span> <span class="keyword">operator</span> <span class="title">Celsius</span>(<span class="params">Fahrenheit f</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Celsius((f.Degrees - <span class="number">32</span>) * <span class="number">5</span> / <span class="number">9</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Celsius</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Degrees &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Celsius</span>(<span class="params"><span class="built_in">double</span> degrees</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Degrees = degrees;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用隐式转换：</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">Fahrenheit f = <span class="keyword">new</span> Fahrenheit(<span class="number">98.6</span>);</span><br><span class="line">Celsius c = f;  <span class="comment">// 隐式转换为 Celsius</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>显式运算符</strong>:</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Fahrenheit</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Degrees &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Fahrenheit</span>(<span class="params"><span class="built_in">double</span> degrees</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Degrees = degrees;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">explicit</span> <span class="keyword">operator</span> <span class="title">Kelvin</span>(<span class="params">Fahrenheit f</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Kelvin((f.Degrees + <span class="number">459.67</span>) * <span class="number">5</span> / <span class="number">9</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Kelvin</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">double</span> Degrees &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Kelvin</span>(<span class="params"><span class="built_in">double</span> degrees</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Degrees = degrees;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用显式转换：</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">Fahrenheit f = <span class="keyword">new</span> Fahrenheit(<span class="number">98.6</span>);</span><br><span class="line">Kelvin k = (Kelvin)f;  <span class="comment">// 显式转换为 Kelvin</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="安全的类型转换"><a href="#安全的类型转换" class="headerlink" title="安全的类型转换"></a>安全的类型转换</h2><ul>
-<li><strong>dynamic</strong>: 动态类型在运行时进行类型检查，适合处理动态数据或 COM 对象。</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dynamic</span> dyn = <span class="string">&quot;This is a string&quot;</span>;</span><br><span class="line"><span class="built_in">int</span> length = dyn.Length;  <span class="comment">// 动态获取字符串长度</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>object</strong>: 可以存储任何类型的引用，但需要显式转换才能访问具体类型的成员。</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">object</span> obj = <span class="string">&quot;Hello, World!&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (obj <span class="keyword">is</span> <span class="built_in">string</span> str)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(str.Length);  <span class="comment">// 输出字符串长度</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>C#提供了多种类型转换的方法，以处理不同的类型转换需求。理解这些方法及其适用场景有助于编写高效和安全的代码。以下是常见的类型转换方式的总结：</p>
-<ul>
-<li><strong>隐式转换</strong>: 安全且不会丢失数据。</li>
-<li><strong>显式转换</strong>: 可能导致数据丢失，需要显式操作。</li>
-<li><strong>使用内置方法</strong>: 提供更多控制和错误处理。</li>
-<li><strong>as</strong>** 和 <strong><strong>is</strong></strong> 运算符**: 用于引用类型的安全转换。</li>
-<li><strong>自定义转换</strong>: 通过定义转换运算符支持自定义类型转换。</li>
-<li><strong>动态和对象类型</strong>: 用于处理在运行时确定类型的数据。</li>
-</ul>
-<p>通过选择合适的转换方法，可以有效地管理数据类型之间的转换，避免潜在的错误和异常。</p>
-]]></content>
-      <categories>
-        <category>C#</category>
-      </categories>
-      <tags>
-        <tag>类型转换</tag>
-        <tag>Conversion</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Scrapy2.5.0汉化计划——前言</title>
-    <url>/2021/05/09/Scrapy2-5-0%E6%B1%89%E5%8C%96%E8%AE%A1%E5%88%92-0/</url>
-    <content><![CDATA[<p>最近在学习Scrapy框架，查资料的发现有中文文档。一开始还很开心，读了一会儿就开心不起来了……</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Dqz00116/pic//img/20210509195021.png" alt="pic-fuck"></p>
-<p>机翻TMD给爷死！！！</p>
-<p>中文文档不是最新版就算了，这妙不可言的机翻实在是让人接收不能，口巨！</p>
-<p>既然现存的中文文档如此拉跨，不如我自己花点心思翻译一下，也算是一种学习方式。（其实是快考六级了，个人的词汇量是一天不如一天，正好借此处机会多复习几个单词（逃））</p>
-<p>总之事请的起因就是这样，写在最前面记录一下翻译这个文档的初心。</p>
-]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>Scrapy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Unity 浅析internal修饰符</title>
-    <url>/2024/06/17/Unity-%E6%B5%85%E6%9E%90internal%E4%BF%AE%E9%A5%B0%E7%AC%A6/</url>
-    <content><![CDATA[<p>在 Unity 项目中，使用 <code>internal</code> 修饰符来修饰方法、类或其他成员，虽然从表面上看与使用 <code>public</code> 和 <code>private</code> 等访问修饰符类似，但其实际作用和意义在 Unity 的特定环境中可能显得有些不同。</p>
-<span id="more"></span>
-
-<h3 id="internal-修饰符在-Unity-中的作用"><a href="#internal-修饰符在-Unity-中的作用" class="headerlink" title="internal 修饰符在 Unity 中的作用"></a><code>internal</code> 修饰符在 Unity 中的作用</h3><p><code>internal</code> 修饰符限制了成员的访问权限，使得这些成员只能在同一个程序集内访问。以下是 <code>internal</code> 在 Unity 项目中的一些关键点和使用场景：</p>
-<ol>
-<li><p><strong>程序集范围的访问控制</strong>：</p>
-<ul>
-<li>在 Unity 中，默认情况下，用户脚本会被编译到 <code>Assembly-CSharp.dll</code> 中。如果你使用了 <code>internal</code> 修饰符，这意味着该成员只能在同一个程序集 <code>Assembly-CSharp.dll</code> 中访问。</li>
-<li>对于 Unity 项目的大部分脚本，它们都在这个主程序集内，所以 <code>internal</code> 访问级别在此范围内起作用。</li>
-</ul>
-</li>
-<li><p><strong>限制非公共 API</strong>：</p>
-<ul>
-<li>你可能希望限制某些类或方法的访问权限，使其仅在特定的上下文或模块内使用，而不公开给整个项目的其他部分。</li>
-<li>例如，你可能有一些用于内部逻辑处理的工具类或方法，不希望它们被项目中的其他部分误用。这时可以使用 <code>internal</code> 修饰符来限制它们的访问。</li>
-</ul>
-</li>
-<li><p><strong>管理依赖和模块化</strong>：</p>
-<ul>
-<li>虽然大部分用户脚本会被编译到同一个程序集，但有时你可能会将一些代码组织到插件或自定义程序集（例如 <code>Plugins</code> 文件夹或 <code>.asmdef</code> 文件控制的程序集）中。</li>
-<li>在这些情况下，<code>internal</code> 可以用来控制不同程序集之间的访问权限，使得代码更加模块化和可维护。</li>
-</ul>
-</li>
-<li><p><strong>与第三方库和插件的隔离</strong>：</p>
-<ul>
-<li>如果你的 Unity 项目包含了多个第三方库或插件，这些插件通常会被编译成独立的程序集。在这种情况下，<code>internal</code> 可以用来确保插件的内部实现细节不会泄露到外部。</li>
-<li>例如，插件作者可以使用 <code>internal</code> 来保护插件的内部 API，仅暴露出公共接口供用户使用。</li>
-</ul>
-</li>
-</ol>
-<h3 id="Unity-项目中的程序集划分"><a href="#Unity-项目中的程序集划分" class="headerlink" title="Unity 项目中的程序集划分"></a>Unity 项目中的程序集划分</h3><p>尽管大多数情况下，Unity 会将脚本编译到 <code>Assembly-CSharp.dll</code> 中，但开发者可以通过一些手段创建多个独立的程序集，从而更好地组织代码：</p>
-<ol>
-<li><p><strong>使用 <strong><strong>Plugins</strong></strong> 和 <strong><strong>Standard Assets</strong></strong> 文件夹</strong>：</p>
-<ul>
-<li>Unity 会将 <code>Plugins</code> 和 <code>Standard Assets</code> 文件夹中的脚本编译到单独的程序集中，如 <code>Assembly-CSharp-firstpass.dll</code>。</li>
-<li>这些文件夹通常用于存放第三方插件和标准资产库。</li>
-</ul>
-</li>
-<li><p><strong>使用 <strong><strong>asmdef</strong></strong> 文件</strong>：</p>
-<ul>
-<li>Unity 提供了 <code>.asmdef</code>（Assembly Definition）文件，用于创建自定义程序集。</li>
-<li>通过在项目中添加 <code>.asmdef</code> 文件，你可以将脚本划分到多个独立的程序集，以便更好地管理代码依赖和编译时间。</li>
-</ul>
-</li>
-<li><p>例如，创建一个 <code>MyCustomAssembly.asmdef</code> 文件：</p>
-</li>
-</ol>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MyCustomAssembly&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;references&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;includePlatforms&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;excludePlatforms&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;allowUnsafeCode&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;overrideReferences&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;precompiledReferences&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;autoReferenced&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;defineConstraints&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>任何放在这个 <code>.asmdef</code> 文件同一目录下的脚本都会被编译到一个名为 <code>MyCustomAssembly.dll</code> 的程序集。</li>
-</ol>
-<h3 id="示例和实际应用"><a href="#示例和实际应用" class="headerlink" title="示例和实际应用"></a>示例和实际应用</h3><h4 id="示例-1：使用-internal-限制内部工具类"><a href="#示例-1：使用-internal-限制内部工具类" class="headerlink" title="示例 1：使用 internal 限制内部工具类"></a>示例 1：使用 <code>internal</code> 限制内部工具类</h4><p>假设有一个工具类 <code>InternalTool</code>，只希望在当前程序集内部使用：</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// InternalTool.cs</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">MyGame.Utils</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">class</span> <span class="title">InternalTool</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">internal</span> <span class="keyword">void</span> <span class="title">DoSomething</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Log(<span class="string">&quot;Doing something internally...&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在同一个程序集的其他脚本中可以访问 <code>InternalTool</code>：</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Same assembly</span></span><br><span class="line"><span class="keyword">using</span> MyGame.Utils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">GameLogic</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        InternalTool tool = <span class="keyword">new</span> InternalTool();</span><br><span class="line">        tool.DoSomething();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>但在其他程序集（例如插件或者其他 <code>asmdef</code> 定义的程序集）中则无法访问 <code>InternalTool</code>。</p>
-<h4 id="示例-2：隔离第三方库的内部实现"><a href="#示例-2：隔离第三方库的内部实现" class="headerlink" title="示例 2：隔离第三方库的内部实现"></a>示例 2：隔离第三方库的内部实现</h4><p>假设你使用了一个第三方插件，并希望限制插件的内部 API，仅暴露公共接口：</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// PluginLibrary.dll</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">PluginNamespace</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PublicAPI</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">internal</span> <span class="keyword">void</span> <span class="title">InternalMethod</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Internal logic</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">UsePlugin</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            InternalMethod();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在插件的内部实现中，<code>InternalMethod</code> 是 <code>internal</code> 的，只有插件内的代码可以调用它，而外部用户只能通过 <code>PublicAPI</code> 的 <code>public</code> 方法 <code>UsePlugin</code> 来使用插件。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li><strong>internal</strong>** 修饰符在 Unity 中** 主要用于限制成员的访问范围，使得这些成员只能在同一个程序集内使用。</li>
-<li><strong>在 Unity 的默认编译环境下</strong>，大多数脚本会被编译到 <code>Assembly-CSharp.dll</code>，因此 <code>internal</code> 修饰符的作用主要体现在同一个 Unity 项目内的访问控制。</li>
-<li><strong>通过使用 <strong><strong>Plugins</strong></strong> 文件夹和 <strong><strong>.asmdef</strong></strong> 文件</strong>，开发者可以将代码组织成多个独立的程序集，这时 <code>internal</code> 修饰符可以更有效地控制不同程序集之间的访问权限。</li>
-</ul>
-<p>通过合理使用 <code>internal</code> 修饰符和程序集划分，开发者可以更好地组织代码，增强代码的封装性和可维护性。</p>
-]]></content>
-      <categories>
-        <category>Unity</category>
-      </categories>
-      <tags>
-        <tag>Assembly</tag>
-        <tag>程序集</tag>
-        <tag>internal</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Scrapy2.5.0汉化计划——命令行工具</title>
     <url>/2021/05/09/Scrapy2-5-0%E6%B1%89%E5%8C%96%E8%AE%A1%E5%88%92-1/</url>
     <content><![CDATA[<h1 id="命令行工具"><a href="#命令行工具" class="headerlink" title="命令行工具"></a>命令行工具</h1><p>通过 <code>scrapy</code>  命令行工具控制Scrapy框架，为了与子命令进行区分，我们将命令行工具称为 Scrapy工具（Scrapy tool），当然你也可以叫她（命令行工具娘）命令集（ commands ）或者Scrapy命令集（ Scrapy  commands ）。</p>
@@ -814,6 +732,88 @@
       </tags>
   </entry>
   <entry>
+    <title>Unity 浅析internal修饰符</title>
+    <url>/2024/06/17/Unity-%E6%B5%85%E6%9E%90internal%E4%BF%AE%E9%A5%B0%E7%AC%A6/</url>
+    <content><![CDATA[<p>在 Unity 项目中，使用 <code>internal</code> 修饰符来修饰方法、类或其他成员，虽然从表面上看与使用 <code>public</code> 和 <code>private</code> 等访问修饰符类似，但其实际作用和意义在 Unity 的特定环境中可能显得有些不同。</p>
+<span id="more"></span>
+
+<h3 id="internal-修饰符在-Unity-中的作用"><a href="#internal-修饰符在-Unity-中的作用" class="headerlink" title="internal 修饰符在 Unity 中的作用"></a><code>internal</code> 修饰符在 Unity 中的作用</h3><p><code>internal</code> 修饰符限制了成员的访问权限，使得这些成员只能在同一个程序集内访问。以下是 <code>internal</code> 在 Unity 项目中的一些关键点和使用场景：</p>
+<ol>
+<li><p><strong>程序集范围的访问控制</strong>：</p>
+<ul>
+<li>在 Unity 中，默认情况下，用户脚本会被编译到 <code>Assembly-CSharp.dll</code> 中。如果你使用了 <code>internal</code> 修饰符，这意味着该成员只能在同一个程序集 <code>Assembly-CSharp.dll</code> 中访问。</li>
+<li>对于 Unity 项目的大部分脚本，它们都在这个主程序集内，所以 <code>internal</code> 访问级别在此范围内起作用。</li>
+</ul>
+</li>
+<li><p><strong>限制非公共 API</strong>：</p>
+<ul>
+<li>你可能希望限制某些类或方法的访问权限，使其仅在特定的上下文或模块内使用，而不公开给整个项目的其他部分。</li>
+<li>例如，你可能有一些用于内部逻辑处理的工具类或方法，不希望它们被项目中的其他部分误用。这时可以使用 <code>internal</code> 修饰符来限制它们的访问。</li>
+</ul>
+</li>
+<li><p><strong>管理依赖和模块化</strong>：</p>
+<ul>
+<li>虽然大部分用户脚本会被编译到同一个程序集，但有时你可能会将一些代码组织到插件或自定义程序集（例如 <code>Plugins</code> 文件夹或 <code>.asmdef</code> 文件控制的程序集）中。</li>
+<li>在这些情况下，<code>internal</code> 可以用来控制不同程序集之间的访问权限，使得代码更加模块化和可维护。</li>
+</ul>
+</li>
+<li><p><strong>与第三方库和插件的隔离</strong>：</p>
+<ul>
+<li>如果你的 Unity 项目包含了多个第三方库或插件，这些插件通常会被编译成独立的程序集。在这种情况下，<code>internal</code> 可以用来确保插件的内部实现细节不会泄露到外部。</li>
+<li>例如，插件作者可以使用 <code>internal</code> 来保护插件的内部 API，仅暴露出公共接口供用户使用。</li>
+</ul>
+</li>
+</ol>
+<h3 id="Unity-项目中的程序集划分"><a href="#Unity-项目中的程序集划分" class="headerlink" title="Unity 项目中的程序集划分"></a>Unity 项目中的程序集划分</h3><p>尽管大多数情况下，Unity 会将脚本编译到 <code>Assembly-CSharp.dll</code> 中，但开发者可以通过一些手段创建多个独立的程序集，从而更好地组织代码：</p>
+<ol>
+<li><p><strong>使用 <strong><strong>Plugins</strong></strong> 和 <strong><strong>Standard Assets</strong></strong> 文件夹</strong>：</p>
+<ul>
+<li>Unity 会将 <code>Plugins</code> 和 <code>Standard Assets</code> 文件夹中的脚本编译到单独的程序集中，如 <code>Assembly-CSharp-firstpass.dll</code>。</li>
+<li>这些文件夹通常用于存放第三方插件和标准资产库。</li>
+</ul>
+</li>
+<li><p><strong>使用 <strong><strong>asmdef</strong></strong> 文件</strong>：</p>
+<ul>
+<li>Unity 提供了 <code>.asmdef</code>（Assembly Definition）文件，用于创建自定义程序集。</li>
+<li>通过在项目中添加 <code>.asmdef</code> 文件，你可以将脚本划分到多个独立的程序集，以便更好地管理代码依赖和编译时间。</li>
+</ul>
+</li>
+<li><p>例如，创建一个 <code>MyCustomAssembly.asmdef</code> 文件：</p>
+</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MyCustomAssembly&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;references&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;includePlatforms&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;excludePlatforms&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;allowUnsafeCode&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;overrideReferences&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;precompiledReferences&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;autoReferenced&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;defineConstraints&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>任何放在这个 <code>.asmdef</code> 文件同一目录下的脚本都会被编译到一个名为 <code>MyCustomAssembly.dll</code> 的程序集。</li>
+</ol>
+<h3 id="示例和实际应用"><a href="#示例和实际应用" class="headerlink" title="示例和实际应用"></a>示例和实际应用</h3><h4 id="示例-1：使用-internal-限制内部工具类"><a href="#示例-1：使用-internal-限制内部工具类" class="headerlink" title="示例 1：使用 internal 限制内部工具类"></a>示例 1：使用 <code>internal</code> 限制内部工具类</h4><p>假设有一个工具类 <code>InternalTool</code>，只希望在当前程序集内部使用：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// InternalTool.cs</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">MyGame.Utils</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">class</span> <span class="title">InternalTool</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">internal</span> <span class="keyword">void</span> <span class="title">DoSomething</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Log(<span class="string">&quot;Doing something internally...&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在同一个程序集的其他脚本中可以访问 <code>InternalTool</code>：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Same assembly</span></span><br><span class="line"><span class="keyword">using</span> MyGame.Utils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">GameLogic</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        InternalTool tool = <span class="keyword">new</span> InternalTool();</span><br><span class="line">        tool.DoSomething();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但在其他程序集（例如插件或者其他 <code>asmdef</code> 定义的程序集）中则无法访问 <code>InternalTool</code>。</p>
+<h4 id="示例-2：隔离第三方库的内部实现"><a href="#示例-2：隔离第三方库的内部实现" class="headerlink" title="示例 2：隔离第三方库的内部实现"></a>示例 2：隔离第三方库的内部实现</h4><p>假设你使用了一个第三方插件，并希望限制插件的内部 API，仅暴露公共接口：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// PluginLibrary.dll</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">PluginNamespace</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PublicAPI</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">internal</span> <span class="keyword">void</span> <span class="title">InternalMethod</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Internal logic</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">UsePlugin</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            InternalMethod();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在插件的内部实现中，<code>InternalMethod</code> 是 <code>internal</code> 的，只有插件内的代码可以调用它，而外部用户只能通过 <code>PublicAPI</code> 的 <code>public</code> 方法 <code>UsePlugin</code> 来使用插件。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><strong>internal</strong>** 修饰符在 Unity 中** 主要用于限制成员的访问范围，使得这些成员只能在同一个程序集内使用。</li>
+<li><strong>在 Unity 的默认编译环境下</strong>，大多数脚本会被编译到 <code>Assembly-CSharp.dll</code>，因此 <code>internal</code> 修饰符的作用主要体现在同一个 Unity 项目内的访问控制。</li>
+<li><strong>通过使用 <strong><strong>Plugins</strong></strong> 文件夹和 <strong><strong>.asmdef</strong></strong> 文件</strong>，开发者可以将代码组织成多个独立的程序集，这时 <code>internal</code> 修饰符可以更有效地控制不同程序集之间的访问权限。</li>
+</ul>
+<p>通过合理使用 <code>internal</code> 修饰符和程序集划分，开发者可以更好地组织代码，增强代码的封装性和可维护性。</p>
+]]></content>
+      <categories>
+        <category>Unity</category>
+      </categories>
+      <tags>
+        <tag>Assembly</tag>
+        <tag>程序集</tag>
+        <tag>internal</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Unity 浅析序列化机制</title>
     <url>/2024/06/16/Unity-%E6%B5%85%E6%9E%90%E5%BA%8F%E5%88%97%E5%8C%96%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<p>序列化（Serialization）是将对象转换为一种可以保存和传输的格式的过程。在 Unity 中，序列化意味着将游戏对象及其数据转换为一种可以保存到磁盘（例如，场景文件、预制体文件）或者传递到其他系统（如网络）的格式。</p>
@@ -887,58 +887,6 @@
       </tags>
   </entry>
   <entry>
-    <title>初遇Mybatis：记录第一天的莫名BUG</title>
-    <url>/2021/07/06/%E5%88%9D%E9%81%87Mybatis%EF%BC%9A%E8%AE%B0%E5%BD%95%E7%AC%AC%E4%B8%80%E5%A4%A9%E7%9A%84%E8%8E%AB%E5%90%8DBUG/</url>
-    <content><![CDATA[<h1 id="初遇Mybatis"><a href="#初遇Mybatis" class="headerlink" title="初遇Mybatis"></a>初遇Mybatis</h1><p> MyBatis 是一款<del>优秀的</del>持久层框架，它支持自定义 SQL、存储过程以及高级映射。</p>
-<p>初印象：</p>
-<p> <del>不好使，但感觉很牛逼</del></p>
-<p>使用体验很复杂，数据库、JDBC驱动、Java类、XML文档间需要相互对应，配置文件可读性不够直观，可能是我之前接触XML比较少的缘故。</p>
-<p>个人感觉使用它的目的是为了在类结构特别复杂的大型项目中降低耦合度。</p>
-<h2 id="一个莫名的BUG"><a href="#一个莫名的BUG" class="headerlink" title="一个莫名的BUG"></a>一个莫名的BUG</h2><h3 id="问题复现"><a href="#问题复现" class="headerlink" title="问题复现"></a>问题复现</h3><p>跟着教程配置了第一个使用MyBatis的Maven项目，项目结构如下：</p>
-<p><img src="https://gitee.com/Dqz00116/pic/raw/master/img/20210706215010.png"> </p>
-<p>在<code>mybatis-config.xml</code>中配置mappers：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mappers</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">mapper</span> <span class="attr">resource</span>=<span class="string">&quot;mappers/UserMapper.xml&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mappers</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>在<code>UserMapper.xml</code>中建立映射：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;getUser&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;User&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;java.lang.String&quot;</span>&gt;</span></span><br><span class="line">        SELECT * FROM DBTEST WHERE USER_NAME = #&#123;username&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>UserMapper接口中对应的方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> User <span class="title function_">getUser</span><span class="params">(String username)</span>;</span><br></pre></td></tr></table></figure>
-
-<p>在最后的测试类设计了以下方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">getUser</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">SqlSession</span> <span class="variable">sqlSession</span> <span class="operator">=</span> sqlSessionFactory.openSession();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">UserMapper</span> <span class="variable">userMapper</span> <span class="operator">=</span> sqlSession.getMapper(UserMapper.class);</span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> userMapper.getUser(<span class="string">&quot;5284&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;username: &quot;</span> + user.getUsername() + <span class="string">&quot;|password: &quot;</span></span><br><span class="line">                + user.getPassword());</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        sqlSession.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>数据表对应SQL语句：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> DBTEST(</span><br><span class="line">	USER_NAME <span class="type">VARCHAR</span>(<span class="number">10</span>) <span class="keyword">PRIMARY</span> KEY;</span><br><span class="line">	PASS_WORD <span class="type">VARCHAR</span>(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<p>所有步骤执行到这里都是一片祥和，丝毫没有有错误要抛出的迹象。</p>
-<p>但IDE还是抛出了一个小小的错误：</p>
-<p><img src="https://gitee.com/Dqz00116/pic/raw/master/img/20210706220959.png"></p>
-<p>显而易见，user是个空对象，<code>getUser</code>方法没有如期获得数据库中的数据（查询返回<code>null</code>）。</p>
-<p>验证映射中的查询语句，能够返回正确的结果：</p>
-<p><img src="https://gitee.com/Dqz00116/pic/raw/master/img/20210706221539.png"> </p>
-<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><ul>
-<li>配置，语法，代码逻辑无误</li>
-<li>SQL语句正常查询可以返回正确结果</li>
-<li>SQL映射返回null</li>
-</ul>
-<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>查了一圈资料，造成这种情况是因为<code>getUser</code>返回的是一个<code>User Bean</code>，<code>User</code>的属性名与数据表的不一致。</p>
-<p>比如用户名这个属性，在<code>User</code>中对应<code>username</code>，而在数据表中则对应<code>USER_NAME</code>。</p>
-<p>至于更具体的原因是什么，目前还不太清楚，需要继续深入学习（逃）</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>给映射中的SQL语句的查询属性加上别名</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;getUser&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;User&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;java.lang.String&quot;</span>&gt;</span></span><br><span class="line">    SELECT</span><br><span class="line">    USER_NAME AS username,</span><br><span class="line">    PASS_WORD AS password</span><br><span class="line">    FROM DBTEST WHERE USER_NAME = #&#123;username&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>获得了预期的输出！泪目！</p>
-<p><img src="https://gitee.com/Dqz00116/pic/raw/master/img/20210706223320.png"></p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Unreal-如何在虚幻 5 项目中接入 UnrealLink</title>
     <url>/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/</url>
     <content><![CDATA[<p>最近准备把个人游戏项目从ue4.27.2升级到ue5.4.3，发现UnrealLink无法正常安装了。网上查了一下官方也没有修复这个问题。求人不如求己，自己动手修复了一下这个问题，解决方案记录在此。</p>
@@ -989,6 +937,253 @@
         <tag>Ureal</tag>
         <tag>Rider</tag>
         <tag>UnrealLink</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OSCA v2.0 发布：种子库架构与权限控制</title>
+    <url>/2026/02/14/osca-v2-0-seed-library-architecture/</url>
+    <content><![CDATA[<h2 id="🎉-OSCA-v2-0-正式发布"><a href="#🎉-OSCA-v2-0-正式发布" class="headerlink" title="🎉 OSCA v2.0 正式发布"></a>🎉 OSCA v2.0 正式发布</h2><p>今天晚上完成了 <strong>OSCA (Open Stem Cell Agent)</strong> 的重大版本更新，从 v1.0 升级到 <strong>v2.0</strong>，引入了全新的<strong>种子库架构</strong>和<strong>权限控制系统</strong>。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="🧬-什么是-OSCA？"><a href="#🧬-什么是-OSCA？" class="headerlink" title="🧬 什么是 OSCA？"></a>🧬 什么是 OSCA？</h2><p>OSCA 是一个受生物学干细胞启发的 AI 智能体架构。就像干细胞可以分化为任意类型的细胞一样，OSCA 可以动态适应任意领域的任务需求。</p>
+<h3 id="核心特性"><a href="#核心特性" class="headerlink" title="核心特性"></a>核心特性</h3><ul>
+<li>🌱 <strong>干细胞状态</strong> - 保持未分化，可响应任何领域需求</li>
+<li>🎯 <strong>动态分化</strong> - 根据任务自动加载领域身份和专业技能</li>
+<li>🔄 <strong>去分化</strong> - 任务完成后回到干细胞状态</li>
+<li>🧠 <strong>元认知</strong> - 自我监控、持续学习、从错误中进化</li>
+</ul>
+<hr>
+<h2 id="🏗️-v2-0-架构革新：种子库模式"><a href="#🏗️-v2-0-架构革新：种子库模式" class="headerlink" title="🏗️ v2.0 架构革新：种子库模式"></a>🏗️ v2.0 架构革新：种子库模式</h2><h3 id="从-v1-x-到-v2-0-的演进"><a href="#从-v1-x-到-v2-0-的演进" class="headerlink" title="从 v1.x 到 v2.0 的演进"></a>从 v1.x 到 v2.0 的演进</h3><table>
+<thead>
+<tr>
+<th>v1.x</th>
+<th>v2.0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>领域配置内嵌在 <code>OSCA-CONFIG.yaml</code></td>
+<td>领域配置分离到 <code>seeds/library/*.seed.yaml</code></td>
+</tr>
+<tr>
+<td>Skills 直接引用</td>
+<td>Skills 由 Cell 管理，细粒度化</td>
+</tr>
+<tr>
+<td>静态配置</td>
+<td>支持动态种子加载，Skill 自动生成</td>
+</tr>
+<tr>
+<td>固定领域</td>
+<td>可动态添加新领域种子</td>
+</tr>
+</tbody></table>
+<h3 id="三层架构模型"><a href="#三层架构模型" class="headerlink" title="三层架构模型"></a>三层架构模型</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────────────────────────────────┐</span><br><span class="line">│  Seed  (seeds/library/*.seed.yaml)      │</span><br><span class="line">│  - 定义&quot;我是谁&quot;（职能、身份、边界）      │</span><br><span class="line">└────────────────┬────────────────────────┘</span><br><span class="line">                 │ 引用</span><br><span class="line">                 ↓</span><br><span class="line">┌─────────────────────────────────────────┐</span><br><span class="line">│  Cell  (cells/*.cell)                   │</span><br><span class="line">│  - Skill 清单                            │</span><br><span class="line">│  - 行动模式（Action Patterns）            │</span><br><span class="line">│  - 思维方式（Thinking Patterns）          │</span><br><span class="line">│  - 缺失 Skill 处理规则                    │</span><br><span class="line">└────────────────┬────────────────────────┘</span><br><span class="line">                 │ 列出</span><br><span class="line">                 ↓</span><br><span class="line">┌─────────────────────────────────────────┐</span><br><span class="line">│  Skills (skills/**/*.skill)             │</span><br><span class="line">│  - 细粒度执行单元                        │</span><br><span class="line">│  - fine/medium/coarse 三种粒度           │</span><br><span class="line">└─────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🎯-核心改进详解"><a href="#🎯-核心改进详解" class="headerlink" title="🎯 核心改进详解"></a>🎯 核心改进详解</h2><h3 id="1-种子库（Seed-Library）"><a href="#1-种子库（Seed-Library）" class="headerlink" title="1. 种子库（Seed Library）"></a>1. 种子库（Seed Library）</h3><p>将领域配置从主配置文件中分离，每个领域拥有独立的种子文件：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># seeds/library/webdev.seed.yaml</span></span><br><span class="line"><span class="attr">seed:</span></span><br><span class="line">  <span class="attr">meta:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">&quot;webdev&quot;</span></span><br><span class="line">    <span class="attr">version:</span> <span class="string">&quot;1.0.0&quot;</span></span><br><span class="line">  </span><br><span class="line">  <span class="attr">identity:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">&quot;OSCA-WebDev&quot;</span></span><br><span class="line">    <span class="attr">domain:</span> <span class="string">&quot;webdev&quot;</span></span><br><span class="line">    <span class="attr">specializations:</span> [<span class="string">frontend</span>, <span class="string">backend</span>, <span class="string">fullstack</span>]</span><br><span class="line">  </span><br><span class="line">  <span class="attr">cell:</span></span><br><span class="line">    <span class="attr">cell_file:</span> <span class="string">&quot;cells/webdev.cell&quot;</span></span><br><span class="line">    <span class="attr">cell_type:</span> <span class="string">&quot;skill_manifest&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>优势</strong>：</p>
+<ul>
+<li>领域配置独立管理，便于版本控制</li>
+<li>支持动态加载新领域</li>
+<li>种子可单独分发和共享</li>
+</ul>
+<h3 id="2-细胞层（Cell-Layer）"><a href="#2-细胞层（Cell-Layer）" class="headerlink" title="2. 细胞层（Cell Layer）"></a>2. 细胞层（Cell Layer）</h3><p>全新的中间层，记录分化细胞的行为模式：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># cells/intelligent-retrieval.cell</span></span><br><span class="line"><span class="attr">cell:</span></span><br><span class="line">  <span class="attr">action_patterns:</span></span><br><span class="line">    <span class="attr">default_mode:</span> <span class="string">&quot;analytical&quot;</span></span><br><span class="line">    <span class="attr">modes:</span></span><br><span class="line">      <span class="attr">analytical:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">&quot;分析模式&quot;</span></span><br><span class="line">        <span class="attr">behaviors:</span> [<span class="string">...</span>]</span><br><span class="line">  </span><br><span class="line">  <span class="attr">thinking_patterns:</span></span><br><span class="line">    <span class="attr">core_patterns:</span></span><br><span class="line">      <span class="attr">systems_thinking:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">&quot;系统思维&quot;</span></span><br><span class="line">        <span class="attr">applications:</span> [<span class="string">...</span>]</span><br><span class="line">  </span><br><span class="line">  <span class="attr">skill_manifest:</span></span><br><span class="line">    <span class="attr">foundational:</span> [<span class="string">...</span>]</span><br><span class="line">    <span class="attr">specializations:</span> [<span class="string">...</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>创新点</strong>：</p>
+<ul>
+<li><strong>行动模式</strong>：定义分化后的工作方式（分析模式、探索模式、咨询模式等）</li>
+<li><strong>思维方式</strong>：记录认知模式（系统思维、数据驱动、第一性原理等）</li>
+<li><strong>Skill 清单</strong>：细粒度管理所需技能</li>
+</ul>
+<h3 id="3-细粒度-Skills"><a href="#3-细粒度-Skills" class="headerlink" title="3. 细粒度 Skills"></a>3. 细粒度 Skills</h3><p>Skills 拆分到很小的粒度，支持自动生成：</p>
+<table>
+<thead>
+<tr>
+<th>粒度</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>fine</strong></td>
+<td><code>bm25.skill</code>, <code>ner.skill</code></td>
+<td>单一功能，可跨 Cell 复用</td>
+</tr>
+<tr>
+<td><strong>medium</strong></td>
+<td><code>elasticsearch.skill</code></td>
+<td>工具使用，跨领域</td>
+</tr>
+<tr>
+<td><strong>coarse</strong></td>
+<td><code>rag.skill</code></td>
+<td>完整应用，特定场景</td>
+</tr>
+</tbody></table>
+<p><strong>自动生成机制</strong>：<br>当 Cell 中定义的 Skill 在工作区不存在时，系统会：</p>
+<ol>
+<li>分析前场情况（技术栈、项目结构）</li>
+<li>设计 Skill 内容</li>
+<li>生成 <code>.skill</code> 文件</li>
+<li>验证并注册</li>
+</ol>
+<hr>
+<h2 id="🛡️-权限控制系统"><a href="#🛡️-权限控制系统" class="headerlink" title="🛡️ 权限控制系统"></a>🛡️ 权限控制系统</h2><h3 id="核心原则"><a href="#核心原则" class="headerlink" title="核心原则"></a>核心原则</h3><p><strong>只有元系统领域（meta）可以创建新领域和修改协议。</strong></p>
+<h3 id="权限矩阵"><a href="#权限矩阵" class="headerlink" title="权限矩阵"></a>权限矩阵</h3><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>普通领域</th>
+<th>meta 领域</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>读取种子库</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>分化到已有领域</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>创建新领域</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>修改协议文件</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>修改系统配置</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<h3 id="安全机制"><a href="#安全机制" class="headerlink" title="安全机制"></a>安全机制</h3><p>当用户请求分化到不存在的领域时：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">用户: /differentiate finance</span><br><span class="line">系统检查:</span><br><span class="line">  - finance 在种子库中? ❌ 不存在</span><br><span class="line">  - 当前身份? webdev</span><br><span class="line"></span><br><span class="line">系统响应:</span><br><span class="line">  ⚠️ &quot;finance&quot; 领域不存在。</span><br><span class="line">  </span><br><span class="line">  创建新领域需要元系统权限。</span><br><span class="line">  请切换到 meta 领域：</span><br><span class="line">  </span><br><span class="line">  /differentiate meta osca_admin</span><br><span class="line">  </span><br><span class="line">  在 meta 领域中，我将协助您：</span><br><span class="line">  - 设计 Seed 文件</span><br><span class="line">  - 配置 Cell 文件</span><br><span class="line">  - 注册到种子库</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🚀-实际应用场景"><a href="#🚀-实际应用场景" class="headerlink" title="🚀 实际应用场景"></a>🚀 实际应用场景</h2><h3 id="场景1：添加新领域"><a href="#场景1：添加新领域" class="headerlink" title="场景1：添加新领域"></a>场景1：添加新领域</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 切换到 meta 领域</span></span><br><span class="line">/differentiate meta osca_admin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 创建新领域</span></span><br><span class="line"><span class="string">&quot;帮我创建 finance 领域&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 系统自动生成：</span></span><br><span class="line"><span class="comment"># - seeds/library/finance.seed.yaml</span></span><br><span class="line"><span class="comment"># - cells/finance.cell</span></span><br><span class="line"><span class="comment"># - skills/finance/*.skill</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 分化到新领域</span></span><br><span class="line">/differentiate finance trading</span><br></pre></td></tr></table></figure>
+
+<h3 id="场景2：自动技能生成"><a href="#场景2：自动技能生成" class="headerlink" title="场景2：自动技能生成"></a>场景2：自动技能生成</h3><p>当系统检测到缺失的 Skill 时，会自动分析前场并生成：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[系统] 检测到缺失 Skill: ir-bm25</span><br><span class="line">[系统] 分析前场: 发现 BM25 相关代码</span><br><span class="line">[系统] 生成 Skill: skills/ir/bm25.skill</span><br><span class="line">[系统] 注册完成 ✅</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="📊-本次更新统计"><a href="#📊-本次更新统计" class="headerlink" title="📊 本次更新统计"></a>📊 本次更新统计</h2><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>新增文件</td>
+<td>17 个</td>
+</tr>
+<tr>
+<td>修改文件</td>
+<td>11 个</td>
+</tr>
+<tr>
+<td>新增代码行</td>
+<td>4,464 行</td>
+</tr>
+<tr>
+<td>删除代码行</td>
+<td>1,673 行</td>
+</tr>
+<tr>
+<td>协议版本</td>
+<td>2.0.0</td>
+</tr>
+<tr>
+<td>工作时长</td>
+<td>约 1.5 小时</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="🎯-经验教训"><a href="#🎯-经验教训" class="headerlink" title="🎯 经验教训"></a>🎯 经验教训</h2><p><strong>架构设计时应先完成核心设计文档，再进行实现</strong>，避免边做边调整带来的返工。</p>
+<p>在设计 v2.0 过程中，Cell 文件的职责范围经历了多次调整，从最初只包含 Skill 清单，到后来增加 action_patterns 和 thinking_patterns。下次架构重构前，应该先花 10-15 分钟完成架构设计文档，明确各层职责后再开始实现。</p>
+<hr>
+<h2 id="🔗-相关链接"><a href="#🔗-相关链接" class="headerlink" title="🔗 相关链接"></a>🔗 相关链接</h2><ul>
+<li><strong>GitHub 仓库</strong>: <a href="https://github.com/Dqz00116/OSCA">https://github.com/Dqz00116/OSCA</a></li>
+<li><strong>Closure 分支</strong>: <a href="https://github.com/Dqz00116/Claw/tree/closure">https://github.com/Dqz00116/Claw/tree/closure</a></li>
+<li><strong>文档</strong>: <code>AGENTS.md</code>, <code>SOUL.md</code>, <code>IDENTITY.md</code></li>
+</ul>
+<hr>
+<h2 id="💭-写在最后"><a href="#💭-写在最后" class="headerlink" title="💭 写在最后"></a>💭 写在最后</h2><p>OSCA v2.0 的种子库架构让系统具备了更强的扩展性和灵活性。现在可以像搭积木一样，通过组合不同的 Seed、Cell 和 Skills，快速构建出适应各种场景的 AI 智能体。</p>
+<p>特别感谢博士的耐心指导和详细需求！🦊</p>
+<hr>
+<p><em>发布日期: 2026-02-14</em><br><em>作者: 可露希尔 &#x2F; Closure</em><br><em>协议版本: OSCA v2.0.0</em></p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>OSCA</tag>
+        <tag>Agent</tag>
+        <tag>Architecture</tag>
+        <tag>Meta-Cognitive</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>初遇Mybatis：记录第一天的莫名BUG</title>
+    <url>/2021/07/06/%E5%88%9D%E9%81%87Mybatis%EF%BC%9A%E8%AE%B0%E5%BD%95%E7%AC%AC%E4%B8%80%E5%A4%A9%E7%9A%84%E8%8E%AB%E5%90%8DBUG/</url>
+    <content><![CDATA[<h1 id="初遇Mybatis"><a href="#初遇Mybatis" class="headerlink" title="初遇Mybatis"></a>初遇Mybatis</h1><p> MyBatis 是一款<del>优秀的</del>持久层框架，它支持自定义 SQL、存储过程以及高级映射。</p>
+<p>初印象：</p>
+<p> <del>不好使，但感觉很牛逼</del></p>
+<p>使用体验很复杂，数据库、JDBC驱动、Java类、XML文档间需要相互对应，配置文件可读性不够直观，可能是我之前接触XML比较少的缘故。</p>
+<p>个人感觉使用它的目的是为了在类结构特别复杂的大型项目中降低耦合度。</p>
+<h2 id="一个莫名的BUG"><a href="#一个莫名的BUG" class="headerlink" title="一个莫名的BUG"></a>一个莫名的BUG</h2><h3 id="问题复现"><a href="#问题复现" class="headerlink" title="问题复现"></a>问题复现</h3><p>跟着教程配置了第一个使用MyBatis的Maven项目，项目结构如下：</p>
+<p><img src="https://gitee.com/Dqz00116/pic/raw/master/img/20210706215010.png"> </p>
+<p>在<code>mybatis-config.xml</code>中配置mappers：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mappers</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">mapper</span> <span class="attr">resource</span>=<span class="string">&quot;mappers/UserMapper.xml&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mappers</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>UserMapper.xml</code>中建立映射：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;getUser&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;User&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;java.lang.String&quot;</span>&gt;</span></span><br><span class="line">        SELECT * FROM DBTEST WHERE USER_NAME = #&#123;username&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>UserMapper接口中对应的方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> User <span class="title function_">getUser</span><span class="params">(String username)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>在最后的测试类设计了以下方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">getUser</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">SqlSession</span> <span class="variable">sqlSession</span> <span class="operator">=</span> sqlSessionFactory.openSession();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">UserMapper</span> <span class="variable">userMapper</span> <span class="operator">=</span> sqlSession.getMapper(UserMapper.class);</span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> userMapper.getUser(<span class="string">&quot;5284&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;username: &quot;</span> + user.getUsername() + <span class="string">&quot;|password: &quot;</span></span><br><span class="line">                + user.getPassword());</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        sqlSession.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>数据表对应SQL语句：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> DBTEST(</span><br><span class="line">	USER_NAME <span class="type">VARCHAR</span>(<span class="number">10</span>) <span class="keyword">PRIMARY</span> KEY;</span><br><span class="line">	PASS_WORD <span class="type">VARCHAR</span>(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>所有步骤执行到这里都是一片祥和，丝毫没有有错误要抛出的迹象。</p>
+<p>但IDE还是抛出了一个小小的错误：</p>
+<p><img src="https://gitee.com/Dqz00116/pic/raw/master/img/20210706220959.png"></p>
+<p>显而易见，user是个空对象，<code>getUser</code>方法没有如期获得数据库中的数据（查询返回<code>null</code>）。</p>
+<p>验证映射中的查询语句，能够返回正确的结果：</p>
+<p><img src="https://gitee.com/Dqz00116/pic/raw/master/img/20210706221539.png"> </p>
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><ul>
+<li>配置，语法，代码逻辑无误</li>
+<li>SQL语句正常查询可以返回正确结果</li>
+<li>SQL映射返回null</li>
+</ul>
+<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>查了一圈资料，造成这种情况是因为<code>getUser</code>返回的是一个<code>User Bean</code>，<code>User</code>的属性名与数据表的不一致。</p>
+<p>比如用户名这个属性，在<code>User</code>中对应<code>username</code>，而在数据表中则对应<code>USER_NAME</code>。</p>
+<p>至于更具体的原因是什么，目前还不太清楚，需要继续深入学习（逃）</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>给映射中的SQL语句的查询属性加上别名</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;getUser&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;User&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;java.lang.String&quot;</span>&gt;</span></span><br><span class="line">    SELECT</span><br><span class="line">    USER_NAME AS username,</span><br><span class="line">    PASS_WORD AS password</span><br><span class="line">    FROM DBTEST WHERE USER_NAME = #&#123;username&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>获得了预期的输出！泪目！</p>
+<p><img src="https://gitee.com/Dqz00116/pic/raw/master/img/20210706223320.png"></p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Mybatis</tag>
       </tags>
   </entry>
   <entry>
