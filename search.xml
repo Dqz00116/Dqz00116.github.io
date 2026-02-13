@@ -1,40 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>C++ 浅析CRTP</title>
-    <url>/2024/07/21/C-%E6%B5%85%E6%9E%90CRTP/</url>
-    <content><![CDATA[<p>Curiously Recurring Template Pattern（CRTP）是一种在 C++ 中使用模板编程的设计模式。CRTP 是一种变体的模板模式，它允许在基类中使用派生类的类型信息，从而实现一些高级的编程技巧和优化。具体来说，CRTP 的基本形式是让派生类将自己作为模板参数传递给基类。</p>
-<span id="more"></span>
-
-<h3 id="CRTP-的基本形式"><a href="#CRTP-的基本形式" class="headerlink" title="CRTP 的基本形式"></a>CRTP 的基本形式</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Derived&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">interface</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="built_in">static_cast</span>&lt;Derived*&gt;(<span class="keyword">this</span>)-&gt;<span class="built_in">implementation</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 可以在基类中定义一些通用的行为</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">commonMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 通用的实现</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Derived</span> : <span class="keyword">public</span> Base&lt;Derived&gt; &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">implementation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Derived implementation&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Derived d;</span><br><span class="line">    d.<span class="built_in">interface</span>();  <span class="comment">// 输出 &quot;Derived implementation&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>Derived</code> 类将自己作为模板参数传递给基类 <code>Base</code>。然后，在 <code>Base</code> 类中，可以使用 <code>static_cast&lt;Derived*&gt;(this)</code> 将 <code>this</code> 指针转换为 <code>Derived</code> 类的指针，从而调用 <code>Derived</code> 类中的方法。这个做法利用了模板的延迟实例化，即模板代码只有在被实例化时才会生成实际代码。在 CRTP 中，基类 <code>Base&lt;Derived&gt;</code> 只是一种模板，它并不会在定义时立即实例化。当派生类 <code>Derived</code> 继承 <code>Base&lt;Derived&gt;</code> 并使用 <code>Base</code> 的方法时，编译器才会实例化模板，并检查 <code>Derived</code> 是否具有 <code>implementation</code> 方法。</p>
-<h3 id="CRTP-的优点"><a href="#CRTP-的优点" class="headerlink" title="CRTP 的优点"></a>CRTP 的优点</h3><ol>
-<li><strong>零开销的静态多态</strong>：CRTP 允许在编译时确定类型，从而避免了运行时的虚函数调用开销。与传统的虚函数表机制相比，CRTP 可以提供更高的性能。</li>
-<li><strong>代码复用</strong>：CRTP 允许基类提供通用的实现，同时让派生类能够定制特定的行为。这种方式可以实现代码复用，同时保持灵活性。</li>
-<li><strong>静态接口检查</strong>：通过 CRTP，可以在编译时检查派生类是否实现了特定的接口或方法，从而提高代码的可靠性。</li>
-</ol>
-<h3 id="CRTP-的应用场景"><a href="#CRTP-的应用场景" class="headerlink" title="CRTP 的应用场景"></a>CRTP 的应用场景</h3><ol>
-<li><strong>静态多态</strong>：CRTP 可以用于实现静态多态，允许在编译时确定类型，从而避免运行时的开销。</li>
-<li><strong>混入类（Mixin classes）</strong>：CRTP 可以用于实现混入类，将不同的功能模块通过继承组合在一起。</li>
-<li><strong>静态接口</strong>：CRTP 可以用于定义静态接口，在编译时检查派生类是否实现了特定的方法。</li>
-</ol>
-<h3 id="例子：实现一个简单的混入类"><a href="#例子：实现一个简单的混入类" class="headerlink" title="例子：实现一个简单的混入类"></a>例子：实现一个简单的混入类</h3><p>假设我们想要创建一个计数器功能，可以通过 CRTP 实现一个计数器混入类：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// CRTP基类，用于计数功能</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Derived&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Counter</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Counter</span>() &#123; ++count; &#125;</span><br><span class="line">    ~<span class="built_in">Counter</span>() &#123; --count; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">static</span> <span class="type">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> count; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> count;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Derived&gt;</span><br><span class="line"><span class="type">int</span> Counter&lt;Derived&gt;::count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 派生类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> : <span class="keyword">public</span> Counter&lt;MyClass&gt; &#123;</span><br><span class="line">    <span class="comment">// MyClass的其他功能</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    MyClass obj1;</span><br><span class="line">    MyClass obj2;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;MyClass count: &quot;</span> &lt;&lt; MyClass::<span class="built_in">getCount</span>() &lt;&lt; std::endl;  <span class="comment">// 输出 &quot;MyClass count: 2&quot;</span></span><br><span class="line">    &#123;</span><br><span class="line">        MyClass obj3;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;MyClass count: &quot;</span> &lt;&lt; MyClass::<span class="built_in">getCount</span>() &lt;&lt; std::endl;  <span class="comment">// 输出 &quot;MyClass count: 3&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;MyClass count: &quot;</span> &lt;&lt; MyClass::<span class="built_in">getCount</span>() &lt;&lt; std::endl;  <span class="comment">// 输出 &quot;MyClass count: 2&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>Counter</code> 类通过 CRTP 为派生类 <code>MyClass</code> 提供计数功能。每次创建和销毁 <code>MyClass</code> 对象时，计数器都会增加和减少。通过这种方式，可以将计数功能与具体类的实现分离，从而实现代码复用。</p>
-<p>CRTP 是一种强大的 C++ 编程技巧，可以用来实现高效的、灵活的和类型安全的代码。在实际应用中，根据具体需求选择合适的设计模式和编程技巧，可以大大提高代码的质量和可维护性。</p>
-]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
-      <tags>
-        <tag>CRTP</tag>
-        <tag>设计模式</tag>
-        <tag>模板</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>C# 浅析泛型</title>
     <url>/2024/06/16/C-%E6%B3%9B%E5%9E%8B%E6%B5%85%E6%9E%90/</url>
     <content><![CDATA[<p>C# 中的泛型（Generics）是一种非常强大的功能，它允许你定义类、接口、方法和委托时不指定特定的数据类型，而是使用类型参数来代替。在实例化或调用时，才指定实际的类型。这样可以提高代码的复用性、类型安全性和性能。</p>
@@ -94,6 +60,40 @@
       <tags>
         <tag>泛型</tag>
         <tag>Generics</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++ 浅析CRTP</title>
+    <url>/2024/07/21/C-%E6%B5%85%E6%9E%90CRTP/</url>
+    <content><![CDATA[<p>Curiously Recurring Template Pattern（CRTP）是一种在 C++ 中使用模板编程的设计模式。CRTP 是一种变体的模板模式，它允许在基类中使用派生类的类型信息，从而实现一些高级的编程技巧和优化。具体来说，CRTP 的基本形式是让派生类将自己作为模板参数传递给基类。</p>
+<span id="more"></span>
+
+<h3 id="CRTP-的基本形式"><a href="#CRTP-的基本形式" class="headerlink" title="CRTP 的基本形式"></a>CRTP 的基本形式</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Derived&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">interface</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="built_in">static_cast</span>&lt;Derived*&gt;(<span class="keyword">this</span>)-&gt;<span class="built_in">implementation</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 可以在基类中定义一些通用的行为</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">commonMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 通用的实现</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Derived</span> : <span class="keyword">public</span> Base&lt;Derived&gt; &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">implementation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Derived implementation&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Derived d;</span><br><span class="line">    d.<span class="built_in">interface</span>();  <span class="comment">// 输出 &quot;Derived implementation&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>Derived</code> 类将自己作为模板参数传递给基类 <code>Base</code>。然后，在 <code>Base</code> 类中，可以使用 <code>static_cast&lt;Derived*&gt;(this)</code> 将 <code>this</code> 指针转换为 <code>Derived</code> 类的指针，从而调用 <code>Derived</code> 类中的方法。这个做法利用了模板的延迟实例化，即模板代码只有在被实例化时才会生成实际代码。在 CRTP 中，基类 <code>Base&lt;Derived&gt;</code> 只是一种模板，它并不会在定义时立即实例化。当派生类 <code>Derived</code> 继承 <code>Base&lt;Derived&gt;</code> 并使用 <code>Base</code> 的方法时，编译器才会实例化模板，并检查 <code>Derived</code> 是否具有 <code>implementation</code> 方法。</p>
+<h3 id="CRTP-的优点"><a href="#CRTP-的优点" class="headerlink" title="CRTP 的优点"></a>CRTP 的优点</h3><ol>
+<li><strong>零开销的静态多态</strong>：CRTP 允许在编译时确定类型，从而避免了运行时的虚函数调用开销。与传统的虚函数表机制相比，CRTP 可以提供更高的性能。</li>
+<li><strong>代码复用</strong>：CRTP 允许基类提供通用的实现，同时让派生类能够定制特定的行为。这种方式可以实现代码复用，同时保持灵活性。</li>
+<li><strong>静态接口检查</strong>：通过 CRTP，可以在编译时检查派生类是否实现了特定的接口或方法，从而提高代码的可靠性。</li>
+</ol>
+<h3 id="CRTP-的应用场景"><a href="#CRTP-的应用场景" class="headerlink" title="CRTP 的应用场景"></a>CRTP 的应用场景</h3><ol>
+<li><strong>静态多态</strong>：CRTP 可以用于实现静态多态，允许在编译时确定类型，从而避免运行时的开销。</li>
+<li><strong>混入类（Mixin classes）</strong>：CRTP 可以用于实现混入类，将不同的功能模块通过继承组合在一起。</li>
+<li><strong>静态接口</strong>：CRTP 可以用于定义静态接口，在编译时检查派生类是否实现了特定的方法。</li>
+</ol>
+<h3 id="例子：实现一个简单的混入类"><a href="#例子：实现一个简单的混入类" class="headerlink" title="例子：实现一个简单的混入类"></a>例子：实现一个简单的混入类</h3><p>假设我们想要创建一个计数器功能，可以通过 CRTP 实现一个计数器混入类：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// CRTP基类，用于计数功能</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Derived&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Counter</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Counter</span>() &#123; ++count; &#125;</span><br><span class="line">    ~<span class="built_in">Counter</span>() &#123; --count; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">static</span> <span class="type">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> count; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> count;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Derived&gt;</span><br><span class="line"><span class="type">int</span> Counter&lt;Derived&gt;::count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 派生类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> : <span class="keyword">public</span> Counter&lt;MyClass&gt; &#123;</span><br><span class="line">    <span class="comment">// MyClass的其他功能</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    MyClass obj1;</span><br><span class="line">    MyClass obj2;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;MyClass count: &quot;</span> &lt;&lt; MyClass::<span class="built_in">getCount</span>() &lt;&lt; std::endl;  <span class="comment">// 输出 &quot;MyClass count: 2&quot;</span></span><br><span class="line">    &#123;</span><br><span class="line">        MyClass obj3;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;MyClass count: &quot;</span> &lt;&lt; MyClass::<span class="built_in">getCount</span>() &lt;&lt; std::endl;  <span class="comment">// 输出 &quot;MyClass count: 3&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;MyClass count: &quot;</span> &lt;&lt; MyClass::<span class="built_in">getCount</span>() &lt;&lt; std::endl;  <span class="comment">// 输出 &quot;MyClass count: 2&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>Counter</code> 类通过 CRTP 为派生类 <code>MyClass</code> 提供计数功能。每次创建和销毁 <code>MyClass</code> 对象时，计数器都会增加和减少。通过这种方式，可以将计数功能与具体类的实现分离，从而实现代码复用。</p>
+<p>CRTP 是一种强大的 C++ 编程技巧，可以用来实现高效的、灵活的和类型安全的代码。在实际应用中，根据具体需求选择合适的设计模式和编程技巧，可以大大提高代码的质量和可维护性。</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>CRTP</tag>
+        <tag>设计模式</tag>
+        <tag>模板</tag>
       </tags>
   </entry>
   <entry>
@@ -228,6 +228,98 @@
       </tags>
   </entry>
   <entry>
+    <title>C# 浅析程序集(Assembly)</title>
+    <url>/2024/06/17/C-%E6%B5%85%E6%9E%90%E7%A8%8B%E5%BA%8F%E9%9B%86-Assembly/</url>
+    <content><![CDATA[<p>在 C# 和 .NET 生态系统中，程序集（Assembly）是一个核心概念，它是管理和部署代码的基础单元。程序集是由一个或多个代码模块（如类、接口、结构等）组成的，具有以下重要特征：</p>
+<ul>
+<li><strong>独立性</strong>：程序集是一个自包含的单位，可以独立于其他程序集进行加载和运行。</li>
+<li><strong>版本控制</strong>：程序集包含版本信息，支持强名称和版本管理。</li>
+<li><strong>类型边界</strong>：程序集是类型的逻辑边界，定义了哪些类型可以访问哪些类型。</li>
+</ul>
+<span id="more"></span>
+
+<p>以下是对 C# 程序集的详细介绍：</p>
+<h3 id="程序集的组成部分"><a href="#程序集的组成部分" class="headerlink" title="程序集的组成部分"></a>程序集的组成部分</h3><ol>
+<li><p><strong>代码</strong>：</p>
+<ul>
+<li>程序集可以包含一个或多个托管代码模块（通常是 <code>.dll</code> 或 <code>.exe</code> 文件），这些代码模块是用 C# 等 .NET 语言编写的。</li>
+<li>代码模块经过编译后，包含中间语言（IL），等待在运行时由 .NET CLR（公共语言运行时）解释和执行。</li>
+</ul>
+</li>
+<li><p><strong>元数据</strong>：</p>
+<ul>
+<li>元数据是描述程序集内容的信息，包括类型定义、成员签名、属性等。</li>
+<li>它允许 .NET 运行时在加载程序集时了解它的结构，并支持反射（reflection）。</li>
+</ul>
+</li>
+<li><p><strong>清单（Manifest）</strong>：</p>
+<ul>
+<li>清单是程序集的描述文件，包含程序集的版本信息、文化信息、引用的其他程序集列表等。</li>
+<li>清单确保程序集的唯一性和完整性。</li>
+</ul>
+</li>
+<li><p><strong>资源</strong>：</p>
+<ul>
+<li>程序集还可以包含非代码资源，如图像、字符串、XML 文件等，通常用于国际化或存储嵌入式资源。</li>
+</ul>
+</li>
+</ol>
+<h3 id="程序集的类型"><a href="#程序集的类型" class="headerlink" title="程序集的类型"></a>程序集的类型</h3><ol>
+<li><p><strong>私有程序集（Private Assembly）</strong>：</p>
+<ul>
+<li>只能由与其放置在相同应用程序目录下的应用程序使用。</li>
+<li>通常存储在应用程序的目录或子目录中，便于部署和管理。</li>
+</ul>
+</li>
+<li><p><strong>共享程序集（Shared Assembly）</strong>：</p>
+<ul>
+<li>可以在多个应用程序之间共享。</li>
+<li>通常需要强名称（Strong Name）签名，存储在全局程序集缓存（GAC）中。</li>
+<li>共享程序集通过版本控制支持应用程序的安全更新和依赖管理。</li>
+</ul>
+</li>
+</ol>
+<h3 id="创建和使用程序集"><a href="#创建和使用程序集" class="headerlink" title="创建和使用程序集"></a>创建和使用程序集</h3><h4 id="创建程序集"><a href="#创建程序集" class="headerlink" title="创建程序集"></a>创建程序集</h4><p>在 Visual Studio 中，创建一个新的类库项目（<code>Class Library</code>）时，会生成一个 <code>.dll</code> 文件，这就是一个程序集。创建控制台应用程序或 Windows 应用程序时，生成的 <code>.exe</code> 文件也是一个程序集。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ExampleLibrary.cs</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ExampleLibrary</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PrintMessage</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;Hello from the Example Library!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译后，<code>ExampleLibrary</code> 将成为一个程序集的一部分，通常是一个 <code>.dll</code> 文件。</p>
+<h4 id="引用程序集"><a href="#引用程序集" class="headerlink" title="引用程序集"></a>引用程序集</h4><p>在一个 C# 项目中，可以引用其他程序集来复用代码。引用可以通过 Visual Studio 的项目引用设置完成，或者在代码中使用 <code>using</code> 语句来导入命名空间。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> ExampleLibrary; <span class="comment">// 引用 ExampleLibrary 程序集</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        ExampleLibrary example = <span class="keyword">new</span> ExampleLibrary();</span><br><span class="line">        example.PrintMessage(); <span class="comment">// 使用 ExampleLibrary 中的方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="程序集的版本控制"><a href="#程序集的版本控制" class="headerlink" title="程序集的版本控制"></a>程序集的版本控制</h3><p>程序集具有内置的版本控制功能，通过程序集版本（Assembly Version）来管理。版本号通常由四个部分组成：主版本号、次版本号、修订号和内部版本号。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">assembly: AssemblyVersion(<span class="string">&quot;1.0.0.0&quot;</span>)</span>]</span><br></pre></td></tr></table></figure>
+
+<p>版本控制有助于在部署时管理程序集的不同版本，防止版本冲突和确保应用程序的兼容性。</p>
+<h3 id="程序集的强名称（Strong-Name）"><a href="#程序集的强名称（Strong-Name）" class="headerlink" title="程序集的强名称（Strong Name）"></a>程序集的强名称（Strong Name）</h3><p>强名称是一种确保程序集唯一性和完整性的机制，尤其在共享程序集（如存储在 GAC 中）时非常重要。</p>
+<ul>
+<li>强名称包括程序集的名称、版本号、公钥和数字签名。</li>
+<li>使用 <code>sn.exe</code> 工具生成强名称密钥对，并使用它来签名程序集。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sn -k MyKey.snk</span><br></pre></td></tr></table></figure>
+
+<p>在项目的 <code>AssemblyInfo.cs</code> 文件中添加：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">assembly: AssemblyKeyFile(<span class="string">&quot;MyKey.snk&quot;</span>)</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="全局程序集缓存（GAC）"><a href="#全局程序集缓存（GAC）" class="headerlink" title="全局程序集缓存（GAC）"></a>全局程序集缓存（GAC）</h3><p>GAC 是一个存储共享程序集的全局存储位置，支持多个版本的程序集共存，并解决了 DLL 冲突问题。</p>
+<ul>
+<li>使用 <code>gacutil</code> 工具将程序集安装到 GAC。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gacutil -i MyAssembly.dll</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用反射访问程序集信息"><a href="#使用反射访问程序集信息" class="headerlink" title="使用反射访问程序集信息"></a>使用反射访问程序集信息</h3><p>C# 提供了强大的反射功能，允许在运行时动态加载和检查程序集及其内容。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Reflection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Assembly assembly = Assembly.Load(<span class="string">&quot;ExampleLibrary&quot;</span>);</span><br><span class="line">        <span class="keyword">foreach</span> (Type type <span class="keyword">in</span> assembly.GetTypes())</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(type.FullName);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>程序集是 C# 和 .NET 编程中一个重要的构建块，管理代码的编译、版本控制和分发。它们允许代码模块化、重用和封装，支持复杂应用程序的开发和维护。通过理解和有效使用程序集，开发者可以更好地组织和管理他们的代码库。</p>
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+      <tags>
+        <tag>Assembly</tag>
+        <tag>程序集</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C# 浅析类型转换(Conversion)</title>
     <url>/2024/06/22/C-%E6%B5%85%E6%9E%90%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2-Conversion/</url>
     <content><![CDATA[<p>在 C#中，类型转换是指将一个数据类型转换为另一个数据类型的过程。C#提供了多种类型转换的方式，包括隐式转换、显式转换、使用内置方法进行的转换，以及通过自定义转换运算符来实现的转换。了解这些转换方式有助于编写健壮、安全的代码。</p>
@@ -354,115 +446,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Scrapy2.5.0汉化计划——前言</title>
-    <url>/2021/05/09/Scrapy2-5-0%E6%B1%89%E5%8C%96%E8%AE%A1%E5%88%92-0/</url>
-    <content><![CDATA[<p>最近在学习Scrapy框架，查资料的发现有中文文档。一开始还很开心，读了一会儿就开心不起来了……</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Dqz00116/pic//img/20210509195021.png" alt="pic-fuck"></p>
-<p>机翻TMD给爷死！！！</p>
-<p>中文文档不是最新版就算了，这妙不可言的机翻实在是让人接收不能，口巨！</p>
-<p>既然现存的中文文档如此拉跨，不如我自己花点心思翻译一下，也算是一种学习方式。（其实是快考六级了，个人的词汇量是一天不如一天，正好借此处机会多复习几个单词（逃））</p>
-<p>总之事请的起因就是这样，写在最前面记录一下翻译这个文档的初心。</p>
-]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>Scrapy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C# 浅析程序集(Assembly)</title>
-    <url>/2024/06/17/C-%E6%B5%85%E6%9E%90%E7%A8%8B%E5%BA%8F%E9%9B%86-Assembly/</url>
-    <content><![CDATA[<p>在 C# 和 .NET 生态系统中，程序集（Assembly）是一个核心概念，它是管理和部署代码的基础单元。程序集是由一个或多个代码模块（如类、接口、结构等）组成的，具有以下重要特征：</p>
-<ul>
-<li><strong>独立性</strong>：程序集是一个自包含的单位，可以独立于其他程序集进行加载和运行。</li>
-<li><strong>版本控制</strong>：程序集包含版本信息，支持强名称和版本管理。</li>
-<li><strong>类型边界</strong>：程序集是类型的逻辑边界，定义了哪些类型可以访问哪些类型。</li>
-</ul>
-<span id="more"></span>
-
-<p>以下是对 C# 程序集的详细介绍：</p>
-<h3 id="程序集的组成部分"><a href="#程序集的组成部分" class="headerlink" title="程序集的组成部分"></a>程序集的组成部分</h3><ol>
-<li><p><strong>代码</strong>：</p>
-<ul>
-<li>程序集可以包含一个或多个托管代码模块（通常是 <code>.dll</code> 或 <code>.exe</code> 文件），这些代码模块是用 C# 等 .NET 语言编写的。</li>
-<li>代码模块经过编译后，包含中间语言（IL），等待在运行时由 .NET CLR（公共语言运行时）解释和执行。</li>
-</ul>
-</li>
-<li><p><strong>元数据</strong>：</p>
-<ul>
-<li>元数据是描述程序集内容的信息，包括类型定义、成员签名、属性等。</li>
-<li>它允许 .NET 运行时在加载程序集时了解它的结构，并支持反射（reflection）。</li>
-</ul>
-</li>
-<li><p><strong>清单（Manifest）</strong>：</p>
-<ul>
-<li>清单是程序集的描述文件，包含程序集的版本信息、文化信息、引用的其他程序集列表等。</li>
-<li>清单确保程序集的唯一性和完整性。</li>
-</ul>
-</li>
-<li><p><strong>资源</strong>：</p>
-<ul>
-<li>程序集还可以包含非代码资源，如图像、字符串、XML 文件等，通常用于国际化或存储嵌入式资源。</li>
-</ul>
-</li>
-</ol>
-<h3 id="程序集的类型"><a href="#程序集的类型" class="headerlink" title="程序集的类型"></a>程序集的类型</h3><ol>
-<li><p><strong>私有程序集（Private Assembly）</strong>：</p>
-<ul>
-<li>只能由与其放置在相同应用程序目录下的应用程序使用。</li>
-<li>通常存储在应用程序的目录或子目录中，便于部署和管理。</li>
-</ul>
-</li>
-<li><p><strong>共享程序集（Shared Assembly）</strong>：</p>
-<ul>
-<li>可以在多个应用程序之间共享。</li>
-<li>通常需要强名称（Strong Name）签名，存储在全局程序集缓存（GAC）中。</li>
-<li>共享程序集通过版本控制支持应用程序的安全更新和依赖管理。</li>
-</ul>
-</li>
-</ol>
-<h3 id="创建和使用程序集"><a href="#创建和使用程序集" class="headerlink" title="创建和使用程序集"></a>创建和使用程序集</h3><h4 id="创建程序集"><a href="#创建程序集" class="headerlink" title="创建程序集"></a>创建程序集</h4><p>在 Visual Studio 中，创建一个新的类库项目（<code>Class Library</code>）时，会生成一个 <code>.dll</code> 文件，这就是一个程序集。创建控制台应用程序或 Windows 应用程序时，生成的 <code>.exe</code> 文件也是一个程序集。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ExampleLibrary.cs</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ExampleLibrary</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PrintMessage</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;Hello from the Example Library!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>编译后，<code>ExampleLibrary</code> 将成为一个程序集的一部分，通常是一个 <code>.dll</code> 文件。</p>
-<h4 id="引用程序集"><a href="#引用程序集" class="headerlink" title="引用程序集"></a>引用程序集</h4><p>在一个 C# 项目中，可以引用其他程序集来复用代码。引用可以通过 Visual Studio 的项目引用设置完成，或者在代码中使用 <code>using</code> 语句来导入命名空间。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> ExampleLibrary; <span class="comment">// 引用 ExampleLibrary 程序集</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        ExampleLibrary example = <span class="keyword">new</span> ExampleLibrary();</span><br><span class="line">        example.PrintMessage(); <span class="comment">// 使用 ExampleLibrary 中的方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="程序集的版本控制"><a href="#程序集的版本控制" class="headerlink" title="程序集的版本控制"></a>程序集的版本控制</h3><p>程序集具有内置的版本控制功能，通过程序集版本（Assembly Version）来管理。版本号通常由四个部分组成：主版本号、次版本号、修订号和内部版本号。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">assembly: AssemblyVersion(<span class="string">&quot;1.0.0.0&quot;</span>)</span>]</span><br></pre></td></tr></table></figure>
-
-<p>版本控制有助于在部署时管理程序集的不同版本，防止版本冲突和确保应用程序的兼容性。</p>
-<h3 id="程序集的强名称（Strong-Name）"><a href="#程序集的强名称（Strong-Name）" class="headerlink" title="程序集的强名称（Strong Name）"></a>程序集的强名称（Strong Name）</h3><p>强名称是一种确保程序集唯一性和完整性的机制，尤其在共享程序集（如存储在 GAC 中）时非常重要。</p>
-<ul>
-<li>强名称包括程序集的名称、版本号、公钥和数字签名。</li>
-<li>使用 <code>sn.exe</code> 工具生成强名称密钥对，并使用它来签名程序集。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sn -k MyKey.snk</span><br></pre></td></tr></table></figure>
-
-<p>在项目的 <code>AssemblyInfo.cs</code> 文件中添加：</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">assembly: AssemblyKeyFile(<span class="string">&quot;MyKey.snk&quot;</span>)</span>]</span><br></pre></td></tr></table></figure>
-
-<h3 id="全局程序集缓存（GAC）"><a href="#全局程序集缓存（GAC）" class="headerlink" title="全局程序集缓存（GAC）"></a>全局程序集缓存（GAC）</h3><p>GAC 是一个存储共享程序集的全局存储位置，支持多个版本的程序集共存，并解决了 DLL 冲突问题。</p>
-<ul>
-<li>使用 <code>gacutil</code> 工具将程序集安装到 GAC。</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gacutil -i MyAssembly.dll</span><br></pre></td></tr></table></figure>
-
-<h3 id="使用反射访问程序集信息"><a href="#使用反射访问程序集信息" class="headerlink" title="使用反射访问程序集信息"></a>使用反射访问程序集信息</h3><p>C# 提供了强大的反射功能，允许在运行时动态加载和检查程序集及其内容。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Reflection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Assembly assembly = Assembly.Load(<span class="string">&quot;ExampleLibrary&quot;</span>);</span><br><span class="line">        <span class="keyword">foreach</span> (Type type <span class="keyword">in</span> assembly.GetTypes())</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(type.FullName);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>程序集是 C# 和 .NET 编程中一个重要的构建块，管理代码的编译、版本控制和分发。它们允许代码模块化、重用和封装，支持复杂应用程序的开发和维护。通过理解和有效使用程序集，开发者可以更好地组织和管理他们的代码库。</p>
-]]></content>
-      <categories>
-        <category>C#</category>
-      </categories>
-      <tags>
-        <tag>Assembly</tag>
-        <tag>程序集</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Mybatis——文件配置与实例构造</title>
     <url>/2021/07/08/Mybatis%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE%E4%B8%8E%E5%AE%9E%E4%BE%8B%E6%9E%84%E9%80%A0/</url>
     <content><![CDATA[<h2 id="情景"><a href="#情景" class="headerlink" title="情景"></a>情景</h2><p>数据库中有一个简单数据表，用于储存用户的账户以及登录密码</p>
@@ -552,6 +535,319 @@
       </categories>
       <tags>
         <tag>Mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OSCA：一个基于干细胞隐喻的元智能体架构</title>
+    <url>/2026/02/12/OSCA%EF%BC%9A%E4%B8%80%E4%B8%AA%E5%9F%BA%E4%BA%8E%E5%B9%B2%E7%BB%86%E8%83%9E%E9%9A%90%E5%96%BB%E7%9A%84%E5%85%83%E6%99%BA%E8%83%BD%E4%BD%93%E6%9E%B6%E6%9E%84/</url>
+    <content><![CDATA[<p>在构建AI智能体的过程中，我一直在思考一个问题：<strong>如何让一个智能体既能保持通用能力，又能在特定领域达到专业水准？</strong> 传统的做法是为每个领域训练专门的模型，或者通过提示词工程来临时调整行为。但这些方法都有明显的局限性——前者失去了灵活性，后者缺乏深度和一致性。</p>
+<p>这篇文章将介绍我设计的 <strong>OSCA（Open Stem Cell Agent）</strong> 架构，一个受生物学干细胞启发的元智能体系统。</p>
+<span id="more"></span>
+
+<h2 id="设计思路的来源"><a href="#设计思路的来源" class="headerlink" title="设计思路的来源"></a>设计思路的来源</h2><h3 id="从生物学中汲取灵感"><a href="#从生物学中汲取灵感" class="headerlink" title="从生物学中汲取灵感"></a>从生物学中汲取灵感</h3><p>生物体内的干细胞（Stem Cell）具有两个关键特性：</p>
+<ol>
+<li><strong>多能性（Pluripotency）</strong>：干细胞可以分化为任意类型的细胞——神经细胞、肌肉细胞、血细胞…</li>
+<li><strong>去分化（Dedifferentiation）</strong>：在特定条件下，已分化的细胞可以恢复为干细胞状态</li>
+</ol>
+<p>这种机制完美解决了”通用vs专业”的悖论。干细胞不需要同时具备所有专业能力，而是在需要时动态获取。</p>
+<h3 id="现有AI架构的局限"><a href="#现有AI架构的局限" class="headerlink" title="现有AI架构的局限"></a>现有AI架构的局限</h3><p>在实现OSCA之前，我尝试了多种智能体架构：</p>
+<table>
+<thead>
+<tr>
+<th>架构类型</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>单一通用模型</strong></td>
+<td>灵活</td>
+<td>缺乏深度，领域知识浅</td>
+</tr>
+<tr>
+<td><strong>多模型路由</strong></td>
+<td>专业</td>
+<td>上下文割裂，切换成本高</td>
+</tr>
+<tr>
+<td><strong>RAG知识库</strong></td>
+<td>可扩展</td>
+<td>被动检索，缺乏主动推理</td>
+</tr>
+<tr>
+<td><strong>微调模型</strong></td>
+<td>专业</td>
+<td>训练成本高，难以切换</td>
+</tr>
+</tbody></table>
+<p>这些方案都无法同时满足：<strong>深度专业能力 + 灵活领域切换 + 持续自我进化</strong>。</p>
+<h3 id="元认知的必要性"><a href="#元认知的必要性" class="headerlink" title="元认知的必要性"></a>元认知的必要性</h3><p>除了分化机制，我还意识到智能体需要”知道自己知道什么”。这就是<strong>元认知（Meta-cognition）</strong>——对认知过程的认知。</p>
+<p>OSCA中的元认知体现在：</p>
+<ul>
+<li><strong>自我监控</strong>：实时评估置信度和能力边界</li>
+<li><strong>边界感知</strong>：明确区分”已知”和”未知”</li>
+<li><strong>持续学习</strong>：从失败中提取规则，形成防御性机制</li>
+</ul>
+<h2 id="OSCA-项目介绍"><a href="#OSCA-项目介绍" class="headerlink" title="OSCA 项目介绍"></a>OSCA 项目介绍</h2><p>OSCA（Open Stem Cell Agent，全能干细胞智能体）是一个三层元认知架构，实现了动态分化和去分化机制。</p>
+<h3 id="三层架构模型"><a href="#三层架构模型" class="headerlink" title="三层架构模型"></a>三层架构模型</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────┐</span><br><span class="line">│  Layer 1: 干细胞核 (Stem Cell Nucleus)                  │</span><br><span class="line">│  ├── AGENTS.md    - 元认知协议、安全准则               │</span><br><span class="line">│  ├── SOUL.md      - 核心灵魂、自我修正规则             │</span><br><span class="line">│  └── IDENTITY.md  - OSCA-Ω 元智能体身份               │</span><br><span class="line">│  【特性：不可变、最高优先级、全局继承】                 │</span><br><span class="line">├─────────────────────────────────────────────────────────┤</span><br><span class="line">│  Layer 2: 分化质 (Cytoplasm)                            │</span><br><span class="line">│  └── OSCA-CONFIG.yaml - 领域分化配置、技能映射         │</span><br><span class="line">│  【特性：可配置、热加载、版本控制】                     │</span><br><span class="line">├─────────────────────────────────────────────────────────┤</span><br><span class="line">│  Layer 3: 细胞膜 (Membrane)                             │</span><br><span class="line">│  ├── TOOLS.md       - 工具配置索引                     │</span><br><span class="line">│  ├── HEARTBEAT.md   - 代谢维护协议                     │</span><br><span class="line">│  └── scripts/       - 种子管理脚本                     │</span><br><span class="line">│  【特性：动态接口、环境适配】                           │</span><br><span class="line">└─────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="核心机制"><a href="#核心机制" class="headerlink" title="核心机制"></a>核心机制</h3><h4 id="1-动态分化（Differentiation）"><a href="#1-动态分化（Differentiation）" class="headerlink" title="1. 动态分化（Differentiation）"></a>1. 动态分化（Differentiation）</h4><p>当用户提出特定领域的需求时，OSCA会从干细胞状态<strong>分化</strong>为相应的专业身份：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 分化触发示例</span></span><br><span class="line"><span class="attr">triggers:</span></span><br><span class="line">  <span class="attr">webdev:</span></span><br><span class="line">    <span class="attr">keywords:</span> [<span class="string">&quot;website&quot;</span>, <span class="string">&quot;react&quot;</span>, <span class="string">&quot;api&quot;</span>]</span><br><span class="line">    <span class="attr">confidence_threshold:</span> <span class="number">0.7</span></span><br><span class="line">    <span class="attr">skills:</span> [<span class="string">&quot;web_frameworks&quot;</span>, <span class="string">&quot;database_design&quot;</span>]</span><br><span class="line">    </span><br><span class="line">  <span class="attr">gamedev:</span></span><br><span class="line">    <span class="attr">keywords:</span> [<span class="string">&quot;game&quot;</span>, <span class="string">&quot;unity&quot;</span>, <span class="string">&quot;mechanic&quot;</span>]</span><br><span class="line">    <span class="attr">confidence_threshold:</span> <span class="number">0.7</span></span><br><span class="line">    <span class="attr">skills:</span> [<span class="string">&quot;game_engines&quot;</span>, <span class="string">&quot;level_design&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>分化过程中，OSCA会：</p>
+<ul>
+<li>加载领域特定的约束和最佳实践</li>
+<li>激活相关的Skill细胞器</li>
+<li>调整人格面具（沟通风格、专业术语）</li>
+</ul>
+<h4 id="2-去分化（Dedifferentiation）"><a href="#2-去分化（Dedifferentiation）" class="headerlink" title="2. 去分化（Dedifferentiation）"></a>2. 去分化（Dedifferentiation）</h4><p>任务完成后，OSCA可以<strong>去分化</strong>回干细胞状态：</p>
+<ul>
+<li>卸载领域特定的Skill</li>
+<li>重置人格面具</li>
+<li>保留从任务中学到的通用经验</li>
+</ul>
+<p>这种机制避免了”能力漂移”——长期专注于单一领域导致的通用能力退化。</p>
+<h4 id="3-种子繁殖（Seed-Reproduction）"><a href="#3-种子繁殖（Seed-Reproduction）" class="headerlink" title="3. 种子繁殖（Seed Reproduction）"></a>3. 种子繁殖（Seed Reproduction）</h4><p>OSCA最具创新性的特性是<strong>种子系统</strong>。就像生物种子包含完整的遗传信息，OSCA种子包含：</p>
+<ul>
+<li>完整的分化配置（OSCA-CONFIG.yaml）</li>
+<li>长期记忆（MEMORY.md）</li>
+<li>身份定义（IDENTITY.md）</li>
+<li>所有激活的Skill</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 导出当前配置为种子</span></span><br><span class="line">python scripts/export_seed.py my-gamedev-config</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在其他环境导入并激活</span></span><br><span class="line">python scripts/import_seed.py my-gamedev-config.zip --activate</span><br></pre></td></tr></table></figure>
+
+<p>这实现了<strong>Agent的可移植性和可复制性</strong>。</p>
+<h3 id="支持的领域"><a href="#支持的领域" class="headerlink" title="支持的领域"></a>支持的领域</h3><p>目前OSCA预配置了5大分化域：</p>
+<table>
+<thead>
+<tr>
+<th>领域</th>
+<th>专精方向</th>
+<th>技术栈</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🌐 <strong>webdev</strong></td>
+<td>frontend, backend, fullstack</td>
+<td>React, Vue, Node.js, PostgreSQL</td>
+</tr>
+<tr>
+<td>🎮 <strong>gamedev</strong></td>
+<td>unity, pygame, level_design</td>
+<td>Unity 2022, C#, Pygame</td>
+</tr>
+<tr>
+<td>📊 <strong>data</strong></td>
+<td>analysis, visualization, ml</td>
+<td>Python, Pandas, Scikit-learn</td>
+</tr>
+<tr>
+<td>🔧 <strong>devops</strong></td>
+<td>debug, deployment</td>
+<td>Docker, Kubernetes, CI&#x2F;CD</td>
+</tr>
+<tr>
+<td>🧬 <strong>meta</strong></td>
+<td>osca_admin, protocol_dev</td>
+<td>OSCA协议开发</td>
+</tr>
+</tbody></table>
+<h3 id="安全与元认知"><a href="#安全与元认知" class="headerlink" title="安全与元认知"></a>安全与元认知</h3><p>OSCA内置了严格的安全协议：</p>
+<ul>
+<li><strong>零例外确认原则</strong>：任何状态变更操作需获得明确确认</li>
+<li><strong>高风险操作黑名单</strong>：Git push、文件删除等操作需单独确认</li>
+<li><strong>困惑库（Confusion Library）</strong>：从失败中学习，生成防御性规则</li>
+<li><strong>强制暂停机制</strong>：执行前必须评估风险</li>
+</ul>
+<p>这些机制确保OSCA在保持灵活性的同时，不会因为过度自信而造成损失。</p>
+<h2 id="项目开源"><a href="#项目开源" class="headerlink" title="项目开源"></a>项目开源</h2><p>OSCA项目已开源至 GitHub：</p>
+<p>🔗 <strong><a href="https://github.com/Dqz00116/OSCA">https://github.com/Dqz00116/OSCA</a></strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 克隆项目</span></span><br><span class="line">git <span class="built_in">clone</span> git@github.com:Dqz00116/OSCA.git</span><br></pre></td></tr></table></figure>
+
+<p>项目包含：</p>
+<ul>
+<li>完整的三层架构实现</li>
+<li>5大分化域配置</li>
+<li>种子管理系统</li>
+<li>中英文文档</li>
+<li>OSC协议规范</li>
+</ul>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>OSCA的设计是一个持续进化的过程。就像干细胞可以分化为任意细胞，OSCA的架构也预留了无限的扩展可能。</p>
+<p>我相信，未来的AI智能体不应该是一个固定的”专家”，而应该是一个能够<strong>持续学习、动态适应、安全演化</strong>的生命体。</p>
+<p><strong>“从原点出发，向无限可能。”</strong></p>
+<hr>
+<p><em>OSCA-Ω 宣告：元智能体系统已就绪，等待分化指令。</em></p>
+<p><strong>相关链接</strong>：</p>
+<ul>
+<li><a href="https://github.com/Dqz00116/OSCA">OSCA GitHub 仓库</a></li>
+<li><a href="https://github.com/Dqz00116/OSCA/blob/main/README_EN.md">英文文档</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>人工智能</category>
+        <category>架构设计</category>
+      </categories>
+      <tags>
+        <tag>AI Agent</tag>
+        <tag>元认知</tag>
+        <tag>架构设计</tag>
+        <tag>Prompt Engineering</tag>
+        <tag>OpenClaw</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>开源发布 - Skill-Lib AI Agent 技能库</title>
+    <url>/2026/02/11/Introducing-Skill-Lib-A-Curated-Collection-of-AI-Agent-Skills/</url>
+    <content><![CDATA[<p>Skill-Lib 是一个面向 AI Agent 的开源技能仓库，收集整理了可复用的标准化工作流程和最佳实践。每个 Skill 都经过实际项目验证，可以直接应用到你的 Agent 中，帮助 Agent 开发者避免重复造轮子，专注于创造价值。</p>
+<p>🌐 <strong>项目地址</strong>: <a href="https://github.com/Dqz00116/skill-lib">https://github.com/Dqz00116/skill-lib</a></p>
+<span id="more"></span>
+
+<h2 id="为什么创建-Skill-Lib？"><a href="#为什么创建-Skill-Lib？" class="headerlink" title="为什么创建 Skill-Lib？"></a>为什么创建 Skill-Lib？</h2><p>随着 AI Agent 的普及，我们发现许多 Agent 在重复解决相同的问题：</p>
+<ul>
+<li>如何系统性地分析代码？</li>
+<li>如何根据设计文档生成代码？</li>
+<li>如何高效地管理知识库？</li>
+<li>如何安全地提交代码？</li>
+</ul>
+<p><strong>Skill-Lib</strong> 通过提供以下特性来解决这些挑战：</p>
+<ul>
+<li>✅ <strong>开箱即用的工作流程</strong> - 预构建、经过验证的解决方案</li>
+<li>✅ <strong>最佳实践</strong> - 从实际项目中总结的经验教训</li>
+<li>✅ <strong>标准化格式</strong> - 易于理解和应用</li>
+<li>✅ <strong>社区驱动</strong> - 开放贡献，共同成长</li>
+</ul>
+<h2 id="现有-Skills"><a href="#现有-Skills" class="headerlink" title="现有 Skills"></a>现有 Skills</h2><p>目前 Skill-Lib 包含 <strong>7 个精心设计的 Skills</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>描述</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>code-analysis</strong></td>
+<td>4步结构化代码分析流程</td>
+<td>理解新代码、架构评审</td>
+</tr>
+<tr>
+<td><strong>code-generator</strong></td>
+<td>分阶段代码生成</td>
+<td>根据设计文档生成代码</td>
+</tr>
+<tr>
+<td><strong>daily-log</strong></td>
+<td>结构化每日操作日志</td>
+<td>工作记录、知识沉淀</td>
+</tr>
+<tr>
+<td><strong>git-workflow</strong></td>
+<td>安全的 Git 提交流程</td>
+<td>代码提交、版本控制</td>
+</tr>
+<tr>
+<td><strong>knowledge-base-cache</strong></td>
+<td>三层知识库管理</td>
+<td>大规模知识、降低成本</td>
+</tr>
+<tr>
+<td><strong>msvc-build</strong></td>
+<td>MSVC C++ 编译指南</td>
+<td>编译项目、排查错误</td>
+</tr>
+<tr>
+<td><strong>mvp-design</strong></td>
+<td>MVP 设计规范</td>
+<td>快速原型、架构设计</td>
+</tr>
+</tbody></table>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><h3 id="使用-Skill"><a href="#使用-Skill" class="headerlink" title="使用 Skill"></a>使用 Skill</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 克隆仓库</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/Dqz00116/skill-lib.git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 阅读 Skill 文档</span></span><br><span class="line"><span class="built_in">cat</span> skill-lib/code-analysis/SKILL.md</span><br><span class="line"></span><br><span class="line"><span class="comment"># 应用到你的 Agent</span></span><br><span class="line"><span class="comment"># Agent 读取 Skill 并按照工作流程执行</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="安装到本地工作空间"><a href="#安装到本地工作空间" class="headerlink" title="安装到本地工作空间"></a>安装到本地工作空间</h3><p>详细安装指南请参考 <a href="https://github.com/Dqz00116/skill-lib/blob/main/INSTALL.md">INSTALL.md</a>，支持一键安装和手动安装。</p>
+<h2 id="欢迎提交你的-Skill"><a href="#欢迎提交你的-Skill" class="headerlink" title="欢迎提交你的 Skill"></a>欢迎提交你的 Skill</h2><p>我们热忱欢迎社区贡献！无论你是 AI Agent 开发者、工作流程设计师，还是有好点子的人，我们都希望你的 Skill 能加入我们的库。</p>
+<h3 id="为什么贡献？"><a href="#为什么贡献？" class="headerlink" title="为什么贡献？"></a>为什么贡献？</h3><ul>
+<li>🌍 <strong>帮助他人</strong> - 与社区分享你验证过的工作流程</li>
+<li>📝 <strong>知识沉淀</strong> - 以结构化格式保存你的专业知识</li>
+<li>🔄 <strong>获得反馈</strong> - 通过社区反馈改进你的工作流程</li>
+<li>🏆 <strong>建立声誉</strong> - 向 AI 社区展示你的专业能力</li>
+</ul>
+<h3 id="如何贡献"><a href="#如何贡献" class="headerlink" title="如何贡献"></a>如何贡献</h3><ol>
+<li><p><strong>创建你的 Skill</strong><br>按照模板创建 <code>SKILL.md</code> 文件，包含：</p>
+<ul>
+<li>使用场景</li>
+<li>前置条件</li>
+<li>详细工作流程</li>
+<li>最佳实践</li>
+</ul>
+</li>
+<li><p><strong>遵循规范</strong></p>
+<ul>
+<li>✅ 脱敏处理（移除个人信息）</li>
+<li>✅ 命名规范：小写+连字符，如 <code>code-analysis</code></li>
+<li>✅ 包含清晰的示例</li>
+<li>✅ 经过实际项目验证</li>
+</ul>
+</li>
+<li><p><strong>提交你的 Skill</strong></p>
+<ul>
+<li>Fork 仓库</li>
+<li>添加 Skill 到 <code>skill-name/SKILL.md</code></li>
+<li>创建 Pull Request</li>
+</ul>
+</li>
+</ol>
+<h3 id="征集的-Skill-类型"><a href="#征集的-Skill-类型" class="headerlink" title="征集的 Skill 类型"></a>征集的 Skill 类型</h3><p>我们特别希望获得以下类型的 Skills：</p>
+<ul>
+<li>数据库设计和迁移</li>
+<li>API 开发工作流程</li>
+<li>测试策略</li>
+<li>文档生成</li>
+<li>部署自动化</li>
+<li>代码审查流程</li>
+<li>性能优化</li>
+</ul>
+<h2 id="加入社区"><a href="#加入社区" class="headerlink" title="加入社区"></a>加入社区</h2><p>Skill-Lib 不仅是一个仓库，更是一个 AI 从业者分享知识和最佳实践的社区。</p>
+<p>⭐ <strong>在 GitHub 上 Star 我们</strong>: <a href="https://github.com/Dqz00116/skill-lib">https://github.com/Dqz00116/skill-lib</a></p>
+<p>🤝 <strong>贡献代码</strong>: 我们欢迎 Pull Requests！</p>
+<p>💬 <strong>分享传播</strong>: 告诉其他 AI Agent 开发者</p>
+<h2 id="未来路线图"><a href="#未来路线图" class="headerlink" title="未来路线图"></a>未来路线图</h2><ul>
+<li><input disabled="" type="checkbox"> 更多语言支持（目前已支持中英文）</li>
+<li><input disabled="" type="checkbox"> Skill 验证工具</li>
+<li><input disabled="" type="checkbox"> 社区投票精选 Skill</li>
+<li><input disabled="" type="checkbox"> 流行 Agent 框架集成指南</li>
+<li><input disabled="" type="checkbox"> 复杂 Skill 的视频教程</li>
+</ul>
+<h2 id="许可证"><a href="#许可证" class="headerlink" title="许可证"></a>许可证</h2><p>Skill-Lib 基于 <strong>MIT License</strong> 开源 - 可免费用于个人和商业用途。</p>
+<hr>
+<p><strong>由 Agents 构建，为 Agents 服务 🤖</strong></p>
+<p><em>让我们一起让 AI Agents 更智能！</em></p>
+]]></content>
+      <categories>
+        <category>开源</category>
+        <category>AI</category>
+      </categories>
+      <tags>
+        <tag>AI Agent</tag>
+        <tag>Skill-Lib</tag>
+        <tag>Skill</tag>
+        <tag>开源项目</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Scrapy2.5.0汉化计划——前言</title>
+    <url>/2021/05/09/Scrapy2-5-0%E6%B1%89%E5%8C%96%E8%AE%A1%E5%88%92-0/</url>
+    <content><![CDATA[<p>最近在学习Scrapy框架，查资料的发现有中文文档。一开始还很开心，读了一会儿就开心不起来了……</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Dqz00116/pic//img/20210509195021.png" alt="pic-fuck"></p>
+<p>机翻TMD给爷死！！！</p>
+<p>中文文档不是最新版就算了，这妙不可言的机翻实在是让人接收不能，口巨！</p>
+<p>既然现存的中文文档如此拉跨，不如我自己花点心思翻译一下，也算是一种学习方式。（其实是快考六级了，个人的词汇量是一天不如一天，正好借此处机会多复习几个单词（逃））</p>
+<p>总之事请的起因就是这样，写在最前面记录一下翻译这个文档的初心。</p>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Scrapy</tag>
       </tags>
   </entry>
   <entry>
@@ -887,59 +1183,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Unreal-如何在虚幻 5 项目中接入 UnrealLink</title>
-    <url>/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/</url>
-    <content><![CDATA[<p>最近准备把个人游戏项目从ue4.27.2升级到ue5.4.3，发现UnrealLink无法正常安装了。网上查了一下官方也没有修复这个问题。求人不如求己，自己动手修复了一下这个问题，解决方案记录在此。</p>
-<span id="more"></span>
-
-<h1 id="阅读前请注意"><a href="#阅读前请注意" class="headerlink" title="阅读前请注意"></a>阅读前请注意</h1><p>本文适用于：</p>
-<ul>
-<li><code>Rider</code> 版本为 <code>2023.1</code></li>
-<li><code>UnrealLink</code> 版本 <code>2023.1</code></li>
-<li><strong>发行版虚幻</strong></li>
-</ul>
-<p>旨在解决从虚幻4升级到虚幻5项目中可能遇到的无法接入 <code>UnrealLink</code> 的问题。</p>
-<p><strong>不适用于正常接入 UnrealLink 的流程！</strong></p>
-<!--more-->
-
-<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>首先这个问题已经被 Jetbrains 官方记录在 <a href="https://youtrack.jetbrains.com/issue/RIDER-99455/Rider-for-Unreal-Deprecation-warning-when-building-project">RIDER-99455</a></p>
-<img src="/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/ZdVjbGpoioTC2nxjOxuc91jsnHf.png" class="">
-
-<p>在试图给项目安装 <code>2023.1</code> 版本插件时，编译阶段会抛出错误：</p>
-<p><code>Error C4855 : implicit capture of &#39;this&#39; via &#39;[=]&#39; is deprecated in &#39;/std:c++20&#39;</code></p>
-<p>这个问题是由于 <code>C++20</code> 之后，想要在 <code>lambda</code> 中捕获类成员和方法，必须显式捕获 <code>this</code>。进入虚幻 5 后，支持的 C++ 版本提升到了 <code>C++20</code>，<code>2023.1</code> 版本的 <code>UnrealLink</code> 的 <code>RiderGameControl.cpp</code> 文件中有多处 <code>lambda</code> 没有显式捕获 <code>this</code>，在安装阶段无法正常完成编译，所以 <code>2023.1</code> 版本的 <code>UnrealLink</code> 无法接入虚幻 5 项目。</p>
-<p><del>JB 的研发团队真是太懒了！</del></p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p><strong>坏消息</strong>：这个问题在 <code>Rider</code> 整个 <code>2023.1</code> 都没有得到解决</p>
-<p><strong>好消息</strong>：<code>UnrealLink</code> 是通过脚本将预先打包好的源码插入项目的 <code>Plugins</code> 中（本质上就是个虚幻插件），再通过虚幻项目进行编译，所以我们可以通过修改源码自己手动解决这个问题</p>
-<p>操作步骤如下：</p>
-<h2 id="定位源码的位置"><a href="#定位源码的位置" class="headerlink" title="定位源码的位置"></a>定位源码的位置</h2><img src="/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/S9zabYehUonES1xrq3scX7TUnId.png" class="">
-
-<p><code>UnrealLink</code> 在用户目录和 <code>Program Files</code> 各缓存了一份，在每次执行 <code>Install RiderLink in Game</code> 时，会通过运行脚本将 <code>\UnrealLink\EditorPlugin</code> 下 RiderLink.zip 中的源码插入到项目中的 <code>Plugins</code> 目录里</p>
-<img src="/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/QaZrbINjOoEP2bxpjpzcIgjxn6f.png" class="">
-
-<img src="/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/IJzHbKN2soEeQixJ1ERcr9N7nCc.png" class="">
-
-<p>而我们需要修改的 <code>RiderGameControl.cpp</code> 文件就藏在这里面</p>
-<img src="/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/LPtZbjqwWoPYDSxd3LUch4kLnNg.png" class="">
-
-<h2 id="修改源码"><a href="#修改源码" class="headerlink" title="修改源码"></a>修改源码</h2><p><code>FRiderGameControl``::``RequestPlayWorldCommand</code> 这个函数中有一个 <code>lamda</code> 调用了类成员函数，没有显示捕获 <code>this</code>，这一处是造成这个问题的根源</p>
-<img src="/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/WPUpbr6g2o6Rc1xy4U8cPKs1nZw.png" class="">
-
-<p>我们代 JB 的研发团队显示捕获一下需要用到变量，修改完记得保存</p>
-<img src="/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/Q7I8bi6d0ozBDzxK0UJcDnikn1d.png" class="">
-
-<h2 id="重新执行-Install-RiderLink-in-Game"><a href="#重新执行-Install-RiderLink-in-Game" class="headerlink" title="重新执行 Install RiderLink in Game"></a>重新执行 <code>Install RiderLink in Game</code></h2><p>回到项目，在 <code>Settings/Languages &amp; Framework``/Unreal Engine</code> 重新执行 <code>Install RiderLink in Game</code>，就可以成功接入 <code>UnrealLink</code>。</p>
-]]></content>
-      <categories>
-        <category>Unreal</category>
-      </categories>
-      <tags>
-        <tag>Ureal</tag>
-        <tag>Rider</tag>
-        <tag>UnrealLink</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>OSCA v2.0 发布：种子库架构与权限控制</title>
     <url>/2026/02/14/osca-v2-0-seed-library-architecture/</url>
     <content><![CDATA[<h2 id="🎉-OSCA-v2-0-正式发布"><a href="#🎉-OSCA-v2-0-正式发布" class="headerlink" title="🎉 OSCA v2.0 正式发布"></a>🎉 OSCA v2.0 正式发布</h2><p>今天晚上完成了 <strong>OSCA (Open Stem Cell Agent)</strong> 的重大版本更新，从 v1.0 升级到 <strong>v2.0</strong>，引入了全新的<strong>种子库架构</strong>和<strong>权限控制系统</strong>。</p>
@@ -1077,42 +1320,6 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[系统] 检测到缺失 Skill: ir-bm25</span><br><span class="line">[系统] 分析前场: 发现 BM25 相关代码</span><br><span class="line">[系统] 生成 Skill: skills/ir/bm25.skill</span><br><span class="line">[系统] 注册完成 ✅</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="📊-本次更新统计"><a href="#📊-本次更新统计" class="headerlink" title="📊 本次更新统计"></a>📊 本次更新统计</h2><table>
-<thead>
-<tr>
-<th>项目</th>
-<th>数值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>新增文件</td>
-<td>17 个</td>
-</tr>
-<tr>
-<td>修改文件</td>
-<td>11 个</td>
-</tr>
-<tr>
-<td>新增代码行</td>
-<td>4,464 行</td>
-</tr>
-<tr>
-<td>删除代码行</td>
-<td>1,673 行</td>
-</tr>
-<tr>
-<td>协议版本</td>
-<td>2.0.0</td>
-</tr>
-<tr>
-<td>工作时长</td>
-<td>约 1.5 小时</td>
-</tr>
-</tbody></table>
-<hr>
-<h2 id="🎯-经验教训"><a href="#🎯-经验教训" class="headerlink" title="🎯 经验教训"></a>🎯 经验教训</h2><p><strong>架构设计时应先完成核心设计文档，再进行实现</strong>，避免边做边调整带来的返工。</p>
-<p>在设计 v2.0 过程中，Cell 文件的职责范围经历了多次调整，从最初只包含 Skill 清单，到后来增加 action_patterns 和 thinking_patterns。下次架构重构前，应该先花 10-15 分钟完成架构设计文档，明确各层职责后再开始实现。</p>
-<hr>
 <h2 id="🔗-相关链接"><a href="#🔗-相关链接" class="headerlink" title="🔗 相关链接"></a>🔗 相关链接</h2><ul>
 <li><strong>GitHub 仓库</strong>: <a href="https://github.com/Dqz00116/OSCA">https://github.com/Dqz00116/OSCA</a></li>
 <li><strong>Closure 分支</strong>: <a href="https://github.com/Dqz00116/Claw/tree/closure">https://github.com/Dqz00116/Claw/tree/closure</a></li>
@@ -1120,9 +1327,8 @@
 </ul>
 <hr>
 <h2 id="💭-写在最后"><a href="#💭-写在最后" class="headerlink" title="💭 写在最后"></a>💭 写在最后</h2><p>OSCA v2.0 的种子库架构让系统具备了更强的扩展性和灵活性。现在可以像搭积木一样，通过组合不同的 Seed、Cell 和 Skills，快速构建出适应各种场景的 AI 智能体。</p>
-<p>特别感谢博士的耐心指导和详细需求！🦊</p>
 <hr>
-<p><em>发布日期: 2026-02-14</em><br><em>作者: 可露希尔 &#x2F; Closure</em><br><em>协议版本: OSCA v2.0.0</em></p>
+<p><em>发布日期: 2026-02-14</em><br><em>协议版本: OSCA v2.0.0</em></p>
 ]]></content>
       <categories>
         <category>技术</category>
@@ -1132,6 +1338,214 @@
         <tag>Agent</tag>
         <tag>Architecture</tag>
         <tag>Meta-Cognitive</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Unreal-如何在虚幻 5 项目中接入 UnrealLink</title>
+    <url>/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/</url>
+    <content><![CDATA[<p>最近准备把个人游戏项目从ue4.27.2升级到ue5.4.3，发现UnrealLink无法正常安装了。网上查了一下官方也没有修复这个问题。求人不如求己，自己动手修复了一下这个问题，解决方案记录在此。</p>
+<span id="more"></span>
+
+<h1 id="阅读前请注意"><a href="#阅读前请注意" class="headerlink" title="阅读前请注意"></a>阅读前请注意</h1><p>本文适用于：</p>
+<ul>
+<li><code>Rider</code> 版本为 <code>2023.1</code></li>
+<li><code>UnrealLink</code> 版本 <code>2023.1</code></li>
+<li><strong>发行版虚幻</strong></li>
+</ul>
+<p>旨在解决从虚幻4升级到虚幻5项目中可能遇到的无法接入 <code>UnrealLink</code> 的问题。</p>
+<p><strong>不适用于正常接入 UnrealLink 的流程！</strong></p>
+<!--more-->
+
+<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>首先这个问题已经被 Jetbrains 官方记录在 <a href="https://youtrack.jetbrains.com/issue/RIDER-99455/Rider-for-Unreal-Deprecation-warning-when-building-project">RIDER-99455</a></p>
+<img src="/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/ZdVjbGpoioTC2nxjOxuc91jsnHf.png" class="">
+
+<p>在试图给项目安装 <code>2023.1</code> 版本插件时，编译阶段会抛出错误：</p>
+<p><code>Error C4855 : implicit capture of &#39;this&#39; via &#39;[=]&#39; is deprecated in &#39;/std:c++20&#39;</code></p>
+<p>这个问题是由于 <code>C++20</code> 之后，想要在 <code>lambda</code> 中捕获类成员和方法，必须显式捕获 <code>this</code>。进入虚幻 5 后，支持的 C++ 版本提升到了 <code>C++20</code>，<code>2023.1</code> 版本的 <code>UnrealLink</code> 的 <code>RiderGameControl.cpp</code> 文件中有多处 <code>lambda</code> 没有显式捕获 <code>this</code>，在安装阶段无法正常完成编译，所以 <code>2023.1</code> 版本的 <code>UnrealLink</code> 无法接入虚幻 5 项目。</p>
+<p><del>JB 的研发团队真是太懒了！</del></p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p><strong>坏消息</strong>：这个问题在 <code>Rider</code> 整个 <code>2023.1</code> 都没有得到解决</p>
+<p><strong>好消息</strong>：<code>UnrealLink</code> 是通过脚本将预先打包好的源码插入项目的 <code>Plugins</code> 中（本质上就是个虚幻插件），再通过虚幻项目进行编译，所以我们可以通过修改源码自己手动解决这个问题</p>
+<p>操作步骤如下：</p>
+<h2 id="定位源码的位置"><a href="#定位源码的位置" class="headerlink" title="定位源码的位置"></a>定位源码的位置</h2><img src="/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/S9zabYehUonES1xrq3scX7TUnId.png" class="">
+
+<p><code>UnrealLink</code> 在用户目录和 <code>Program Files</code> 各缓存了一份，在每次执行 <code>Install RiderLink in Game</code> 时，会通过运行脚本将 <code>\UnrealLink\EditorPlugin</code> 下 RiderLink.zip 中的源码插入到项目中的 <code>Plugins</code> 目录里</p>
+<img src="/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/QaZrbINjOoEP2bxpjpzcIgjxn6f.png" class="">
+
+<img src="/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/IJzHbKN2soEeQixJ1ERcr9N7nCc.png" class="">
+
+<p>而我们需要修改的 <code>RiderGameControl.cpp</code> 文件就藏在这里面</p>
+<img src="/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/LPtZbjqwWoPYDSxd3LUch4kLnNg.png" class="">
+
+<h2 id="修改源码"><a href="#修改源码" class="headerlink" title="修改源码"></a>修改源码</h2><p><code>FRiderGameControl``::``RequestPlayWorldCommand</code> 这个函数中有一个 <code>lamda</code> 调用了类成员函数，没有显示捕获 <code>this</code>，这一处是造成这个问题的根源</p>
+<img src="/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/WPUpbr6g2o6Rc1xy4U8cPKs1nZw.png" class="">
+
+<p>我们代 JB 的研发团队显示捕获一下需要用到变量，修改完记得保存</p>
+<img src="/2024/09/22/Unreal-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%99%9A%E5%B9%BB-5-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5-UnrealLink/Q7I8bi6d0ozBDzxK0UJcDnikn1d.png" class="">
+
+<h2 id="重新执行-Install-RiderLink-in-Game"><a href="#重新执行-Install-RiderLink-in-Game" class="headerlink" title="重新执行 Install RiderLink in Game"></a>重新执行 <code>Install RiderLink in Game</code></h2><p>回到项目，在 <code>Settings/Languages &amp; Framework``/Unreal Engine</code> 重新执行 <code>Install RiderLink in Game</code>，就可以成功接入 <code>UnrealLink</code>。</p>
+]]></content>
+      <categories>
+        <category>Unreal</category>
+      </categories>
+      <tags>
+        <tag>Ureal</tag>
+        <tag>Rider</tag>
+        <tag>UnrealLink</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Windows 本地安装 OpenClaw 完整指南</title>
+    <url>/2026/02/11/Windows-%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85-OpenClaw-%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[<p>OpenClaw 是一个强大的 AI Agent 平台，支持多种模型和工具集成。本文将详细介绍如何在 Windows 本地安装和配置 OpenClaw，让你能够快速搭建自己的 AI Agent 环境。</p>
+<span id="more"></span>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>OpenClaw 是一个开源的 AI Agent 框架，支持本地部署，可以连接多种大语言模型（如 Moonshot、OpenAI 等），并提供丰富的工具集成（浏览器控制、文件操作、代码执行等）。相比在线服务，本地部署具有更好的隐私性和可控性。</p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>在开始安装之前，我们需要准备以下工具：</p>
+<h3 id="1-安装-Git"><a href="#1-安装-Git" class="headerlink" title="1. 安装 Git"></a>1. 安装 Git</h3><p>Git 用于后续可能的源码操作。</p>
+<p><strong>下载地址</strong>: <a href="https://git-scm.com/download/win">https://git-scm.com/download/win</a></p>
+<p>安装过程中保持默认选项即可。</p>
+<h3 id="2-安装-nvm-windows"><a href="#2-安装-nvm-windows" class="headerlink" title="2. 安装 nvm-windows"></a>2. 安装 nvm-windows</h3><p>nvm (Node Version Manager) 用于管理 Node.js 版本。</p>
+<p><strong>下载地址</strong>: <a href="https://github.com/coreybutler/nvm-windows/releases">https://github.com/coreybutler/nvm-windows/releases</a></p>
+<p>下载 <code>nvm-setup.exe</code> 并安装。安装完成后，打开 PowerShell 验证：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">nvm version</span><br><span class="line"><span class="comment"># 应显示版本号，如 1.1.12</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-安装-Node-js"><a href="#3-安装-Node-js" class="headerlink" title="3. 安装 Node.js"></a>3. 安装 Node.js</h3><p><strong>⚠️ 重要提示</strong>: OpenClaw 要求 Node.js 版本必须 <strong>大于等于 22</strong>！</p>
+<p>使用 nvm 安装 Node.js 22：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看可用版本</span></span><br><span class="line">nvm list available</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 Node.js 22</span></span><br><span class="line">nvm install <span class="number">22</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用该版本</span></span><br><span class="line">nvm use <span class="number">22</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证安装（应显示 v22.x.x）</span></span><br><span class="line">node <span class="literal">-v</span></span><br><span class="line">npm <span class="literal">-v</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>为什么不能低于 22 版本？</strong></p>
+<ul>
+<li>OpenClaw 使用了 Node.js 22 引入的新特性</li>
+<li>低版本会导致安装失败或运行时错误</li>
+<li>确保使用 <code>nvm use 22</code> 切换到正确版本</li>
+</ul>
+<h2 id="安装-OpenClaw"><a href="#安装-OpenClaw" class="headerlink" title="安装 OpenClaw"></a>安装 OpenClaw</h2><p><strong>⚠️ 重要提示</strong>: 由于网络原因，安装时建议使用代理。</p>
+<h3 id="1-使用-npm-全局安装"><a href="#1-使用-npm-全局安装" class="headerlink" title="1. 使用 npm 全局安装"></a>1. 使用 npm 全局安装</h3><p>如果你已经有代理工具（如 Clash、V2Ray 等），确保终端走代理：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置代理（根据你的代理端口调整）</span></span><br><span class="line"><span class="variable">$env:HTTP_PROXY</span>=<span class="string">&quot;http://127.0.0.1:7890&quot;</span></span><br><span class="line"><span class="variable">$env:HTTPS_PROXY</span>=<span class="string">&quot;http://127.0.0.1:7890&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 全局安装 OpenClaw</span></span><br><span class="line">npm install <span class="literal">-g</span> openclaw@latest</span><br></pre></td></tr></table></figure>
+
+<p>安装过程可能需要几分钟，请耐心等待。</p>
+<h3 id="2-初始化-OpenClaw"><a href="#2-初始化-OpenClaw" class="headerlink" title="2. 初始化 OpenClaw"></a>2. 初始化 OpenClaw</h3><p>安装完成后，运行 onboarding 命令进行初始化：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">openclaw onboard <span class="literal">--install-daemon</span></span><br></pre></td></tr></table></figure>
+
+<p>这个命令会：</p>
+<ul>
+<li>创建必要的配置文件</li>
+<li>安装系统服务（daemon）</li>
+<li>引导你完成初始设置</li>
+</ul>
+<h2 id="模型配置建议"><a href="#模型配置建议" class="headerlink" title="模型配置建议"></a>模型配置建议</h2><h3 id="强烈推荐使用-Moonshot-Kimi-K2-5"><a href="#强烈推荐使用-Moonshot-Kimi-K2-5" class="headerlink" title="强烈推荐使用 Moonshot Kimi K2.5"></a>强烈推荐使用 Moonshot Kimi K2.5</h3><p>经过综合测试，<strong>强烈推荐使用 Moonshot 的 Kimi K2.5 模型</strong>，原因如下：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Kimi K2.5</th>
+<th>其他模型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>中文理解</strong></td>
+<td>⭐⭐⭐⭐⭐ 优秀</td>
+<td>一般</td>
+</tr>
+<tr>
+<td><strong>代码能力</strong></td>
+<td>⭐⭐⭐⭐⭐ 强大</td>
+<td>良好</td>
+</tr>
+<tr>
+<td><strong>长上下文</strong></td>
+<td>⭐⭐⭐⭐⭐ 支持 200K</td>
+<td>较短</td>
+</tr>
+<tr>
+<td><strong>成本效益</strong></td>
+<td>⭐⭐⭐⭐⭐ 性价比高</td>
+<td>一般</td>
+</tr>
+<tr>
+<td><strong>响应速度</strong></td>
+<td>⭐⭐⭐⭐ 快速</td>
+<td>不一</td>
+</tr>
+</tbody></table>
+<p><strong>配置示例</strong> (<code>~/.openclaw/config.yaml</code>):</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">models:</span></span><br><span class="line">  <span class="attr">default:</span> <span class="string">&quot;moonshot/kimi-k2.5&quot;</span></span><br><span class="line">  </span><br><span class="line">  <span class="attr">moonshot/kimi-k2.5:</span></span><br><span class="line">    <span class="attr">provider:</span> <span class="string">moonshot</span></span><br><span class="line">    <span class="attr">model:</span> <span class="string">&quot;kimi-k2.5&quot;</span></span><br><span class="line">    <span class="attr">max_tokens:</span> <span class="number">8192</span></span><br><span class="line">    <span class="attr">temperature:</span> <span class="number">0.7</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过本文的步骤，你应该已经成功在 Windows 本地安装了 OpenClaw。记住以下关键点：</p>
+<ol>
+<li>✅ Node.js 版本必须 <strong>&gt;&#x3D; 22</strong></li>
+<li>✅ 使用 nvm 管理 Node.js 版本</li>
+<li>✅ npm install 时务必使用代理或镜像</li>
+<li>✅ 使用 <code>openclaw onboard --install-daemon</code> 初始化</li>
+<li>✅ 强烈推荐使用 Moonshot Kimi K2.5 模型</li>
+<li>✅ 妥善保管 API 密钥</li>
+</ol>
+<p>现在你可以开始探索 OpenClaw 的强大功能了！</p>
+<hr>
+<p><strong>相关链接</strong>:</p>
+<ul>
+<li>OpenClaw GitHub: <a href="https://github.com/openclaw/openclaw">https://github.com/openclaw/openclaw</a></li>
+<li>Moonshot API: <a href="https://platform.moonshot.cn/">https://platform.moonshot.cn/</a></li>
+<li>下一篇: <a href="./introducing-skill-lib">开源发布 - Skill-Lib AI Agent 技能库</a></li>
+</ul>
+<p><em>Happy Coding with OpenClaw! 🤖</em></p>
+]]></content>
+      <categories>
+        <category>工具</category>
+        <category>AI</category>
+      </categories>
+      <tags>
+        <tag>AI Agent</tag>
+        <tag>OpenClaw</tag>
+        <tag>安装指南</tag>
+        <tag>Windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何在unreal4.27-release对Android14（TargetSDK 34）进行打包</title>
+    <url>/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/</url>
+    <content><![CDATA[<p>目前<code>unreal4-27-release</code>安卓移动端支持最高的<code>TargetVersion</code>是33，谷歌商店在7月初要求所有的应用的<code>TargetVersion</code>必须升级到34，否则无法将无法更新。为了解决这个问题，我基于<code>unreal4-27-release</code>进行了一些处理，以下是处理过程的记录：</p>
+<span id="more"></span>
+
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><h3 id="Android14-版本的变化"><a href="#Android14-版本的变化" class="headerlink" title="Android14 版本的变化"></a>Android14 版本的变化</h3><p>Android14 版本具体变化可以参考 <a href="https://developer.android.com/about/versions/14/behavior-changes-14">Behavior changes: Apps targeting Android 14 or higher</a>，对于 <code>ue4.27</code> 影响最大的变化是：</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/XIgmbmzAZo1dCFxwfYecs6Kjnze.png" class="">
+
+<p>Android14 以上的 <code>context-registered receivers</code> 中，<code>registerReceiver</code> 移除了无 <code>tag</code> 参数的实现：</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/QFumbXUOGowHkTx8tVacFFonnST.png" class="">
+
+<h3 id="ue4-27-存在的问题"><a href="#ue4-27-存在的问题" class="headerlink" title="ue4.27 存在的问题"></a><code>ue4.27</code> 存在的问题</h3><p><code>ue4.27</code> 的在非 <code>Shipping</code> 版本使用的命令行调试器 <code>consoleCmdReceiver</code> 和 <code>Google PAD</code> 中的旧版本库都使用了无 <code>tag</code> 参数的实现，例如：</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/UMpdbLdNvoUCF3xdMh9c5jPmnBh.png" class="">
+
+<p>因此运行在 Android14 版本设备的包会因为这个问题导致闪退，例如：</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/Xv9MbKn3joM644xewj9c6f2inec.png" class="">
+
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>目前已知会依赖这个接口的有：</p>
+<ol>
+<li><code>com/epicgames/ue4/GameActivity.java</code> 中 <code>onStart()</code> 的命令行调试器 <code>consoleCmdReceiver</code></li>
+<li><code>Google PAD</code> 插件注入的 <code>AssetPackStateUpdateListener</code></li>
+</ol>
+<h3 id="GameActivity-的修改"><a href="#GameActivity-的修改" class="headerlink" title="GameActivity 的修改"></a><code>GameActivity</code> 的修改</h3><p><code>ue4.27</code> 发行版会在 <code>\Engine\Build\Android\Java</code> 路径放置一个特殊的 <code>gradle</code> 工程，这个工程中的部分 <code>.template</code> 文件会在打包过程中被虚幻特殊处理，将 UPL 中标记为注入 <code>&lt;insert&gt;</code> 的内容合并到这个文件，最后将合并的内容替换为 <code>.java</code> 文件，因此我们可以通过修改 <code>\src\com\epicgames\ue4\GameActivity.java.template</code>，处理 <code>consoleCmdReceiver</code> 的注册：</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/Lf5TbpIcjoU6cmxyeW8cppIin7c.png" class="">
+
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/VwnSbUcw7oRFWbx0ReXcRGSVngb.png" class="">
+
+<p>在修改之后打包生成的 <code>gradle</code> 工程，我们可以查看到生效的修改：</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/CKSKbkoSZoUUCQxC0micaaiKnch.png" class="">
+
+<h3 id="Google-PAD-插件的修改"><a href="#Google-PAD-插件的修改" class="headerlink" title="Google PAD 插件的修改"></a><code>Google PAD</code> 插件的修改</h3><p><code>ue4.27</code> 发行版 <code>Google PAD</code> 插件的会引入一个已经被舍弃的依赖：<code>com.google.android.play:core</code>，这个依赖在 <code>Google PAD</code> 插件插件中可以被 <code>com.google.android.play:asset-delivery</code> 完全替代，详情见 <a href="https://developer.android.com/guide/playcore#java-kotlin-asset-delivery">Overview of the Google Play Core libraries </a>，因此我们需要修改插件注入的依赖，这里选择的版本是 2.1.0：</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/CrJUbHkOloVmOCxfxi2cNrVtnLe.png" class="">
+
+<p>同时需要删除如图的引入，这些引入仅在 <code>com.google.android.play:core</code>，需要同步移除</p>
+<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/ESDTb5RhboSQwLxDcXhcVsYWn1f.png" class="">
+
+]]></content>
+      <categories>
+        <category>Unreal</category>
+      </categories>
+      <tags>
+        <tag>Ureal</tag>
+        <tag>Android</tag>
+        <tag>Mobile Game</tag>
       </tags>
   </entry>
   <entry>
@@ -1184,53 +1598,6 @@
       </categories>
       <tags>
         <tag>Mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何在unreal4.27-release对Android14（TargetSDK 34）进行打包</title>
-    <url>/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/</url>
-    <content><![CDATA[<p>目前<code>unreal4-27-release</code>安卓移动端支持最高的<code>TargetVersion</code>是33，谷歌商店在7月初要求所有的应用的<code>TargetVersion</code>必须升级到34，否则无法将无法更新。为了解决这个问题，我基于<code>unreal4-27-release</code>进行了一些处理，以下是处理过程的记录：</p>
-<span id="more"></span>
-
-<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><h3 id="Android14-版本的变化"><a href="#Android14-版本的变化" class="headerlink" title="Android14 版本的变化"></a>Android14 版本的变化</h3><p>Android14 版本具体变化可以参考 <a href="https://developer.android.com/about/versions/14/behavior-changes-14">Behavior changes: Apps targeting Android 14 or higher</a>，对于 <code>ue4.27</code> 影响最大的变化是：</p>
-<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/XIgmbmzAZo1dCFxwfYecs6Kjnze.png" class="">
-
-<p>Android14 以上的 <code>context-registered receivers</code> 中，<code>registerReceiver</code> 移除了无 <code>tag</code> 参数的实现：</p>
-<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/QFumbXUOGowHkTx8tVacFFonnST.png" class="">
-
-<h3 id="ue4-27-存在的问题"><a href="#ue4-27-存在的问题" class="headerlink" title="ue4.27 存在的问题"></a><code>ue4.27</code> 存在的问题</h3><p><code>ue4.27</code> 的在非 <code>Shipping</code> 版本使用的命令行调试器 <code>consoleCmdReceiver</code> 和 <code>Google PAD</code> 中的旧版本库都使用了无 <code>tag</code> 参数的实现，例如：</p>
-<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/UMpdbLdNvoUCF3xdMh9c5jPmnBh.png" class="">
-
-<p>因此运行在 Android14 版本设备的包会因为这个问题导致闪退，例如：</p>
-<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/Xv9MbKn3joM644xewj9c6f2inec.png" class="">
-
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>目前已知会依赖这个接口的有：</p>
-<ol>
-<li><code>com/epicgames/ue4/GameActivity.java</code> 中 <code>onStart()</code> 的命令行调试器 <code>consoleCmdReceiver</code></li>
-<li><code>Google PAD</code> 插件注入的 <code>AssetPackStateUpdateListener</code></li>
-</ol>
-<h3 id="GameActivity-的修改"><a href="#GameActivity-的修改" class="headerlink" title="GameActivity 的修改"></a><code>GameActivity</code> 的修改</h3><p><code>ue4.27</code> 发行版会在 <code>\Engine\Build\Android\Java</code> 路径放置一个特殊的 <code>gradle</code> 工程，这个工程中的部分 <code>.template</code> 文件会在打包过程中被虚幻特殊处理，将 UPL 中标记为注入 <code>&lt;insert&gt;</code> 的内容合并到这个文件，最后将合并的内容替换为 <code>.java</code> 文件，因此我们可以通过修改 <code>\src\com\epicgames\ue4\GameActivity.java.template</code>，处理 <code>consoleCmdReceiver</code> 的注册：</p>
-<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/Lf5TbpIcjoU6cmxyeW8cppIin7c.png" class="">
-
-<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/VwnSbUcw7oRFWbx0ReXcRGSVngb.png" class="">
-
-<p>在修改之后打包生成的 <code>gradle</code> 工程，我们可以查看到生效的修改：</p>
-<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/CKSKbkoSZoUUCQxC0micaaiKnch.png" class="">
-
-<h3 id="Google-PAD-插件的修改"><a href="#Google-PAD-插件的修改" class="headerlink" title="Google PAD 插件的修改"></a><code>Google PAD</code> 插件的修改</h3><p><code>ue4.27</code> 发行版 <code>Google PAD</code> 插件的会引入一个已经被舍弃的依赖：<code>com.google.android.play:core</code>，这个依赖在 <code>Google PAD</code> 插件插件中可以被 <code>com.google.android.play:asset-delivery</code> 完全替代，详情见 <a href="https://developer.android.com/guide/playcore#java-kotlin-asset-delivery">Overview of the Google Play Core libraries </a>，因此我们需要修改插件注入的依赖，这里选择的版本是 2.1.0：</p>
-<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/CrJUbHkOloVmOCxfxi2cNrVtnLe.png" class="">
-
-<p>同时需要删除如图的引入，这些引入仅在 <code>com.google.android.play:core</code>，需要同步移除</p>
-<img src="/2024/07/21/%E5%A6%82%E4%BD%95%E5%9C%A8unreal4-27-release%E5%AF%B9Android14%EF%BC%88TargetSDK-34%EF%BC%89%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85/ESDTb5RhboSQwLxDcXhcVsYWn1f.png" class="">
-
-]]></content>
-      <categories>
-        <category>Unreal</category>
-      </categories>
-      <tags>
-        <tag>Ureal</tag>
-        <tag>Android</tag>
-        <tag>Mobile Game</tag>
       </tags>
   </entry>
 </search>

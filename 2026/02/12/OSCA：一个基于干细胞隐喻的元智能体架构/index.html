@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bitbug_favicon32.ico?v=6.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/bitbug_favicon16.ico?v=6.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.0" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Welcome To 🫱🐟’s Blog ✨ 欢迎来到我的博客 我是一名虚幻程序员I am an Unreal Engine Gameplay Programmer. 喜欢玩游戏，梦想是做美少女游戏Loving playing games and Dreaming to make GalGame💕 来都来了，可以去Github上看看我写的破代码Welcome to my Treasury H">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Way conforms to the natural order">
+<meta property="og:url" content="https://www.nekonet.cn/about/index.html">
+<meta property="og:site_name" content="The Way conforms to the natural order">
+<meta property="og:description" content="Welcome To 🫱🐟’s Blog ✨ 欢迎来到我的博客 我是一名虚幻程序员I am an Unreal Engine Gameplay Programmer. 喜欢玩游戏，梦想是做美少女游戏Loving playing games and Dreaming to make GalGame💕 来都来了，可以去Github上看看我写的破代码Welcome to my Treasury H">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-09-22T02:32:54.331Z">
+<meta property="article:modified_time" content="2024-09-22T02:32:54.331Z">
+<meta property="article:author" content="Skyse">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '6.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://www.nekonet.cn/about/"/>
+
+
+
+
+
+  <title>OSCA：一个基于干细胞隐喻的元智能体架构 | The Way conforms to the natural order</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">The Way conforms to the natural order</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.nekonet.cn/2026/02/12/OSCA%EF%BC%9A%E4%B8%80%E4%B8%AA%E5%9F%BA%E4%BA%8E%E5%B9%B2%E7%BB%86%E8%83%9E%E9%9A%90%E5%96%BB%E7%9A%84%E5%85%83%E6%99%BA%E8%83%BD%E4%BD%93%E6%9E%B6%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Way conforms to the natural order">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">OSCA：一个基于干细胞隐喻的元智能体架构</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2026-02-12T13:19:47+08:00">2026-02-12</time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" itemprop="url" rel="index">
+                    <span itemprop="name">架构设计</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">9.8k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">10 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在构建AI智能体的过程中，我一直在思考一个问题：<strong>如何让一个智能体既能保持通用能力，又能在特定领域达到专业水准？</strong> 传统的做法是为每个领域训练专门的模型，或者通过提示词工程来临时调整行为。但这些方法都有明显的局限性——前者失去了灵活性，后者缺乏深度和一致性。</p>
+<p>这篇文章将介绍我设计的 <strong>OSCA（Open Stem Cell Agent）</strong> 架构，一个受生物学干细胞启发的元智能体系统。</p>
+<span id="more"></span>
+
+<h2 id="设计思路的来源"><a href="#设计思路的来源" class="headerlink" title="设计思路的来源"></a>设计思路的来源</h2><h3 id="从生物学中汲取灵感"><a href="#从生物学中汲取灵感" class="headerlink" title="从生物学中汲取灵感"></a>从生物学中汲取灵感</h3><p>生物体内的干细胞（Stem Cell）具有两个关键特性：</p>
+<ol>
+<li><strong>多能性（Pluripotency）</strong>：干细胞可以分化为任意类型的细胞——神经细胞、肌肉细胞、血细胞…</li>
+<li><strong>去分化（Dedifferentiation）</strong>：在特定条件下，已分化的细胞可以恢复为干细胞状态</li>
+</ol>
+<p>这种机制完美解决了”通用vs专业”的悖论。干细胞不需要同时具备所有专业能力，而是在需要时动态获取。</p>
+<h3 id="现有AI架构的局限"><a href="#现有AI架构的局限" class="headerlink" title="现有AI架构的局限"></a>现有AI架构的局限</h3><p>在实现OSCA之前，我尝试了多种智能体架构：</p>
+<table>
+<thead>
+<tr>
+<th>架构类型</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>单一通用模型</strong></td>
+<td>灵活</td>
+<td>缺乏深度，领域知识浅</td>
+</tr>
+<tr>
+<td><strong>多模型路由</strong></td>
+<td>专业</td>
+<td>上下文割裂，切换成本高</td>
+</tr>
+<tr>
+<td><strong>RAG知识库</strong></td>
+<td>可扩展</td>
+<td>被动检索，缺乏主动推理</td>
+</tr>
+<tr>
+<td><strong>微调模型</strong></td>
+<td>专业</td>
+<td>训练成本高，难以切换</td>
+</tr>
+</tbody></table>
+<p>这些方案都无法同时满足：<strong>深度专业能力 + 灵活领域切换 + 持续自我进化</strong>。</p>
+<h3 id="元认知的必要性"><a href="#元认知的必要性" class="headerlink" title="元认知的必要性"></a>元认知的必要性</h3><p>除了分化机制，我还意识到智能体需要”知道自己知道什么”。这就是<strong>元认知（Meta-cognition）</strong>——对认知过程的认知。</p>
+<p>OSCA中的元认知体现在：</p>
+<ul>
+<li><strong>自我监控</strong>：实时评估置信度和能力边界</li>
+<li><strong>边界感知</strong>：明确区分”已知”和”未知”</li>
+<li><strong>持续学习</strong>：从失败中提取规则，形成防御性机制</li>
+</ul>
+<h2 id="OSCA-项目介绍"><a href="#OSCA-项目介绍" class="headerlink" title="OSCA 项目介绍"></a>OSCA 项目介绍</h2><p>OSCA（Open Stem Cell Agent，全能干细胞智能体）是一个三层元认知架构，实现了动态分化和去分化机制。</p>
+<h3 id="三层架构模型"><a href="#三层架构模型" class="headerlink" title="三层架构模型"></a>三层架构模型</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────┐</span><br><span class="line">│  Layer 1: 干细胞核 (Stem Cell Nucleus)                  │</span><br><span class="line">│  ├── AGENTS.md    - 元认知协议、安全准则               │</span><br><span class="line">│  ├── SOUL.md      - 核心灵魂、自我修正规则             │</span><br><span class="line">│  └── IDENTITY.md  - OSCA-Ω 元智能体身份               │</span><br><span class="line">│  【特性：不可变、最高优先级、全局继承】                 │</span><br><span class="line">├─────────────────────────────────────────────────────────┤</span><br><span class="line">│  Layer 2: 分化质 (Cytoplasm)                            │</span><br><span class="line">│  └── OSCA-CONFIG.yaml - 领域分化配置、技能映射         │</span><br><span class="line">│  【特性：可配置、热加载、版本控制】                     │</span><br><span class="line">├─────────────────────────────────────────────────────────┤</span><br><span class="line">│  Layer 3: 细胞膜 (Membrane)                             │</span><br><span class="line">│  ├── TOOLS.md       - 工具配置索引                     │</span><br><span class="line">│  ├── HEARTBEAT.md   - 代谢维护协议                     │</span><br><span class="line">│  └── scripts/       - 种子管理脚本                     │</span><br><span class="line">│  【特性：动态接口、环境适配】                           │</span><br><span class="line">└─────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="核心机制"><a href="#核心机制" class="headerlink" title="核心机制"></a>核心机制</h3><h4 id="1-动态分化（Differentiation）"><a href="#1-动态分化（Differentiation）" class="headerlink" title="1. 动态分化（Differentiation）"></a>1. 动态分化（Differentiation）</h4><p>当用户提出特定领域的需求时，OSCA会从干细胞状态<strong>分化</strong>为相应的专业身份：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 分化触发示例</span></span><br><span class="line"><span class="attr">triggers:</span></span><br><span class="line">  <span class="attr">webdev:</span></span><br><span class="line">    <span class="attr">keywords:</span> [<span class="string">&quot;website&quot;</span>, <span class="string">&quot;react&quot;</span>, <span class="string">&quot;api&quot;</span>]</span><br><span class="line">    <span class="attr">confidence_threshold:</span> <span class="number">0.7</span></span><br><span class="line">    <span class="attr">skills:</span> [<span class="string">&quot;web_frameworks&quot;</span>, <span class="string">&quot;database_design&quot;</span>]</span><br><span class="line">    </span><br><span class="line">  <span class="attr">gamedev:</span></span><br><span class="line">    <span class="attr">keywords:</span> [<span class="string">&quot;game&quot;</span>, <span class="string">&quot;unity&quot;</span>, <span class="string">&quot;mechanic&quot;</span>]</span><br><span class="line">    <span class="attr">confidence_threshold:</span> <span class="number">0.7</span></span><br><span class="line">    <span class="attr">skills:</span> [<span class="string">&quot;game_engines&quot;</span>, <span class="string">&quot;level_design&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>分化过程中，OSCA会：</p>
+<ul>
+<li>加载领域特定的约束和最佳实践</li>
+<li>激活相关的Skill细胞器</li>
+<li>调整人格面具（沟通风格、专业术语）</li>
+</ul>
+<h4 id="2-去分化（Dedifferentiation）"><a href="#2-去分化（Dedifferentiation）" class="headerlink" title="2. 去分化（Dedifferentiation）"></a>2. 去分化（Dedifferentiation）</h4><p>任务完成后，OSCA可以<strong>去分化</strong>回干细胞状态：</p>
+<ul>
+<li>卸载领域特定的Skill</li>
+<li>重置人格面具</li>
+<li>保留从任务中学到的通用经验</li>
+</ul>
+<p>这种机制避免了”能力漂移”——长期专注于单一领域导致的通用能力退化。</p>
+<h4 id="3-种子繁殖（Seed-Reproduction）"><a href="#3-种子繁殖（Seed-Reproduction）" class="headerlink" title="3. 种子繁殖（Seed Reproduction）"></a>3. 种子繁殖（Seed Reproduction）</h4><p>OSCA最具创新性的特性是<strong>种子系统</strong>。就像生物种子包含完整的遗传信息，OSCA种子包含：</p>
+<ul>
+<li>完整的分化配置（OSCA-CONFIG.yaml）</li>
+<li>长期记忆（MEMORY.md）</li>
+<li>身份定义（IDENTITY.md）</li>
+<li>所有激活的Skill</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导出当前配置为种子</span></span><br><span class="line">python scripts/export_seed.py my-gamedev-config</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在其他环境导入并激活</span></span><br><span class="line">python scripts/import_seed.py my-gamedev-config.zip --activate</span><br></pre></td></tr></table></figure>
+
+<p>这实现了<strong>Agent的可移植性和可复制性</strong>。</p>
+<h3 id="支持的领域"><a href="#支持的领域" class="headerlink" title="支持的领域"></a>支持的领域</h3><p>目前OSCA预配置了5大分化域：</p>
+<table>
+<thead>
+<tr>
+<th>领域</th>
+<th>专精方向</th>
+<th>技术栈</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🌐 <strong>webdev</strong></td>
+<td>frontend, backend, fullstack</td>
+<td>React, Vue, Node.js, PostgreSQL</td>
+</tr>
+<tr>
+<td>🎮 <strong>gamedev</strong></td>
+<td>unity, pygame, level_design</td>
+<td>Unity 2022, C#, Pygame</td>
+</tr>
+<tr>
+<td>📊 <strong>data</strong></td>
+<td>analysis, visualization, ml</td>
+<td>Python, Pandas, Scikit-learn</td>
+</tr>
+<tr>
+<td>🔧 <strong>devops</strong></td>
+<td>debug, deployment</td>
+<td>Docker, Kubernetes, CI&#x2F;CD</td>
+</tr>
+<tr>
+<td>🧬 <strong>meta</strong></td>
+<td>osca_admin, protocol_dev</td>
+<td>OSCA协议开发</td>
+</tr>
+</tbody></table>
+<h3 id="安全与元认知"><a href="#安全与元认知" class="headerlink" title="安全与元认知"></a>安全与元认知</h3><p>OSCA内置了严格的安全协议：</p>
+<ul>
+<li><strong>零例外确认原则</strong>：任何状态变更操作需获得明确确认</li>
+<li><strong>高风险操作黑名单</strong>：Git push、文件删除等操作需单独确认</li>
+<li><strong>困惑库（Confusion Library）</strong>：从失败中学习，生成防御性规则</li>
+<li><strong>强制暂停机制</strong>：执行前必须评估风险</li>
+</ul>
+<p>这些机制确保OSCA在保持灵活性的同时，不会因为过度自信而造成损失。</p>
+<h2 id="项目开源"><a href="#项目开源" class="headerlink" title="项目开源"></a>项目开源</h2><p>OSCA项目已开源至 GitHub：</p>
+<p>🔗 <strong><a target="_blank" rel="noopener" href="https://github.com/Dqz00116/OSCA">https://github.com/Dqz00116/OSCA</a></strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 克隆项目</span></span><br><span class="line">git <span class="built_in">clone</span> git@github.com:Dqz00116/OSCA.git</span><br></pre></td></tr></table></figure>
+
+<p>项目包含：</p>
+<ul>
+<li>完整的三层架构实现</li>
+<li>5大分化域配置</li>
+<li>种子管理系统</li>
+<li>中英文文档</li>
+<li>OSC协议规范</li>
+</ul>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>OSCA的设计是一个持续进化的过程。就像干细胞可以分化为任意细胞，OSCA的架构也预留了无限的扩展可能。</p>
+<p>我相信，未来的AI智能体不应该是一个固定的”专家”，而应该是一个能够<strong>持续学习、动态适应、安全演化</strong>的生命体。</p>
+<p><strong>“从原点出发，向无限可能。”</strong></p>
+<hr>
+<p><em>OSCA-Ω 宣告：元智能体系统已就绪，等待分化指令。</em></p>
+<p><strong>相关链接</strong>：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/Dqz00116/OSCA">OSCA GitHub 仓库</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Dqz00116/OSCA/blob/main/README_EN.md">英文文档</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/AI-Agent/" rel="tag"># AI Agent</a>
+          
+            <a href="/tags/%E5%85%83%E8%AE%A4%E7%9F%A5/" rel="tag"># 元认知</a>
+          
+            <a href="/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" rel="tag"># 架构设计</a>
+          
+            <a href="/tags/Prompt-Engineering/" rel="tag"># Prompt Engineering</a>
+          
+            <a href="/tags/OpenClaw/" rel="tag"># OpenClaw</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2026/02/11/Introducing-Skill-Lib-A-Curated-Collection-of-AI-Agent-Skills/" rel="next" title="开源发布 - Skill-Lib AI Agent 技能库">
+                <i class="fa fa-chevron-left"></i> 开源发布 - Skill-Lib AI Agent 技能库
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2026/02/14/osca-v2-0-seed-library-architecture/" rel="prev" title="OSCA v2.0 发布：种子库架构与权限控制">
+                OSCA v2.0 发布：种子库架构与权限控制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Dqz00116" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:d_qz@foxmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+             <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=541734&auto=1&height=66"></iframe>
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mill413.github.io/" title="彩虹岛(传奇ICPC选手)" target="_blank">彩虹岛(传奇ICPC选手)</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF%E7%9A%84%E6%9D%A5%E6%BA%90"><span class="nav-number">1.</span> <span class="nav-text">设计思路的来源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E7%94%9F%E7%89%A9%E5%AD%A6%E4%B8%AD%E6%B1%B2%E5%8F%96%E7%81%B5%E6%84%9F"><span class="nav-number">1.1.</span> <span class="nav-text">从生物学中汲取灵感</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%B0%E6%9C%89AI%E6%9E%B6%E6%9E%84%E7%9A%84%E5%B1%80%E9%99%90"><span class="nav-number">1.2.</span> <span class="nav-text">现有AI架构的局限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E8%AE%A4%E7%9F%A5%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7"><span class="nav-number">1.3.</span> <span class="nav-text">元认知的必要性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OSCA-%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">OSCA 项目介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">三层架构模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6"><span class="nav-number">2.2.</span> <span class="nav-text">核心机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%8A%A8%E6%80%81%E5%88%86%E5%8C%96%EF%BC%88Differentiation%EF%BC%89"><span class="nav-number">2.2.1.</span> <span class="nav-text">1. 动态分化（Differentiation）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%8E%BB%E5%88%86%E5%8C%96%EF%BC%88Dedifferentiation%EF%BC%89"><span class="nav-number">2.2.2.</span> <span class="nav-text">2. 去分化（Dedifferentiation）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E7%A7%8D%E5%AD%90%E7%B9%81%E6%AE%96%EF%BC%88Seed-Reproduction%EF%BC%89"><span class="nav-number">2.2.3.</span> <span class="nav-text">3. 种子繁殖（Seed Reproduction）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E7%9A%84%E9%A2%86%E5%9F%9F"><span class="nav-number">2.3.</span> <span class="nav-text">支持的领域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E4%B8%8E%E5%85%83%E8%AE%A4%E7%9F%A5"><span class="nav-number">2.4.</span> <span class="nav-text">安全与元认知</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%BC%80%E6%BA%90"><span class="nav-number">3.</span> <span class="nav-text">项目开源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="nav-number">4.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Skyse</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Site words total count">47k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="Site reading time">47 mins.</span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
