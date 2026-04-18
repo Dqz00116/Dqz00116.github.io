@@ -44,7 +44,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+  
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
 <link href="/css/main.css?v=6.0.0" rel="stylesheet" type="text/css" />
 
@@ -283,7 +285,7 @@
         
           
         
-        Um..! 19 posts in total. Keep on posting.
+        Um..! 20 posts in total. Keep on posting.
       </span>
 
       
@@ -297,6 +299,43 @@
           <div class="collection-title">
             <h1 class="archive-year" id="archive-year-2024">2024</h1>
           </div>
+        
+        
+
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/2024/06/22/C-%E6%B5%85%E6%9E%90%E5%BC%95%E7%94%A8-Reference/" itemprop="url">
+              
+                <span itemprop="name">C# 浅析引用(Reference)</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2024-06-22T17:45:13+08:00"
+              content="2024-06-22" >
+          06-22
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+      
+
+        
+        
+        
+
         
         
 
@@ -690,7 +729,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -712,7 +751,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">42</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -791,7 +830,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="Site words total count">50k</span>
+    <span title="Site words total count">55k</span>
   
 
   
@@ -800,7 +839,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="Site reading time">50 mins.</span>
+    <span title="Site reading time">55 mins.</span>
   
 </div>
 
@@ -1307,5 +1346,280 @@
 
   
 
+
+  <!-- Mermaid support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    .mermaid-container {
+      position: relative;
+      border: 1px solid #d8dee4;
+      border-radius: 10px;
+      background: #f6f8fa;
+      margin: 1.8em 0;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      transition: box-shadow 0.3s ease;
+    }
+    .mermaid-container:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .mermaid-toolbar {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+      display: flex;
+      gap: 5px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .mermaid-container:hover .mermaid-toolbar {
+      opacity: 1;
+    }
+    .mermaid-btn {
+      width: 30px;
+      height: 30px;
+      border: 1px solid #c8cdd3;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.95);
+      color: #57606a;
+      font-size: 15px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+      padding: 0;
+    }
+    .mermaid-btn:hover {
+      background: #fff;
+      color: #24292f;
+      border-color: #8c959f;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .mermaid-wrapper {
+      overflow: hidden;
+      cursor: grab;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100px;
+      background: #f6f8fa;
+    }
+    .mermaid-wrapper:active {
+      cursor: grabbing;
+    }
+    .mermaid-wrapper svg {
+      background: #f6f8fa !important;
+      transition: transform 0.15s ease-out;
+      transform-origin: center center;
+      max-width: 100%;
+      display: block;
+    }
+    /* 全屏模式 */
+    .mermaid-container.fullscreen {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 10000;
+      border-radius: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      background: #f6f8fa;
+    }
+    .mermaid-container.fullscreen .mermaid-wrapper {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      padding: 40px;
+      background: #f6f8fa;
+    }
+    .mermaid-container.fullscreen .mermaid-wrapper svg {
+      background: #f6f8fa !important;
+    }
+    .mermaid-container.fullscreen .mermaid-toolbar {
+      opacity: 1;
+      position: relative;
+      top: auto;
+      right: auto;
+      padding: 12px 20px;
+      background: #fff;
+      border-bottom: 1px solid #d8dee4;
+      justify-content: flex-end;
+    }
+    .mermaid-container.fullscreen .mermaid-btn {
+      width: 36px;
+      height: 36px;
+      font-size: 17px;
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+      
+      function initMermaidInteractive() {
+        document.querySelectorAll('.mermaid').forEach(function(el) {
+          if (el.closest('.mermaid-container')) return;
+          var svg = el.tagName === 'svg' ? el : el.querySelector('svg');
+          if (!svg) return;
+          
+          // 统一 SVG 和容器背景色
+          svg.style.background = '#f6f8fa';
+          
+          var container = document.createElement('div');
+          container.className = 'mermaid-container';
+          
+          var toolbar = document.createElement('div');
+          toolbar.className = 'mermaid-toolbar';
+          toolbar.innerHTML =
+            '<button class="mermaid-btn" title="放大" data-action="zoom-in">＋</button>' +
+            '<button class="mermaid-btn" title="缩小" data-action="zoom-out">－</button>' +
+            '<button class="mermaid-btn" title="重置" data-action="reset">↺</button>' +
+            '<button class="mermaid-btn" title="全屏" data-action="fullscreen">⛶</button>';
+          
+          var wrapper = document.createElement('div');
+          wrapper.className = 'mermaid-wrapper';
+          
+          var parent = el.parentNode;
+          parent.insertBefore(container, el);
+          wrapper.appendChild(el);
+          container.appendChild(toolbar);
+          container.appendChild(wrapper);
+          
+          var scale = 1;
+          var translateX = 0, translateY = 0;
+          var isDragging = false;
+          var startX, startY;
+          var isFullscreen = false;
+          
+          function updateTransform() {
+            el.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
+          }
+          
+          // 自动适配容器大小
+          function fitToContainer() {
+            var wrapperRect = wrapper.getBoundingClientRect();
+            var svgRect = svg.getBoundingClientRect();
+            var padding = isFullscreen ? 80 : 40;
+            
+            var availableW = wrapperRect.width - padding;
+            var availableH = wrapperRect.height - padding;
+            
+            // 获取 SVG 原始尺寸（考虑当前缩放）
+            var svgWidth = svgRect.width / scale;
+            var svgHeight = svgRect.height / scale;
+            
+            var scaleX = availableW / svgWidth;
+            var scaleY = availableH / svgHeight;
+            var newScale = Math.min(scaleX, scaleY, 1);
+            
+            if (newScale < 1 && newScale > 0.1) {
+              scale = newScale;
+            } else {
+              scale = 1;
+            }
+            translateX = 0;
+            translateY = 0;
+            updateTransform();
+          }
+          
+          toolbar.querySelectorAll('.mermaid-btn').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+              e.stopPropagation();
+              var action = this.dataset.action;
+              if (action === 'zoom-in') {
+                scale = Math.min(scale * 1.25, 5);
+                updateTransform();
+              } else if (action === 'zoom-out') {
+                scale = Math.max(scale / 1.25, 0.2);
+                updateTransform();
+              } else if (action === 'reset') {
+                fitToContainer();
+              } else if (action === 'fullscreen') {
+                if (document.fullscreenElement) {
+                  document.exitFullscreen();
+                } else {
+                  container.requestFullscreen().catch(function() {
+                    container.classList.add('fullscreen');
+                    isFullscreen = true;
+                    setTimeout(fitToContainer, 100);
+                  });
+                }
+              }
+            });
+          });
+          
+          wrapper.addEventListener('mousedown', function(e) {
+            if (e.button !== 0) return;
+            isDragging = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+            wrapper.style.cursor = 'grabbing';
+            e.preventDefault();
+          });
+          
+          document.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            updateTransform();
+          });
+          
+          document.addEventListener('mouseup', function() {
+            isDragging = false;
+            wrapper.style.cursor = 'grab';
+          });
+          
+          wrapper.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            var delta = e.deltaY > 0 ? 0.9 : 1.1;
+            scale = Math.max(0.2, Math.min(5, scale * delta));
+            updateTransform();
+          }, { passive: false });
+          
+          document.addEventListener('fullscreenchange', function() {
+            if (document.fullscreenElement === container) {
+              isFullscreen = true;
+              setTimeout(fitToContainer, 150);
+            } else {
+              isFullscreen = false;
+              container.classList.remove('fullscreen');
+              setTimeout(function() {
+                scale = 1;
+                translateX = 0;
+                translateY = 0;
+                updateTransform();
+              }, 100);
+            }
+          });
+          
+          // 初始适配
+          setTimeout(fitToContainer, 100);
+        });
+      }
+      
+      if (document.querySelectorAll('.mermaid').length > 0) {
+        var observer = new MutationObserver(function(mutations, obs) {
+          var rendered = document.querySelectorAll('.mermaid svg').length > 0;
+          if (rendered) {
+            initMermaidInteractive();
+            obs.disconnect();
+          }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+        setTimeout(function() {
+          initMermaidInteractive();
+          observer.disconnect();
+        }, 2000);
+      }
+    });
+  </script>
 </body>
 </html>

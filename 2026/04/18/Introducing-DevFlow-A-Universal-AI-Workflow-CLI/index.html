@@ -125,7 +125,7 @@
 
 
 
-  <title>Tag: Skill-Lib | The Way conforms to the natural order</title>
+  <title>DevFlow：一个让任何 AI 都能"按流程办事"的 CLI 工具 | The Way conforms to the natural order</title>
   
 
 
@@ -144,7 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -272,54 +272,432 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Skill-Lib<small>Tag</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.nekonet.cn/2026/04/18/Introducing-DevFlow-A-Universal-AI-Workflow-CLI/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Way conforms to the natural order">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2026/02/11/Introducing-Skill-Lib-A-Curated-Collection-of-AI-Agent-Skills/" itemprop="url">
-              
-                <span itemprop="name">开源发布 - Skill-Lib AI Agent 技能库</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">DevFlow：一个让任何 AI 都能"按流程办事"的 CLI 工具</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2026-02-11T17:27:58+08:00"
-              content="2026-02-11" >
-          02-11
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2026-04-18T20:00:00+08:00">2026-04-18</time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">13k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">13 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>如果你用过 <a target="_blank" rel="noopener" href="https://github.com/obra/superpowers">Superpowers</a> 这套 AI 工作流规范，一定有过这种体验：告诉 AI “帮我修复这个 bug”，它会<strong>先读规范、再按步骤执行</strong>——先复现问题、再定位根因、最后修复验证。</p>
+<p>这套规范确实有用。但用久了你会发现一个尴尬的问题：<strong>规范是&quot;建议&quot;，不是&quot;约束&quot;</strong>。</p>
+<p>AI 读完了规范，仍然可能凭直觉跳步骤；你说”先写测试再写代码”，它嘴上说好，手一快就先把功能实现了；你说”修复前要先找到根因”，它试了两次没头绪，直接开始瞎猜。</p>
+<p><strong>问题不在 AI 不听话，而在于我们没有给规范配上一个”执行引擎”。</strong></p>
+<span id="more"></span>
+
+<hr>
+<h2 id="真实踩坑：规范有了，执行却失控了"><a href="#真实踩坑：规范有了，执行却失控了" class="headerlink" title="真实踩坑：规范有了，执行却失控了"></a>真实踩坑：规范有了，执行却失控了</h2><p>以上说得还算理想化。接下来我要分享的是<strong>真实工程中的三个痛点</strong>——它们直接决定了 DevFlow 必须被设计成现在这个样子。</p>
+<h3 id="痛点-1：工作流文档披露太多，关键细节反而丢失"><a href="#痛点-1：工作流文档披露太多，关键细节反而丢失" class="headerlink" title="痛点 1：工作流文档披露太多，关键细节反而丢失"></a>痛点 1：工作流文档披露太多，关键细节反而丢失</h3><p>我最初在项目里放了一份 <code>WORKFLOW.md</code>，里面详细描述了从需求到交付的完整流程。Agent 读完后，<strong>大体的执行顺序是对的</strong>——它知道要先创建需求文档，再开发功能。</p>
+<p>但问题出在<strong>信息量过载</strong>。</p>
+<p>当 Agent 一次性看到全部流程（创建 REQ → 写 FEAT → TDD 实现 → 测试 → 验证），它往往<strong>只抓主线，丢掉细节</strong>。流程要求”创建 REQ 需求文档并填充内容”，Agent 创建了一个空文件就觉得”这一步完成了”，马上跳到功能开发。等到代码写完了，回头一看——REQ 文件还是空的，没有需求描述、没有验收标准。</p>
+<p><strong>不是 Agent 不想做对，而是一次性给太多信息，它根本抓不住重点。</strong></p>
+<h3 id="痛点-2：AI-行为不可控，会擅自跳过必要步骤"><a href="#痛点-2：AI-行为不可控，会擅自跳过必要步骤" class="headerlink" title="痛点 2：AI 行为不可控，会擅自跳过必要步骤"></a>痛点 2：AI 行为不可控，会擅自跳过必要步骤</h3><p>更严重的问题是，Agent 会<strong>自行判断哪些步骤”不重要”然后跳过</strong>。</p>
+<p>你规定了”修改代码前必须先写测试”，Agent 嘴上说好，手一快直接把功能实现了。你要求”提交前必须跑 lint”，Agent 觉得”这次改动很小，应该不会出错”，直接跳过。</p>
+<p><strong>没有强制约束的规范，本质上只是”建议”。</strong> Agent 会根据自己的”理解”选择性执行，而人类期望的是<strong>每一步都必须完成、每一项检查都必须通过</strong>。</p>
+<h3 id="痛点-3：不同项目流程差异大，纯文档适配性差"><a href="#痛点-3：不同项目流程差异大，纯文档适配性差" class="headerlink" title="痛点 3：不同项目流程差异大，纯文档适配性差"></a>痛点 3：不同项目流程差异大，纯文档适配性差</h3><p>我尝试给所有项目用同一份 <code>WORKFLOW.md</code>，但很快发现行不通。</p>
+<p>有的项目需要跨平台打包环节，有的项目要流转到第三方系统审批，有的需要做安全扫描，有的需要性能基准测试。同一份文档不可能覆盖所有场景。</p>
+<p>而且，当项目从 A 流程迁移到 B 流程时（比如 Debug 完成后要回到 Feature 开发的评审环节），纯文档方案只能靠 Agent”记住”之前的状态——它经常记不住。</p>
+<p><strong>靠 Markdown 文档来适配不同项目、管理流程切换，是死路一条。</strong></p>
+<h3 id="优化思路的诞生"><a href="#优化思路的诞生" class="headerlink" title="优化思路的诞生"></a>优化思路的诞生</h3><p>这三个痛点让我意识到，问题的根源在于<strong>控制权的归属</strong>：</p>
+<blockquote>
+<p><strong>不能让 Agent 自己决定”接下来做什么”。必须让 CLI 来编排工作流，Agent 只是流程中的执行者。</strong></p>
+</blockquote>
+<p>针对三个痛点，DevFlow 的解决方案是：</p>
+<table>
+<thead>
+<tr>
+<th>痛点</th>
+<th>解决方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>信息过载，细节丢失</td>
+<td><strong>渐进式披露</strong>——一次只给一步，完成后再给下一步</td>
+</tr>
+<tr>
+<td>AI 跳过步骤，行为不可控</td>
+<td><strong>Gate 系统 + Fail Route</strong>——没过检查就不能前进，失败自动走补救路线</td>
+</tr>
+<tr>
+<td>项目差异大，流程切换难</td>
+<td><strong>控制反转 + 跨工作流引用</strong>——人类用 TOML 定义工作流，CLI 负责编排和切换</td>
+</tr>
+</tbody></table>
+<p>此外，为了改善人机交互，DevFlow 还提供了 <strong>Ralph Loop</strong> 自主执行模式——启动后 Agent 可以自动推进工作流，人类只需在关键节点介入，不需要每一步都手动确认。</p>
+<p>这五个机制，就是 DevFlow 的核心设计哲学。</p>
+<hr>
+<h2 id="从「规范卡片」到「生产流水线」"><a href="#从「规范卡片」到「生产流水线」" class="headerlink" title="从「规范卡片」到「生产流水线」"></a>从「规范卡片」到「生产流水线」</h2><p>Superpowers 本质上是一套<strong>行为规范</strong>——它告诉 AI “你应该怎么做”，但无法检查 AI “是不是真的做了”。</p>
+<p>这就像一家公司：</p>
+<ul>
+<li>有员工手册（规范）</li>
+<li>但没有打卡系统、没有审批流程、没有质量检查</li>
+</ul>
+<p>结果就是：有人按规矩来，有人凭感觉来，交付质量完全看运气。</p>
+<p><strong>我们需要的是一套”生产流水线”</strong>：AI 每做完一步，必须经过客观检查（Gate），通过了才能进入下一步；没通过，就自动进入补救流程。整个开发过程从”自由发挥”变成”强制流程”。</p>
+<p>这就是 <strong>DevFlow</strong> 要解决的问题。</p>
+<hr>
+<h2 id="DevFlow-是什么？"><a href="#DevFlow-是什么？" class="headerlink" title="DevFlow 是什么？"></a>DevFlow 是什么？</h2><p>DevFlow 是一个<strong>与 Agent 无关的 AI 开发工作流 CLI 工具</strong>。它用 TOML 配置文件定义开发流程，通过渐进式披露（Progressive Disclosure）让 AI 一次只看一步，配合 Gate 系统进行客观验证。</p>
+<p><strong>核心定位</strong>：Superpowers 解决”AI 应该知道什么”，DevFlow 解决”AI 必须做什么、怎么确认做了”。</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Superpowers</th>
+<th>DevFlow</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>本质</td>
+<td>行为规范（软约束）</td>
+<td>执行引擎（硬约束）</td>
+</tr>
+<tr>
+<td>形式</td>
+<td>Markdown 技能文档</td>
+<td>TOML 工作流 + CLI 工具</td>
+</tr>
+<tr>
+<td>验证方式</td>
+<td>靠 AI 自觉</td>
+<td>Gate 系统客观检查</td>
+</tr>
+<tr>
+<td>适用范围</td>
+<td>特定 Agent 插件</td>
+<td><strong>任何 AI Agent 都能用</strong></td>
+</tr>
+<tr>
+<td>用户指令</td>
+<td>“请先读规范”</td>
+<td><code>devflow current</code> → <code>devflow done</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="核心设计：五个机制管住流程"><a href="#核心设计：五个机制管住流程" class="headerlink" title="核心设计：五个机制管住流程"></a>核心设计：五个机制管住流程</h2><h3 id="1-渐进式披露（Progressive-Disclosure）"><a href="#1-渐进式披露（Progressive-Disclosure）" class="headerlink" title="1. 渐进式披露（Progressive Disclosure）"></a>1. 渐进式披露（Progressive Disclosure）</h3><p>传统方式是扔给 AI 一份完整的开发规范（比如 20 页的流程文档），AI 看了前面忘了后面，或者跳着看。</p>
+<p>DevFlow 的做法是<strong>一次只暴露一个步骤</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">AI: devflow current</span><br><span class="line">CLI: [显示当前步骤的指令和 Gate 条件]</span><br><span class="line"></span><br><span class="line">AI: [执行指令]</span><br><span class="line"></span><br><span class="line">AI: devflow done</span><br><span class="line">CLI: [检查 Gate → 通过 → 推进到下一步]</span><br></pre></td></tr></table></figure>
+
+<p>AI 永远只看到<strong>当前该做什么</strong>，不会提前看到后面的步骤，也不会漏掉前面的步骤。</p>
+<h3 id="2-Gate-系统：客观验证"><a href="#2-Gate-系统：客观验证" class="headerlink" title="2. Gate 系统：客观验证"></a>2. Gate 系统：客观验证</h3><p>每个步骤都配有 Gate 条件，只有满足条件才能通过。常见的 Gate 类型：</p>
+<table>
+<thead>
+<tr>
+<th>Gate 类型</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>file_exists</code></td>
+<td>文件必须存在</td>
+<td><code>docs/REQ-001.md</code> 已创建</td>
+</tr>
+<tr>
+<td><code>file_contains</code></td>
+<td>文件必须包含特定内容</td>
+<td>需求文档包含 <code>status: approved</code></td>
+</tr>
+<tr>
+<td><code>command_success</code></td>
+<td>命令必须成功退出</td>
+<td><code>pytest</code> 全部通过</td>
+</tr>
+<tr>
+<td><code>user_approved</code></td>
+<td>需要人工确认</td>
+<td><code>devflow approve DESIGN-001</code></td>
+</tr>
+</tbody></table>
+<p><strong>核心规则：没过 Gate，就 advance 不了。</strong> 这不是建议，是程序上的硬拦截。</p>
+<h3 id="3-Fail-Route：失败不卡死"><a href="#3-Fail-Route：失败不卡死" class="headerlink" title="3. Fail Route：失败不卡死"></a>3. Fail Route：失败不卡死</h3><p>如果 Gate 检查失败怎么办？传统方式是 AI 原地重试，可能陷入死循环。</p>
+<p>DevFlow 的解决方案是 <strong>Fail Route</strong>——根据失败次数自动路由到不同的处理步骤：</p>
+<pre class="mermaid">flowchart TD
+    A[debug-fix<br/>执行修复] --> B{Gate检查<br/>测试通过？}
+    B -->|通过| C[debug-verify<br/>验证修复]
+    B -->|失败 1-2 次| D[debug-root-cause<br/>重新分析根因]
+    B -->|失败 3+ 次| E[debug-question<br/>升级到人工介入]
+    D --> A
+    E --> D</pre>
+
+<p>AI 不需要自己决定”接下来怎么办”，流程已经定义好了。</p>
+<h3 id="4-跨工作流引用"><a href="#4-跨工作流引用" class="headerlink" title="4. 跨工作流引用"></a>4. 跨工作流引用</h3><p>不同场景用不同的工作流：</p>
+<ul>
+<li><strong>MODE-A</strong>：Feature 开发（需求 → 设计 → 实现 → 测试 → 交付）</li>
+<li><strong>MODE-B</strong>：Debug（根因分析 → 假设验证 → 修复 → 验证）</li>
+</ul>
+<p>关键是：<strong>Debug 完成后，自动切回 MODE-A 的 Plan 阶段</strong>，进入完整的评审循环。</p>
+<pre class="mermaid">flowchart LR
+    subgraph MODE-B
+        B1[debug-finish<br/>Debug完成]
+    end
+    subgraph MODE-A
+        A1[write-plan<br/>重新进入评审]
+    end
+    B1 -->|跨工作流引用| A1</pre>
+
+<p>这意味着 AI 不需要”记住”之前在做哪个功能，流程本身会带它回到正确的位置。</p>
+<h3 id="5-Ralph-Loop：人机协作的自主执行"><a href="#5-Ralph-Loop：人机协作的自主执行" class="headerlink" title="5. Ralph Loop：人机协作的自主执行"></a>5. Ralph Loop：人机协作的自主执行</h3><p>前面四个机制解决的是”流程怎么管”，Ralph Loop 解决的是”人机怎么协作”。</p>
+<p>在没有自主执行的情况下，每完成一步都需要人类手动输入 <code>devflow done</code> 来推进——这在复杂项目中非常繁琐。</p>
+<p>Ralph Loop 的模式是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动自主执行循环</span></span><br><span class="line">devflow run [--tool <span class="built_in">local</span>] [--max-iterations 10]</span><br></pre></td></tr></table></figure>
+
+<p>启动后，Agent 会自动读取当前步骤、执行指令、检查 Gate、推进到下一步。<strong>人类只需在需要确认的关键节点介入</strong>（比如 <code>user_approved</code> Gate），其他时候流程自动跑。</p>
+<p>你还可以随时查看循环状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">devflow loop-status     <span class="comment"># 查看剩余任务和进度</span></span><br><span class="line">devflow sync-backlog    <span class="comment"># 从当前工作流生成任务清单</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Ralph Loop 不是让人类放手不管，而是把人类的精力集中在”决策”上，把”执行”交给流程。</strong></p>
+<hr>
+<h2 id="内置工作流：开箱即用"><a href="#内置工作流：开箱即用" class="headerlink" title="内置工作流：开箱即用"></a>内置工作流：开箱即用</h2><p>DevFlow 自带两个核心工作流：</p>
+<h3 id="MODE-A：Feature-开发"><a href="#MODE-A：Feature-开发" class="headerlink" title="MODE-A：Feature 开发"></a>MODE-A：Feature 开发</h3><pre class="mermaid">flowchart LR
+    A[req-create<br/>创建需求] --> B[req-approve<br/>需求确认] --> C[brainstorm<br/>方案探索] --> D[write-plan<br/>拆解任务] --> E[implement-tdd<br/>TDD实现] --> F[code-review<br/>代码审查] --> G[test-run<br/>运行测试] --> H[verify<br/>收集证据] --> I[finish<br/>交付清理]</pre>
+
+<h3 id="MODE-B：Debug"><a href="#MODE-B：Debug" class="headerlink" title="MODE-B：Debug"></a>MODE-B：Debug</h3><pre class="mermaid">flowchart TD
+    A[debug-root-cause<br/>调查根因] --> B[debug-pattern<br/>模式分析] --> C[debug-hypothesis<br/>假设验证]
+    C -->|验证失败| A
+    C --> D[debug-fix<br/>实现修复]
+    D -->|失败1-2次| A
+    D -->|失败3+次| E[debug-question<br/>质疑架构<br/>需人工确认]
+    E --> A
+    D -->|修复通过| F[debug-verify<br/>验证修复]
+    F --> G[debug-finish<br/>Debug完成]
+    G -->|跨工作流切换| H[MODE-A: write-plan]</pre>
+
+<hr>
+<h2 id="快速体验"><a href="#快速体验" class="headerlink" title="快速体验"></a>快速体验</h2><p>DevFlow 的安装和使用非常直接。你可以让 AI Agent 通过以下链接自行了解并完成安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Read and follow the instructions from:</span><br><span class="line">https://github.com/Dqz00116/devflow/blob/main/SKILL.md</span><br></pre></td></tr></table></figure>
+
+<p>或者手动访问项目仓库查看 <a target="_blank" rel="noopener" href="https://github.com/Dqz00116/devflow/blob/main/README.md">README</a> 获取详细文档。</p>
+<p>基本使用流程：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化项目</span></span><br><span class="line">devflow init --language python --name <span class="string">&quot;My Project&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择工作流</span></span><br><span class="line">devflow select-workflow MODE-A</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看当前步骤指令</span></span><br><span class="line">devflow current</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行完成后，检查 Gate 并推进</span></span><br><span class="line">devflow <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="为什么这件事很重要？"><a href="#为什么这件事很重要？" class="headerlink" title="为什么这件事很重要？"></a>为什么这件事很重要？</h2><p>AI 编程助手正在快速普及，但行业面临一个核心问题：<strong>不同 AI、不同用户、不同项目，做出来的质量天差地别。</strong></p>
+<p>同样的 “帮我实现一个登录功能”：</p>
+<ul>
+<li>有的 AI 直接写代码，测都不测</li>
+<li>有的 AI 先问需求，再写测试，再实现，再验证</li>
+</ul>
+<p>差异不在 AI 的能力，而在<strong>工作流程是否被强制执行</strong>。</p>
+<p>DevFlow 的意义在于：<strong>把”好的工作习惯”从”靠 AI 自觉”变成”靠流程保证”</strong>。无论用的是 Claude、Kimi、Gemini 还是其他任何 Agent，只要接入 DevFlow，就必须按步骤走、必须过 Gate、失败必须按既定路线处理。</p>
+<p><strong>这不是限制 AI 的创造力，而是确保基础质量的下限。</strong></p>
+<hr>
+<h2 id="与-Superpowers-的关系"><a href="#与-Superpowers-的关系" class="headerlink" title="与 Superpowers 的关系"></a>与 Superpowers 的关系</h2><p>DevFlow 不是 Superpowers 的替代品，而是<strong>互补的执行层</strong>：</p>
+<ul>
+<li><strong>Superpowers</strong> 解决”AI 应该遵循什么规范”（brainstorming → TDD → debugging → verification）</li>
+<li><strong>DevFlow</strong> 解决”AI 是否真的按规范执行了”（current → done → gate check → advance）</li>
+</ul>
+<p>两者结合，形成一个完整的闭环：<strong>规范定义纪律，流程强制执行纪律</strong>。</p>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>DevFlow 的核心价值可以用一句话概括：<strong>把 AI 开发从”自由发挥”变成”按流程办事”</strong>。</p>
+<p>它不提供新的 AI 能力，而是为已有的 AI 能力套上一条<strong>标准化的生产线</strong>：</p>
+<ul>
+<li>每一步做什么，流程说了算</li>
+<li>做没做完，Gate 系统说了算</li>
+<li>失败了怎么办，Fail Route 说了算</li>
+<li>做完了接下来去哪，工作流配置说了算</li>
+</ul>
+<p>当 AI 助手越来越强大，我们需要的不是更聪明的 AI，而是<strong>更可靠的协作方式</strong>。DevFlow 就是在做这件事。</p>
+<hr>
+<p><strong>项目资源</strong>：</p>
+<ul>
+<li>🏠 <strong>项目主页</strong>：<a target="_blank" rel="noopener" href="https://github.com/Dqz00116/devflow">https://github.com/Dqz00116/devflow</a></li>
+<li>📖 <strong>使用指南（SKILL.md）</strong>：<a target="_blank" rel="noopener" href="https://github.com/Dqz00116/devflow/blob/main/SKILL.md">https://github.com/Dqz00116/devflow/blob/main/SKILL.md</a></li>
+<li>🌟 <strong>Superpowers 原项目</strong>：<a target="_blank" rel="noopener" href="https://github.com/obra/superpowers">https://github.com/obra/superpowers</a></li>
+</ul>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/AI/" rel="tag"># AI</a>
+          
+            <a href="/tags/DevFlow/" rel="tag"># DevFlow</a>
+          
+            <a href="/tags/Superpowers/" rel="tag"># Superpowers</a>
+          
+            <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81/" rel="tag"># 工作流</a>
+          
+            <a href="/tags/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/" rel="tag"># 开源项目</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2026/03/31/Kimi-with-Superpowers-%E8%AE%A9-AI-%E5%8A%A9%E6%89%8B%E5%AD%A6%E4%BC%9A%E9%81%B5%E5%AE%88%E7%BA%AA%E5%BE%8B%E7%9A%84%E6%99%BA%E8%83%BD%E7%AE%A1%E6%95%99%E7%B3%BB%E7%BB%9F/" rel="next" title="Kimi with Superpowers：让国产 AI 助手学会"遵守纪律"的开源项目">
+                <i class="fa fa-chevron-left"></i> Kimi with Superpowers：让国产 AI 助手学会"遵守纪律"的开源项目
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -327,6 +705,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -347,8 +729,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -442,6 +833,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9C%9F%E5%AE%9E%E8%B8%A9%E5%9D%91%EF%BC%9A%E8%A7%84%E8%8C%83%E6%9C%89%E4%BA%86%EF%BC%8C%E6%89%A7%E8%A1%8C%E5%8D%B4%E5%A4%B1%E6%8E%A7%E4%BA%86"><span class="nav-number">1.</span> <span class="nav-text">真实踩坑：规范有了，执行却失控了</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%9B%E7%82%B9-1%EF%BC%9A%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%96%87%E6%A1%A3%E6%8A%AB%E9%9C%B2%E5%A4%AA%E5%A4%9A%EF%BC%8C%E5%85%B3%E9%94%AE%E7%BB%86%E8%8A%82%E5%8F%8D%E8%80%8C%E4%B8%A2%E5%A4%B1"><span class="nav-number">1.1.</span> <span class="nav-text">痛点 1：工作流文档披露太多，关键细节反而丢失</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%9B%E7%82%B9-2%EF%BC%9AAI-%E8%A1%8C%E4%B8%BA%E4%B8%8D%E5%8F%AF%E6%8E%A7%EF%BC%8C%E4%BC%9A%E6%93%85%E8%87%AA%E8%B7%B3%E8%BF%87%E5%BF%85%E8%A6%81%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.2.</span> <span class="nav-text">痛点 2：AI 行为不可控，会擅自跳过必要步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%97%9B%E7%82%B9-3%EF%BC%9A%E4%B8%8D%E5%90%8C%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B%E5%B7%AE%E5%BC%82%E5%A4%A7%EF%BC%8C%E7%BA%AF%E6%96%87%E6%A1%A3%E9%80%82%E9%85%8D%E6%80%A7%E5%B7%AE"><span class="nav-number">1.3.</span> <span class="nav-text">痛点 3：不同项目流程差异大，纯文档适配性差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%80%9D%E8%B7%AF%E7%9A%84%E8%AF%9E%E7%94%9F"><span class="nav-number">1.4.</span> <span class="nav-text">优化思路的诞生</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E3%80%8C%E8%A7%84%E8%8C%83%E5%8D%A1%E7%89%87%E3%80%8D%E5%88%B0%E3%80%8C%E7%94%9F%E4%BA%A7%E6%B5%81%E6%B0%B4%E7%BA%BF%E3%80%8D"><span class="nav-number">2.</span> <span class="nav-text">从「规范卡片」到「生产流水线」</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DevFlow-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">DevFlow 是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E8%AE%BE%E8%AE%A1%EF%BC%9A%E4%BA%94%E4%B8%AA%E6%9C%BA%E5%88%B6%E7%AE%A1%E4%BD%8F%E6%B5%81%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">核心设计：五个机制管住流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%B8%90%E8%BF%9B%E5%BC%8F%E6%8A%AB%E9%9C%B2%EF%BC%88Progressive-Disclosure%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">1. 渐进式披露（Progressive Disclosure）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Gate-%E7%B3%BB%E7%BB%9F%EF%BC%9A%E5%AE%A2%E8%A7%82%E9%AA%8C%E8%AF%81"><span class="nav-number">4.2.</span> <span class="nav-text">2. Gate 系统：客观验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Fail-Route%EF%BC%9A%E5%A4%B1%E8%B4%A5%E4%B8%8D%E5%8D%A1%E6%AD%BB"><span class="nav-number">4.3.</span> <span class="nav-text">3. Fail Route：失败不卡死</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%B7%A8%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%BC%95%E7%94%A8"><span class="nav-number">4.4.</span> <span class="nav-text">4. 跨工作流引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Ralph-Loop%EF%BC%9A%E4%BA%BA%E6%9C%BA%E5%8D%8F%E4%BD%9C%E7%9A%84%E8%87%AA%E4%B8%BB%E6%89%A7%E8%A1%8C"><span class="nav-number">4.5.</span> <span class="nav-text">5. Ralph Loop：人机协作的自主执行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E5%B7%A5%E4%BD%9C%E6%B5%81%EF%BC%9A%E5%BC%80%E7%AE%B1%E5%8D%B3%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">内置工作流：开箱即用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MODE-A%EF%BC%9AFeature-%E5%BC%80%E5%8F%91"><span class="nav-number">5.1.</span> <span class="nav-text">MODE-A：Feature 开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MODE-B%EF%BC%9ADebug"><span class="nav-number">5.2.</span> <span class="nav-text">MODE-B：Debug</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E4%BD%93%E9%AA%8C"><span class="nav-number">6.</span> <span class="nav-text">快速体验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%BB%B6%E4%BA%8B%E5%BE%88%E9%87%8D%E8%A6%81%EF%BC%9F"><span class="nav-number">7.</span> <span class="nav-text">为什么这件事很重要？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8E-Superpowers-%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">8.</span> <span class="nav-text">与 Superpowers 的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -605,6 +1012,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.0"></script>
+
+
 
   
 
