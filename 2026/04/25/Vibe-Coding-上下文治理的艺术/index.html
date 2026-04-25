@@ -130,7 +130,7 @@
 
 
 
-  <title>Mybatis——文件配置与实例构造 | The Way conforms to the natural order</title>
+  <title>Vibe Coding 的正确姿势：从"凭感觉写代码"到上下文治理 | The Way conforms to the natural order</title>
   
 
 
@@ -291,7 +291,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.nekonet.cn/2021/07/08/Mybatis%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE%E4%B8%8E%E5%AE%9E%E4%BE%8B%E6%9E%84%E9%80%A0/">
+    <link itemprop="mainEntityOfPage" href="https://www.nekonet.cn/2026/04/25/Vibe-Coding-%E4%B8%8A%E4%B8%8B%E6%96%87%E6%B2%BB%E7%90%86%E7%9A%84%E8%89%BA%E6%9C%AF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -308,7 +308,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Mybatis——文件配置与实例构造</h1>
+          <h1 class="post-title" itemprop="name headline">Vibe Coding 的正确姿势：从"凭感觉写代码"到上下文治理</h1>
         
 
         <div class="post-meta">
@@ -320,7 +320,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-07-08T14:47:20+08:00">2021-07-08</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2026-04-25T20:00:00+08:00">2026-04-25</time>
             
 
             
@@ -341,8 +341,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
                   </a>
                 </span>
 
@@ -377,7 +377,7 @@
                 
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
-                <span title="Words count in article">21k</span>
+                <span title="Words count in article">14k</span>
               
 
               
@@ -391,15 +391,11 @@
                 
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
-                <span title="Reading time">21 mins.</span>
+                <span title="Reading time">14 mins.</span>
               
             </div>
           
 
-          
-              <div class="post-description">
-                  从一个写入数据到MySQL的实例解析Mybatis的配置过程
-              </div>
           
 
         </div>
@@ -415,87 +411,171 @@
       
 
       
-        <h2 id="情景"><a href="#情景" class="headerlink" title="情景"></a>情景</h2><p>数据库中有一个简单数据表，用于储存用户的账户以及登录密码</p>
-<p><img src="https://gitee.com/Dqz00116/pic/raw/master/img/20210708150702.png"></p>
-<p>需要通过Mybatis对该数据表插入新数据</p>
-<p>为了实现这目的，我们需要：</p>
+        <p>你有没有经历过这样的场景：</p>
+<p>打开 AI 编程助手，随口描述了一个需求——界面瞬间成形，CRUD 自动生成，一切行云流水。你心想：<strong>这就是未来。</strong></p>
+<p>30 分钟后，你开始频繁说”不对，改一下布局””这个逻辑有问题，重新生成”。改动越积越多，代码开始散发出一股微妙的不一致感。</p>
+<p>2 小时后，你隐约觉得哪里不对——刚才修好的功能，怎么又坏了？改了这个文件，另一个文件又报错了。AI 产出的内容开始前后矛盾，甚至完全跑不起来。</p>
+<p>5 小时后，你盯着那个曾经轻巧、如今臃肿的代码库，脑海中只剩一个念头：<strong>不如推倒重来。</strong></p>
+<p>这就是 Vibe Coding（氛围编程）最真实的体验曲线——从惊艳到崩溃，往往只需要一个下午。</p>
+<p><strong>问题出在哪？真的是 AI 不够强吗？</strong></p>
+<span id="more"></span>
+
+<hr>
+<h2 id="问题不在-AI，而在于”氛围”"><a href="#问题不在-AI，而在于”氛围”" class="headerlink" title="问题不在 AI，而在于”氛围”"></a>问题不在 AI，而在于”氛围”</h2><p>“Vibe Coding”这个词，最早由 Andrej Karpathy 提出。它的本意是：<strong>你沉浸在编程的心流里，完全信任 AI，让它替你完成实现细节。</strong></p>
+<p>听起来很美。但实践起来，大多数人都会卡在同一个坑里——</p>
+<p><strong>AI 没有”大局观”。</strong></p>
+<p>你每次和 AI 对话，它的全部记忆就只有当前这个对话窗口。它不知道你三天前做了什么决策，不知道这个模块为什么被设计成这样，更不知道你和团队约定了一套什么规范。</p>
+<p>你给一句提示，它产出一段代码。你再给一句，它再产出一段。每一次交付看起来都没问题，但拼在一起，就像五个不同的建筑师各自设计了一层楼——每层单独看都还行，组合起来就变成了危房。</p>
+<p>更扎心的是：AI 是极度擅长<strong>局部优化</strong>但缺乏<strong>全局视角</strong>的超级执行者。它能写代码，却不能真正理解业务上下文；它能快速迭代，却无法判断哪种结构更适合长期演进。当你跳过必要的设计思考，直接让 AI 全权承担实现乃至架构决策时，本质上是在将系统构建的主导权交给一个”不知道自己在建什么”的施工队。</p>
+<p><strong>这不是 AI 的错，是上下文失控了。</strong></p>
+<hr>
+<h2 id="理解你的对手：LLM-的工作方式"><a href="#理解你的对手：LLM-的工作方式" class="headerlink" title="理解你的对手：LLM 的工作方式"></a>理解你的对手：LLM 的工作方式</h2><p>要真正驾驭 Vibe Coding，你得先理解那个”坐在对面的搭档”到底是怎么运转的。很多问题的根源，不是 AI 不够强，而是我们对它的工作方式存在根本性的误解。</p>
+<h3 id="1-它没有独立于输出的”思考”过程"><a href="#1-它没有独立于输出的”思考”过程" class="headerlink" title="1. 它没有独立于输出的”思考”过程"></a>1. 它没有独立于输出的”思考”过程</h3><p>大语言模型的工作方式可以用一句话概括：<strong>预测下一个 token</strong>。</p>
+<p>当你向 LLM 提问时，它并不是先在”脑中”构思好完整答案再输出。相反，它每次只做一件事：基于当前看到的所有文本（你的输入 + 它已经生成的内容），预测最可能的下一个词是什么。然后把这个词加入序列，再预测下一个，如此循环直到生成结束。这种方式被称为<strong>自回归生成（Autoregressive Generation）</strong>。</p>
+<p>理解这一点至关重要。人类工程师写代码，先想后写——心里盘算清楚架构、边界条件、异常路径，最后才落键盘。LLM 不是这样。<strong>它的推理就是生成本身。</strong> 它不能先在脑子里演算一遍，只能说一句想一句。</p>
+<p>这就是为什么让模型”一步步思考”（Chain-of-Thought）会提升效果——你实际上是在给它更多的”思考空间”，让它通过生成中间步骤来辅助推理。如果你不帮它”先想好”，它就只能边走边猜。</p>
+<p>自回归机制在 Coding 场景下还会被进一步放大：</p>
 <ul>
-<li>文件配置</li>
-<li>写一点Java类</li>
+<li><strong>局部最优陷阱</strong>：AI 一步一步”续写”，不等于全局规划。它容易先写得很顺，然后在后面发现不对再补丁式修补，历史债务快速累积。</li>
+<li><strong>偏差滚雪球</strong>：一旦 AI 早期误读了需求或代码库的约束，后面每一步都会在错误的世界观里自洽。它生成了一个不存在的函数名，后续会越来越”相信它存在”，直到编译时报错才打脸。</li>
+<li><strong>不擅长精确编辑</strong>：AI 擅长写新文件、新段落，但相对不擅长在复杂代码中做精确、最小化的局部修改。它倾向于”重写一遍”而非”精准修改”，导致 diff 过大、review 成本极高。</li>
 </ul>
-<h2 id="文件配置"><a href="#文件配置" class="headerlink" title="文件配置"></a>文件配置</h2><p>文件配置涉及两个文件：</p>
-<p><code>mybatis-config.xml</code>：所有使用Mybatis的项目通用的配置文件，包含全局配置信息</p>
-<p><code>UserMapper.xml</code>：自定义映射器的配置文件</p>
-<h3 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h3><p>首先配置<code>mybatis-config.xml</code>，该文件需要置于Maven项目文件的<code>src/java/resources</code>路径中。</p>
-<p><code>mybatis-config.xml</code>包含了Mybatis的所有的配置信息。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">configuration</span></span></span><br><span class="line"><span class="meta">        <span class="keyword">PUBLIC</span> <span class="string">&quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">        <span class="string">&quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- changes from the defaults for testing --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;cacheEnabled&quot;</span> <span class="attr">value</span>=<span class="string">&quot;false&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;useGeneratedKeys&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;defaultExecutorType&quot;</span> <span class="attr">value</span>=<span class="string">&quot;REUSE&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="配置数据库连接"><a href="#配置数据库连接" class="headerlink" title="配置数据库连接"></a>配置数据库连接</h4><p>在数据库之前，先连接数据库。Mybatis使用JDBC驱动连接MySQL，<code>mybatis-config.xml</code>的数据库连接信息填在环境配置中，环境配置的结构如下</p>
+<h3 id="2-上下文就是它的全部记忆"><a href="#2-上下文就是它的全部记忆" class="headerlink" title="2. 上下文就是它的全部记忆"></a>2. 上下文就是它的全部记忆</h3><p>LLM 没有硬盘，没有数据库，没有”我在这个项目上积累了三周的经验”这回事。<strong>它对当前对话的全部理解，完全来自你塞进上下文窗口的那些内容。</strong></p>
+<p>上下文之外的东西，对它来说就是不存在。你在另一个会话里和它讨论过的设计决策，在新会话里它一无所知——这被称为**”会话间失忆”**，是 Coding Agent 最根本性的问题之一。就像电影《初恋 50 次》中的主角一样，Agent 每次醒来都不记得昨天发生了什么。</p>
+<p>更隐蔽的问题是：即使在同一场对话中，一旦超出窗口限制，最前面的内容就会被默默遗忘——而它不会告诉你”我忘了”，它只会基于残存的信息继续生成，像什么都没发生一样。</p>
+<h4 id="Attention：LLM-如何”阅读”上下文"><a href="#Attention：LLM-如何”阅读”上下文" class="headerlink" title="Attention：LLM 如何”阅读”上下文"></a>Attention：LLM 如何”阅读”上下文</h4><p>在预测下一个 token 时，模型通过 <strong>Attention（注意力）机制</strong>从上下文中提取相关信息。</p>
+<p>你可以把 Attention 想象成一个动态的”聚光灯”：当模型生成每个新 token 时，它会扫视整个上下文，对不同位置的内容分配不同的”注意力权重”。权重高的部分对当前生成产生更大影响，权重低的部分则几乎被忽略。</p>
+<p>重要的是：<strong>注意力是稀疏的。</strong> 模型不会均匀地关注所有内容，注意力权重往往集中在少数关键位置，大部分位置的权重接近于零。</p>
+<p>这引出了一个关键认知：<strong>有效上下文远小于标称上下文。</strong></p>
+<h4 id="上下文窗口：被高估的能力"><a href="#上下文窗口：被高估的能力" class="headerlink" title="上下文窗口：被高估的能力"></a>上下文窗口：被高估的能力</h4><p>每个模型都有最大 token 限制，目前主流模型通常在 128K 到 200K 之间。但<strong>模型宣称支持 200K tokens，不意味着在 200K 长度下都能保持良好表现。</strong></p>
+<p>问题出在 Attention 的”稀疏性”上：当上下文很长时，注意力权重需要分散到更多位置。如果关键信息只是海量内容中的一小部分，它获得的注意力权重可能会被稀释到难以有效利用的程度。实际上，一个支持 200K 的模型，可能在超过 80K 或 100K 之后，就开始出现明显的性能退化。</p>
+<p>更令人警惕的是研究发现上下文窗口的中间 40%-60% 区域存在一个**”Dumb Zone”**——在这个区域，模型的召回率下降，推理能力变差。当 Agent 深入工作时，它会逐渐表现出类似”痴呆”的症状：迷失方向、产生幻觉接口、忘记原始目标。这不是因为模型变笨了，而是因为关键信息被淹没在大量的上下文中，无法被有效利用。</p>
+<p><strong>正是因为上下文窗口有限且不均匀，所以你必须刻意管理它。</strong></p>
+<h3 id="3-生成具有概率性"><a href="#3-生成具有概率性" class="headerlink" title="3. 生成具有概率性"></a>3. 生成具有概率性</h3><p>同样的提示词，问两次，可能得到两个不同的回答。有时候差异很小，有时候天差地别。</p>
+<p>这不是 bug，这是概率模型的天然属性。每一步预测都是基于概率分布采样，这意味着：<strong>结果的一致性不能靠”赌”，必须靠机制来保障。</strong> 你需要用结构化的约束来引导模型的概率分布朝你期望的方向收敛。</p>
+<hr>
+<h2 id="解法：上下文治理"><a href="#解法：上下文治理" class="headerlink" title="解法：上下文治理"></a>解法：上下文治理</h2><p>理解了 LLM 的这三个本质特征——<strong>无独立于输出的思考、上下文即全部记忆、生成的概率性</strong>——Vibe Coding 的核心原则就呼之欲出了：</p>
+<blockquote>
+<p><strong>不是让 AI 更聪明，而是让你的上下文更清晰。</strong></p>
+</blockquote>
+<p>这套方法论的核心是 <strong>上下文治理（Context Governance）</strong>——在每一次和 AI 协作时，主动管理好它”能看到什么”和”应该怎么做”。它包含三个关键环节：Plan、Spec、Workflow。</p>
+<hr>
+<h3 id="Plan：先想清楚再动手"><a href="#Plan：先想清楚再动手" class="headerlink" title="Plan：先想清楚再动手"></a>Plan：先想清楚再动手</h3><p>在写第一行代码之前，先把需求拆清楚。这一步是给 AI 提供一个稳定的”航向”。</p>
+<p>你不需要写几十页的 PRD，但至少要明确：</p>
 <ul>
-<li>environments（环境配置）<ul>
-<li>environment（环境变量）<ul>
-<li>transactionManager（事务管理器）</li>
-<li>dataSource（数据源）</li>
+<li>这个功能的<strong>目标</strong>是什么（不是”要做什么”，而是”为什么做”）</li>
+<li>输入和输出是什么</li>
+<li>边界条件在哪（什么不该做）</li>
+<li>和现有系统的交互点有哪些</li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>按照下列模板填写数据库连接信息：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">environments</span> <span class="attr">default</span>=<span class="string">&quot;development&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">environment</span> <span class="attr">id</span>=<span class="string">&quot;development&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">transactionManager</span> <span class="attr">type</span>=<span class="string">&quot;jdbc&quot;</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dataSource</span> <span class="attr">type</span>=<span class="string">&quot;POOLED&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driver&quot;</span> <span class="attr">value</span>=<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;url&quot;</span> <span class="attr">value</span>=<span class="string">&quot;jdbc:mysql://localhost:3306/XXX?serverTimezone=UTC&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span> <span class="attr">value</span>=<span class="string">&quot;XXX&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;XXX&quot;</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dataSource</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">environment</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">environments</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>环境配置具体内容有点多，之后再详谈（逃</p>
-<h4 id="配置映射器"><a href="#配置映射器" class="headerlink" title="配置映射器"></a>配置映射器</h4><p>数据库连接配置完成，数据库连上了，如何操作数据库？</p>
-<p>使用映射器，用映射器定义SQL映射，从而对数据库进行增删改查。</p>
-<p>当然，在本例中只需要进行增——插入操作，所以我们需要建立一个映射器去实现插入操作，起名为UserMapper，UserMapper对应一个配置文件<code>UserMapper.xml</code></p>
-<p>在编写映射器之前，我们需要先在全局配置文件<code>mybatis-config.xml</code>中定位映射器配置文件，Mybatis提供<code>&lt;mappers&gt;</code>声明自定义映射器的配置文件位置。</p>
-<p>在刚刚填写的数据库连接信息下插入声明<code>UserMapper.xml</code>文件位置的信息：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mappers</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">mapper</span> <span class="attr">resource</span>=<span class="string">&quot;mappers/UserMapper.xml&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mappers</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>自定义映射器的配置文件与全局配置文件应在同一目录，本项目中<code>UserMapper.xml</code>在<code>resources/mapper</code>路径下。</p>
-<h3 id="映射器配置"><a href="#映射器配置" class="headerlink" title="映射器配置"></a>映射器配置</h3><p>我们最终执行的是一个简单的插入操作，所以我们需要在<code>UserMapper.xml</code>建立一个插入映射<code>&lt;insert&gt;</code></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">&quot;insertUser&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;User&quot;</span>&gt;</span></span><br><span class="line">    INSERT INTO DBTEST(USER_NAME, PASS_WORD) VALUES (#&#123;username&#125;,#&#123;password&#125;)</span><br><span class="line">	<span class="comment">&lt;!-- 这里sql结尾不能加分号，否则报“ORA-00911”的错误 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><code>id</code>需要和映射器中的方法名对应，所以后面在构造映射器时，我们需要在映射器中写一个名为<code>insertUser</code>的方法。</p>
-<p><code>parameterType</code>代表传入的参数类型，这里我们选择自定义类型<code>User</code>作为传入参数的类型。</p>
-<p><code>username</code>、<code>password</code>都是User中的私有属性，代表插入的用户民与密码。</p>
-<p>User的具体实现会在下一个部分说明。</p>
-<h2 id="写一点JAVA类"><a href="#写一点JAVA类" class="headerlink" title="写一点JAVA类"></a>写一点JAVA类</h2><p>完成文件配置后，为了达到通过Java程序插入数据的目的，还得写一点Java类：</p>
-<p>映射器：<code>UserMapper</code></p>
-<p>Java Bean：<code>User</code></p>
-<p>数据工厂：<code>MyBatisUtil</code></p>
-<h4 id="构造映射器UserMapper"><a href="#构造映射器UserMapper" class="headerlink" title="构造映射器UserMapper"></a>构造映射器UserMapper</h4><p><code>UserMapper</code>是数据库映射接口，在<code>UserMapper.xml</code>声明了一个<code>id</code>为<code>insertUser</code>映射，因此我们需要在<code>UserMapper</code>中写一个与之对应的方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserMapper</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insertUser</span><span class="params">(User user)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="编写Java-Bean：User"><a href="#编写Java-Bean：User" class="headerlink" title="编写Java Bean：User"></a>编写Java Bean：User</h4><p>通过<code>User</code>将欲插入的数据传给映射器<code>UserMapper</code>。</p>
-<p><code>User</code>包含两个私有属性：</p>
+<h4 id="MVP-的边界艺术"><a href="#MVP-的边界艺术" class="headerlink" title="MVP 的边界艺术"></a>MVP 的边界艺术</h4><p>Plan 阶段最重要的技巧，是给需求画一道清晰的边界——<strong>MVP（最小可行性产品）的边界</strong>。</p>
+<p>很多人在这个阶段会犯一个致命错误：因为 AI 写代码太快，所以想让它顺便把所有功能一次性写完。在 Vibe Coding 的世界里，这种”顺便”往往是灾难的开始。原因很简单：</p>
+<p><strong>第一，上下文熵增。</strong> 当项目规模瞬间膨胀，AI 需要处理的逻辑关联会呈指数级增长。一旦超过临界点，AI 就会开始”幻觉”，原本稳固的底层逻辑会因为照顾那些琐碎的边角功能而崩塌。</p>
+<p><strong>第二，调试深渊。</strong> 一次性生成的代码越多，隐藏的逻辑空洞就越多。当你在 MVP 阶段就引入了复杂功能，一旦报错，你很难分清是核心逻辑出了问题，还是那些附加功能干扰了状态机。</p>
+<p><strong>第三，反馈回路断裂。</strong> Vibe Coding 的精髓在于”快速生成——即时反馈”。一次性写完意味着你失去了在中途纠偏的机会。</p>
+<p>如何画这道边界？三条路径：</p>
 <ul>
-<li>username</li>
-<li>password</li>
+<li><strong>守住核心动作路径</strong>：MVP 的边界必须且仅能包围一条灵魂路径。如果是做一个 IM，那就是”登录 → 找到那个人 → 说出那句话”。不要在这个阶段引入验证码、第三方登录、表情包、朋友圈。</li>
+<li><strong>只做”撑起房顶”的骨架功能</strong>：这些功能不一定”好看”，但一定要”硬”。核心通信链路、数据持久化、最基础的 UI。别让 CSS 的圆角和渐变分散了 AI 面对核心逻辑时的注意力。</li>
+<li><strong>建立”负面清单”</strong>：这一步最难，但也最显功力。明确列出这个版本<strong>绝对不做</strong>的功能。</li>
 </ul>
-<p>对应数据表中用户名与密码。</p>
-<p>编写对应的<code>get</code>和<code>set</code>方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUsername</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUsername</span><span class="params">(String username)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.username = username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getPassword</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPassword</span><span class="params">(String password)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">User</span><span class="params">(String username, String password)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.username = username;</span><br><span class="line">        <span class="built_in">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">User</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="数据工厂MyBatisUtil"><a href="#数据工厂MyBatisUtil" class="headerlink" title="数据工厂MyBatisUtil"></a>数据工厂MyBatisUtil</h4><p>有了映射器，传递数据的Java Bean，Mybatis还需要实例化一个<code>SqlSessionFactory</code>，才能对数据库进行操作。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.ibatis.io.Resources;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.session.SqlSessionFactoryBuilder;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.Reader;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyBatisUtil</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> SqlSessionFactory sqlSessionFactory;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">resource</span> <span class="operator">=</span> <span class="string">&quot;mybatis-config.xml&quot;</span>;</span><br><span class="line">        <span class="type">Reader</span> <span class="variable">reader</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            reader = Resources.getResourceAsReader(resource);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            System.out.println(e.getMessage());</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        sqlSessionFactory = <span class="keyword">new</span> <span class="title class_">SqlSessionFactoryBuilder</span>().build(reader);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> SqlSessionFactory <span class="title function_">getSqlSessionFactory</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> sqlSessionFactory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> <code>SqlSessionFactoryBuilder</code> 会根据我们之前配置的配置文件构造一个<code>SqlSessionFactory</code>，所以我们不需要重复构造<code>SqlSessionFactory</code>，只用通过数据工厂MyBatisUtil传入我们需要调用的映射器，就可以获得<code>SqlSessionFactory</code>返回对应的<code>SqlSession</code>，从而对数据库进行操纵。</p>
-<p>很麻烦对吗，是的很麻烦。</p>
-<p><del>这么做当然是值得的，我们成功降低了耦合！！！</del></p>
-<p>OK，到这里我们已经完成所有准备工作，芜湖！接下来只需要编写一个测试程序来进行插入操作！</p>
-<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>在搞事之前，先在测试类中声明一个数据工厂<code>sqlSessionFactory</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">SqlSessionFactory</span> <span class="variable">sqlSessionFactory</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">	sqlSessionFactory = MyBatisUtil.getSqlSessionFactory();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>编写一个<code>testAdd</code>方法用以插入数据:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">testAdd</span><span class="params">()</span> &#123;</span><br><span class="line">	<span class="type">SqlSession</span> <span class="variable">sqlSession</span> <span class="operator">=</span> sqlSessionFactory.openSession();</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		<span class="type">UserMapper</span> <span class="variable">userMapper</span> <span class="operator">=</span> sqlSession.getMapper(UserMapper.class);  <span class="comment">// (1)</span></span><br><span class="line">		<span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;mybatis&quot;</span>,<span class="string">&quot;114514&quot;</span>);  <span class="comment">// (2)</span></span><br><span class="line">		userMapper.insertUser(user);  <span class="comment">// (3)</span></span><br><span class="line">		sqlSession.commit();  <span class="comment">// (4)</span></span><br><span class="line">	&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">		sqlSession.close();  <span class="comment">// (5)</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>（1）映射器<code>UserMapper</code>从<code>sqlSessionFactory</code>获取了对应的<code>SqlSession</code>；</p>
-<p>（2）实例化一个<code>User</code>对象user，user包含了需要插入到数据表的用户名与密码(“mybatis”,”114514”);</p>
-<p>（3）映射器<code>UserMapper</code>调用对应<code>&lt;insert id=&quot;insertUser&quot;&gt;</code>的<code>insertUser</code>方法，传入user对象；</p>
-<p>（4）<code>SqlSession</code>向数据库提交刚刚的插入操作；</p>
-<p>（5）关闭<code>SqlSession</code>与数据库的连接.</p>
-<p>大功告成，数据库那一头不出意外应该可以看到新插入的数据。</p>
+<p><strong>花 5 分钟先做 Plan，省的是后面 2 小时的重构成本。</strong></p>
+<hr>
+<h3 id="Spec：用结构化文档替代口头描述"><a href="#Spec：用结构化文档替代口头描述" class="headerlink" title="Spec：用结构化文档替代口头描述"></a>Spec：用结构化文档替代口头描述</h3><p>自然语言的致命缺陷是模糊。</p>
+<p>“把登录做好”——什么叫”做好”？是防 SQL 注入？是加验证码？是支持第三方登录？还是响应时间低于 200ms？人类可以通过上下文、默契和后续沟通来逐渐对齐，但 AI 不行。你每一次模糊的表述，都是在让 AI”猜”。而猜的结果，往往会回到最通用、最安全、最不容易被质疑的默认方案——却未必是你真正需要的。</p>
+<p>Spec（规范文档）的本质，是用结构化的方式消除歧义。它不等同于传统软件工程里的重量级设计文档，而更接近：<strong>给 AI 的一份”施工图纸”。</strong></p>
+<h4 id="统一语言：消除”歧义税”"><a href="#统一语言：消除”歧义税”" class="headerlink" title="统一语言：消除”歧义税”"></a>统一语言：消除”歧义税”</h4><p>Spec 的核心价值之一，是建立一套<strong>统一语言（Ubiquitous Language）</strong>。</p>
+<p>想象这个场景：第一天，你对 AI 说”帮我创建一个聊天功能”。AI 生成了一个名为 <code>chats</code> 的数据表。第二天，你提出要做群聊，AI 创建了一个 <code>groups</code> 表。第三天，你说”获取用户的所有会话”，AI 试图去找一个名为 <code>conversations</code> 的表——结果自然是找不到。</p>
+<p>这就是**”歧义税”（Ambiguity Tax）**：你为早期沟通的模糊不清，在后期付出了大量的重构、调试和人工解释的成本。在 Spec 中，你通过强制性的定义来消除这种歧义——明确规定：在这个项目中，所有用于承载消息的单元，统一的名称就是 <code>Conversation</code>。从此，无论是在 PRD、API 设计、数据库表命名，还是与 AI 的每一次对话中，这个词都代表且只代表这一个业务含义。</p>
+<p>一份合格的 Spec 通常包含：</p>
+<ul>
+<li><strong>领域模型</strong>：核心实体是什么（User、Message、Conversation），它们的属性和生命周期是什么，它们之间的关系是什么</li>
+<li><strong>数据模型</strong>：从领域模型到数据库表结构的映射，主键、索引、外键约束</li>
+<li><strong>接口定义</strong>：输入参数、返回值、异常情况、状态流转</li>
+<li><strong>约束条件</strong>：性能要求、安全要求、兼容性要求</li>
+</ul>
+<p>当 AI 拿到一份清晰的 Spec，就不再需要猜测”你到底想要什么”。它知道实体之间的边界在哪，知道 <code>Message</code> 不是一个简单的字符串，而是一个包含 <code>sender</code>、<code>conversation</code>、<code>status</code>、<code>sentAt</code> 等完整属性的领域对象——它自然会生成带权限校验、状态管理的代码，而不是一个干瘪的 <code>db.saveMessage(content)</code>。</p>
+<hr>
+<h3 id="Workflow：给-AI-的行为加上护栏"><a href="#Workflow：给-AI-的行为加上护栏" class="headerlink" title="Workflow：给 AI 的行为加上护栏"></a>Workflow：给 AI 的行为加上护栏</h3><p>Plan 和 Spec 解决了”做什么”的问题。Workflow 解决的是”怎么做”。</p>
+<p>前文说过，LLM 没有独立于输出的思考过程，生成具有概率性。但你可以通过 Workflow，<strong>人为地给它注入一个”思考结构”，用工程手段约束它的输出分布。</strong></p>
+<h4 id="Rules：你颁布给-AI-的”代码契约”"><a href="#Rules：你颁布给-AI-的”代码契约”" class="headerlink" title="Rules：你颁布给 AI 的”代码契约”"></a>Rules：你颁布给 AI 的”代码契约”</h4><p>Workflow 最核心的载体是 Rules——它们是写在项目配置文件中、自动注入到每一次对话的约束指令。</p>
+<p>如果你的项目只是随手写个 Demo，Rules 也许可有可无。但如果你在认真构建一个需要长期维护的系统，没有 Rules 的 AI 会犯下让架构师血压升高的”原则性错误”：</p>
+<ul>
+<li><strong>架构越级</strong>：在一个标准的分层项目里，你辛苦定下的”逻辑层与 UI 分离”原则，AI 可能会为了图省事，直接在页面组件里写复杂的业务逻辑</li>
+<li><strong>重复造轮子</strong>：你已经写好了完美的数据请求工具类，但 AI 可能又用原生的方式写了一套新的逻辑，完全无视你已有的工程资产</li>
+<li><strong>语义漂移</strong>：你在 Spec 中定义了严谨的 <code>MessageStatus</code> 枚举（发送中、已发送、已送达、已读），但 AI 生成代码时可能随手写成字符串 “pending”，导致整个系统的状态流转直接崩溃</li>
+</ul>
+<p>这些是传统的 Linter 无法拦截的——从语法上看，它们都是”正确”的；但在你的工程世界里，它们是”违法”的。</p>
+<p>Rules 就是为此而生：</p>
+<ul>
+<li><strong>强制复用</strong>：”所有 HTTP 请求必须通过 <code>@/lib/http</code> 模块，禁止使用原生 fetch”</li>
+<li><strong>模式约束</strong>：”所有即时通讯逻辑必须封装在自定义 Hook 中，禁止在组件内直接操作 WebSocket”</li>
+<li><strong>改动边界</strong>：”本次只处理好友申请相关的接口逻辑，不涉及消息系统、鉴权流程、数据库表结构调整，也不做代码风格重构”</li>
+<li><strong>明确禁止”顺手优化”</strong>：”除非明确提出，否则不要进行任何结构调整、命名优化或重构行为，仅限最小必要修改以修复当前问题”</li>
+</ul>
+<h4 id="小步快跑：以对话为单位组织工作"><a href="#小步快跑：以对话为单位组织工作" class="headerlink" title="小步快跑：以对话为单位组织工作"></a>小步快跑：以对话为单位组织工作</h4><p>Workflow 的另一条铁律是<strong>短对话优于长对话</strong>。</p>
+<p>很多人认为更大的上下文窗口意味着更强的能力，可以把更多任务塞进一个对话里。但实际情况恰恰相反。对话越长，上下文窗口里就会积累越多与当前任务不太相关的内容，Agent 的表现会逐渐退化——它会开始犯错、跌跌撞撞，甚至进入死循环。</p>
+<p>这不是 Agent “变笨了”，而是关键信息被稀释了。</p>
+<p>正确的做法是：<strong>把一个功能拆成一组相互关联的短对话。</strong> 比如实现一个用户登录后的会话管理功能，可以拆为：</p>
+<ul>
+<li>对话 1：调研现有代码结构，了解 auth 模块和 session 管理的现状</li>
+<li>对话 2：实现核心的 session 保存逻辑</li>
+<li>对话 3：添加错误处理和边界情况</li>
+<li>对话 4：编写测试</li>
+<li>对话 5：代码审查和清理</li>
+</ul>
+<p>每个对话都很短，只专注于一件事。它们加在一起完成了整个功能的开发。对话之间通过引用之前对话的结论、利用 Git 状态、读取项目文档来传递上下文。</p>
+<p><strong>把”开始新对话”视为正常工作流程的一部分，而不是”失败后的重试”。</strong></p>
+<hr>
+<h2 id="底层原则：让-AI-越用越好用的四个心法"><a href="#底层原则：让-AI-越用越好用的四个心法" class="headerlink" title="底层原则：让 AI 越用越好用的四个心法"></a>底层原则：让 AI 越用越好用的四个心法</h2><p>Plan-Spec-Workflow 是上下文治理的三根支柱。但真正让这套方法论产生<strong>复利效应</strong>的，是下面四个底层原则。</p>
+<h3 id="心法一：复利工程——你不只是在解决问题，而是在教育系统"><a href="#心法一：复利工程——你不只是在解决问题，而是在教育系统" class="headerlink" title="心法一：复利工程——你不只是在解决问题，而是在教育系统"></a>心法一：复利工程——你不只是在解决问题，而是在教育系统</h3><p>传统的 AI 编程关注的是短期收益：你给 prompt，它写代码，发布，然后从头开始。但还有一种更高维度的用法——<strong>Compounding Engineering（复利工程）</strong>——关注的是构建具有记忆的系统。</p>
+<p>核心理念很简单：<strong>每次修复 bug 时，如果不能防止同类问题再次发生，就只完成了一半。每次代码审查如果不能提取出可复用的教训，就是浪费时间。每次成功的工作流程如果不能被记录和复用，就会随着会话结束而消失。</strong></p>
+<p>具体实践：</p>
+<ul>
+<li><strong>将经验沉淀到项目文档</strong>：每当你发现一个重复出现的问题或一个有效的解决方案，就把它加入项目配置文件。Agent 在每次对话开始时都会读取它，自动应用这些经验。</li>
+<li><strong>让 bug 修复产生长期价值</strong>：修复一个 bug 之后，问自己——这类问题能否通过添加 lint 规则来预防？是否应该在配置文件中记录这个陷阱？能否编写一个测试来防止回归？</li>
+<li><strong>从代码审查中提取模式</strong>：每次你在审查中指出问题，想一想——这个反馈是否适用于未来的类似代码？是否应该成为项目的编码规范？</li>
+<li><strong>建立可复用的工作流程</strong>：当你找到一个有效的工作模式，把它写下来。下次你或 Agent 需要做类似任务时，可以直接说”按照之前的那个工作流程来做”。</li>
+</ul>
+<p>复利工程的效果是累积的。第一周，你可能只记录了几条编码规范。第一个月，你有了一套完整的项目知识库。三个月后，Agent 开始自动应用你从未明确告诉它的模式。</p>
+<h3 id="心法二：对人难的事，对-AI-也难"><a href="#心法二：对人难的事，对-AI-也难" class="headerlink" title="心法二：对人难的事，对 AI 也难"></a>心法二：对人难的事，对 AI 也难</h3><p>有一个简单但常被忽视的事实：<strong>如果一个任务对人类开发者来说很难，那么它对当前的 AI 来说大概率也很难。</strong></p>
+<p>这听起来显而易见，但它的推论却很深远：所有那些能提升人类开发者体验的工作，对 AI 同样有价值。</p>
+<ul>
+<li>当文档缺失或过时时，人类需要花大量时间阅读源码猜测意图。AI 也一样——它会在代码库中反复搜索，消耗大量上下文空间，最终可能还是理解错误。</li>
+<li>当架构混乱、模块边界不清时，人类很难知道该改哪里。AI 也会迷失——它可能改了错误的文件，或者遗漏了需要同步修改的地方。</li>
+<li>当测试运行缓慢时，人类倾向于跳过测试。AI 也面临同样的压力——长时间的等待会消耗对话的”耐心”和上下文空间。</li>
+</ul>
+<p>反过来则未必成立：对人来说简单的事，对 AI 未必简单。人类可以轻松地”看一眼”就理解 UI 布局问题，但 AI 需要解析整个 DOM 结构。人类可以凭直觉判断”这个改动风险很高”，但 AI 缺乏这种隐性知识。</p>
+<p>这意味着：<strong>你为更好的文档、更清晰的架构、更快的测试所投入的每一分精力，都会获得双倍回报——既帮了人类开发者（包括未来的你），也帮了 AI。</strong></p>
+<h3 id="心法三：刻意练习——像学乐器一样学习-AI"><a href="#心法三：刻意练习——像学乐器一样学习-AI" class="headerlink" title="心法三：刻意练习——像学乐器一样学习 AI"></a>心法三：刻意练习——像学乐器一样学习 AI</h3><p>为什么有些人说”AI 对我不起作用”，而另一些人却能用 AI 完成大量的工作？</p>
+<p>AI 就像一件乐器。每个人都知道吉他能弹出好听的音乐，也都知道如果投入刻意练习，就能变得擅长——但这需要时间、努力和实验。AI 工具也是一样。那些从 AI 中获益最多的人，都投入了刻意练习。他们不会因为一次失败就下结论说”它给了我完全错误的答案”，然后假设这将是他们的常态体验。</p>
+<p>如何进行刻意练习？</p>
+<ul>
+<li><strong>创造一个干净的实验环境</strong>：不要只在工作的复杂代码库中评估 AI。启动一个个人项目，一个没有历史包袱的新项目，在这里专注于学习如何与 AI 协作。</li>
+<li><strong>从失败中提取教训</strong>：当 AI 给出错误结果时，不要只是说”它不行”然后放弃。问自己——我的 prompt 是否足够清晰？我是否提供了足够的上下文？我是否在一个对话里塞了太多任务？</li>
+<li><strong>建立肌肉记忆</strong>：什么时候应该开始新对话？如何组织一个复杂任务的 prompt？遇到某类问题时，哪种工具组合最有效？这些直觉只能通过大量练习获得。没有捷径。</li>
+</ul>
+<h3 id="心法四：短对话、精上下文、可复用——三条永不退色的铁律"><a href="#心法四：短对话、精上下文、可复用——三条永不退色的铁律" class="headerlink" title="心法四：短对话、精上下文、可复用——三条永不退色的铁律"></a>心法四：短对话、精上下文、可复用——三条永不退色的铁律</h3><p>不管你用的是哪款 Coding Agent，不管底层的模型怎样更新换代，这三条原则会让你与 AI 的协作效率远超旁人：</p>
+<ul>
+<li><strong>短对话优先于长对话</strong>——信息密度远远大于信息量。对话一旦超过 80K-100K token，果断开始新对话。</li>
+<li><strong>对上下文进行刻意管理</strong>——你放进窗口的每一段信息，都值得精心组织。把稳定的 system prompt 和工具定义放前面（还可以利用缓存），动态的对话历史放后面。</li>
+<li><strong>把每次经验沉淀为可复用的知识</strong>——踩过的坑，不要再踩第二次。持续投入，为 AI 打造一个友好的工作环境。</li>
+</ul>
+<hr>
+<h2 id="不要等，现在就是最好的时机"><a href="#不要等，现在就是最好的时机" class="headerlink" title="不要等，现在就是最好的时机"></a>不要等，现在就是最好的时机</h2><p>写到这里，你可能在想：这些麻烦事，等 AI 更强了是不是就不用操心了？</p>
+<p>上下文窗口会越来越长，推理能力会越来越强。但上下文治理的底层逻辑，<strong>不会过时。</strong></p>
+<p>理由很简单：<strong>只要 LLM 的本质还是”基于上下文生成”，上下文的质量就永远影响着输出的质量。</strong> 窗口变长了，你不管理，它就会变得更加混乱；推理变强了，你不给定清晰的方向，它只会更自信地跑偏。</p>
+<p>更何况，AI 的进化速度远超我们的想象。每隔几个月，我们就会看到新的突破：更长的有效上下文，更稳定的长程推理，更可靠的工具调用能力。但恰恰是这个处处受限、远非完美的阶段，给工程师留出了巨大的探索和成长空间。<strong>那些从现在就开始深入理解 LLM 底层原理、在实践中反复打磨方法、在限制里寻找创造性解法的人，当 AI 的能力被进一步释放的那一天，手里握着的将是最大的杠杆。</strong></p>
+<p>在未来的人才图谱中，最具竞争力的开发者将不再是某个特定技术栈的深度专家，而是<strong>Expert Generalist（专家型通才）</strong>——能够识别不同技术领域底层的共同基础，用第一性原理思维面对陌生挑战，对所使用平台的底层特性有直觉性的理解，当系统出问题时能看到完整的图景。</p>
+<p>而 LLM 与 Expert Generalist 的关系，恰好是”放大”：当 Expert Generalist 进入一个新领域时，他们需要的不是替他们做判断的 AI，而是一个能快速填补知识空白、放大他们跨领域判断力的 AI。那些掌握了上下文治理方法论的人，正是能将 AI 变成这种”外骨骼”的人。</p>
+<p><strong>这个过程本身，就是价值所在。</strong></p>
+<hr>
+<h2 id="下期预告"><a href="#下期预告" class="headerlink" title="下期预告"></a>下期预告</h2><p>这篇文章聊的是”道”——Vibe Coding 的核心理念和原则：理解 LLM 的本质局限，用 Plan-Spec-Workflow 三根支柱进行上下文治理，在复利工程中让 AI 越用越聪明。</p>
+<p><strong>下一期，我们将直接进入”术”——以 DeepSeek-V4 + Claude Code 为工具链，完整演示一个本地桌面应用的开发全过程。</strong></p>
+<p>从 Plan（需求分析与边界划定）到 Spec（领域建模与规范化文档）到 Workflow（Rules 约束与小步快跑），从”一个空目录”到”一个能跑起来的应用”，每一步都透明展示。你会看到上下文治理不是纸上谈兵，而是真的能让 AI 的输出质量发生质变。</p>
+<p><strong>下周见。</strong></p>
+<hr>
+<p><em>本文是对 Vibe Coding 方法论的概览性介绍，核心观点整合自多位 AI 工程实践者的公开分享与一线经验。完整的实战演练将在下周的博客中呈现，敬请期待。</em></p>
 
       
     </div>
@@ -513,7 +593,15 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Mybatis/" rel="tag"># Mybatis</a>
+            <a href="/tags/AI/" rel="tag"># AI</a>
+          
+            <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81/" rel="tag"># 工作流</a>
+          
+            <a href="/tags/%E7%A7%91%E6%99%AE/" rel="tag"># 科普</a>
+          
+            <a href="/tags/Prompt-Engineering/" rel="tag"># Prompt Engineering</a>
+          
+            <a href="/tags/Vibe-Coding/" rel="tag"># Vibe Coding</a>
           
         </div>
       
@@ -526,8 +614,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/07/06/%E5%88%9D%E9%81%87Mybatis%EF%BC%9A%E8%AE%B0%E5%BD%95%E7%AC%AC%E4%B8%80%E5%A4%A9%E7%9A%84%E8%8E%AB%E5%90%8DBUG/" rel="next" title="初遇Mybatis：记录第一天的莫名BUG">
-                <i class="fa fa-chevron-left"></i> 初遇Mybatis：记录第一天的莫名BUG
+              <a href="/2026/04/18/Introducing-DevFlow-A-Universal-AI-Workflow-CLI/" rel="next" title="DevFlow：一个让任何 AI 都能"按流程办事"的 CLI 工具">
+                <i class="fa fa-chevron-left"></i> DevFlow：一个让任何 AI 都能"按流程办事"的 CLI 工具
               </a>
             
           </div>
@@ -535,10 +623,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2024/06/16/C-%E6%B3%9B%E5%9E%8B%E6%B5%85%E6%9E%90/" rel="prev" title="C# 浅析泛型">
-                C# 浅析泛型 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -704,7 +788,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%83%85%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">情景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">文件配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.</span> <span class="nav-text">全局配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.1.1.</span> <span class="nav-text">配置数据库连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%98%A0%E5%B0%84%E5%99%A8"><span class="nav-number">2.1.2.</span> <span class="nav-text">配置映射器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%A0%E5%B0%84%E5%99%A8%E9%85%8D%E7%BD%AE"><span class="nav-number">2.2.</span> <span class="nav-text">映射器配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E4%B8%80%E7%82%B9JAVA%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">写一点JAVA类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E6%98%A0%E5%B0%84%E5%99%A8UserMapper"><span class="nav-number">3.0.1.</span> <span class="nav-text">构造映射器UserMapper</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E5%86%99Java-Bean%EF%BC%9AUser"><span class="nav-number">3.0.2.</span> <span class="nav-text">编写Java Bean：User</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%B7%A5%E5%8E%82MyBatisUtil"><span class="nav-number">3.0.3.</span> <span class="nav-text">数据工厂MyBatisUtil</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5"><span class="nav-number">4.</span> <span class="nav-text">实践</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E4%B8%8D%E5%9C%A8-AI%EF%BC%8C%E8%80%8C%E5%9C%A8%E4%BA%8E%E2%80%9D%E6%B0%9B%E5%9B%B4%E2%80%9D"><span class="nav-number">1.</span> <span class="nav-text">问题不在 AI，而在于”氛围”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%A7%A3%E4%BD%A0%E7%9A%84%E5%AF%B9%E6%89%8B%EF%BC%9ALLM-%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">理解你的对手：LLM 的工作方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%AE%83%E6%B2%A1%E6%9C%89%E7%8B%AC%E7%AB%8B%E4%BA%8E%E8%BE%93%E5%87%BA%E7%9A%84%E2%80%9D%E6%80%9D%E8%80%83%E2%80%9D%E8%BF%87%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">1. 它没有独立于输出的”思考”过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B0%B1%E6%98%AF%E5%AE%83%E7%9A%84%E5%85%A8%E9%83%A8%E8%AE%B0%E5%BF%86"><span class="nav-number">2.2.</span> <span class="nav-text">2. 上下文就是它的全部记忆</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Attention%EF%BC%9ALLM-%E5%A6%82%E4%BD%95%E2%80%9D%E9%98%85%E8%AF%BB%E2%80%9D%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="nav-number">2.2.1.</span> <span class="nav-text">Attention：LLM 如何”阅读”上下文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AA%97%E5%8F%A3%EF%BC%9A%E8%A2%AB%E9%AB%98%E4%BC%B0%E7%9A%84%E8%83%BD%E5%8A%9B"><span class="nav-number">2.2.2.</span> <span class="nav-text">上下文窗口：被高估的能力</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%94%9F%E6%88%90%E5%85%B7%E6%9C%89%E6%A6%82%E7%8E%87%E6%80%A7"><span class="nav-number">2.3.</span> <span class="nav-text">3. 生成具有概率性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%B3%95%EF%BC%9A%E4%B8%8A%E4%B8%8B%E6%96%87%E6%B2%BB%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">解法：上下文治理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Plan%EF%BC%9A%E5%85%88%E6%83%B3%E6%B8%85%E6%A5%9A%E5%86%8D%E5%8A%A8%E6%89%8B"><span class="nav-number">3.1.</span> <span class="nav-text">Plan：先想清楚再动手</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MVP-%E7%9A%84%E8%BE%B9%E7%95%8C%E8%89%BA%E6%9C%AF"><span class="nav-number">3.1.1.</span> <span class="nav-text">MVP 的边界艺术</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spec%EF%BC%9A%E7%94%A8%E7%BB%93%E6%9E%84%E5%8C%96%E6%96%87%E6%A1%A3%E6%9B%BF%E4%BB%A3%E5%8F%A3%E5%A4%B4%E6%8F%8F%E8%BF%B0"><span class="nav-number">3.2.</span> <span class="nav-text">Spec：用结构化文档替代口头描述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%EF%BC%9A%E6%B6%88%E9%99%A4%E2%80%9D%E6%AD%A7%E4%B9%89%E7%A8%8E%E2%80%9D"><span class="nav-number">3.2.1.</span> <span class="nav-text">统一语言：消除”歧义税”</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Workflow%EF%BC%9A%E7%BB%99-AI-%E7%9A%84%E8%A1%8C%E4%B8%BA%E5%8A%A0%E4%B8%8A%E6%8A%A4%E6%A0%8F"><span class="nav-number">3.3.</span> <span class="nav-text">Workflow：给 AI 的行为加上护栏</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Rules%EF%BC%9A%E4%BD%A0%E9%A2%81%E5%B8%83%E7%BB%99-AI-%E7%9A%84%E2%80%9D%E4%BB%A3%E7%A0%81%E5%A5%91%E7%BA%A6%E2%80%9D"><span class="nav-number">3.3.1.</span> <span class="nav-text">Rules：你颁布给 AI 的”代码契约”</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%8F%E6%AD%A5%E5%BF%AB%E8%B7%91%EF%BC%9A%E4%BB%A5%E5%AF%B9%E8%AF%9D%E4%B8%BA%E5%8D%95%E4%BD%8D%E7%BB%84%E7%BB%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">3.3.2.</span> <span class="nav-text">小步快跑：以对话为单位组织工作</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%95%E5%B1%82%E5%8E%9F%E5%88%99%EF%BC%9A%E8%AE%A9-AI-%E8%B6%8A%E7%94%A8%E8%B6%8A%E5%A5%BD%E7%94%A8%E7%9A%84%E5%9B%9B%E4%B8%AA%E5%BF%83%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">底层原则：让 AI 越用越好用的四个心法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%83%E6%B3%95%E4%B8%80%EF%BC%9A%E5%A4%8D%E5%88%A9%E5%B7%A5%E7%A8%8B%E2%80%94%E2%80%94%E4%BD%A0%E4%B8%8D%E5%8F%AA%E6%98%AF%E5%9C%A8%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98%EF%BC%8C%E8%80%8C%E6%98%AF%E5%9C%A8%E6%95%99%E8%82%B2%E7%B3%BB%E7%BB%9F"><span class="nav-number">4.1.</span> <span class="nav-text">心法一：复利工程——你不只是在解决问题，而是在教育系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%83%E6%B3%95%E4%BA%8C%EF%BC%9A%E5%AF%B9%E4%BA%BA%E9%9A%BE%E7%9A%84%E4%BA%8B%EF%BC%8C%E5%AF%B9-AI-%E4%B9%9F%E9%9A%BE"><span class="nav-number">4.2.</span> <span class="nav-text">心法二：对人难的事，对 AI 也难</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%83%E6%B3%95%E4%B8%89%EF%BC%9A%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E2%80%94%E2%80%94%E5%83%8F%E5%AD%A6%E4%B9%90%E5%99%A8%E4%B8%80%E6%A0%B7%E5%AD%A6%E4%B9%A0-AI"><span class="nav-number">4.3.</span> <span class="nav-text">心法三：刻意练习——像学乐器一样学习 AI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%83%E6%B3%95%E5%9B%9B%EF%BC%9A%E7%9F%AD%E5%AF%B9%E8%AF%9D%E3%80%81%E7%B2%BE%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E5%8F%AF%E5%A4%8D%E7%94%A8%E2%80%94%E2%80%94%E4%B8%89%E6%9D%A1%E6%B0%B8%E4%B8%8D%E9%80%80%E8%89%B2%E7%9A%84%E9%93%81%E5%BE%8B"><span class="nav-number">4.4.</span> <span class="nav-text">心法四：短对话、精上下文、可复用——三条永不退色的铁律</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E8%A6%81%E7%AD%89%EF%BC%8C%E7%8E%B0%E5%9C%A8%E5%B0%B1%E6%98%AF%E6%9C%80%E5%A5%BD%E7%9A%84%E6%97%B6%E6%9C%BA"><span class="nav-number">5.</span> <span class="nav-text">不要等，现在就是最好的时机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E6%9C%9F%E9%A2%84%E5%91%8A"><span class="nav-number">6.</span> <span class="nav-text">下期预告</span></a></li></ol></div>
             
 
           </div>
