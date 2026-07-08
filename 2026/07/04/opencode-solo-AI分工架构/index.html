@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bitbug_favicon32.ico?v=6.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/bitbug_favicon16.ico?v=6.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.0" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Welcome To 🫱🐟’s Blog ✨ 欢迎来到我的博客 我是一名虚幻程序员I am an Unreal Engine Gameplay Programmer. 喜欢玩游戏，梦想是做美少女游戏Loving playing games and Dreaming to make GalGame💕 来都来了，可以去Github上看看我写的破代码Welcome to my Treasury H">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Way conforms to the natural order">
+<meta property="og:url" content="https://www.nekonet.cn/about/index.html">
+<meta property="og:site_name" content="The Way conforms to the natural order">
+<meta property="og:description" content="Welcome To 🫱🐟’s Blog ✨ 欢迎来到我的博客 我是一名虚幻程序员I am an Unreal Engine Gameplay Programmer. 喜欢玩游戏，梦想是做美少女游戏Loving playing games and Dreaming to make GalGame💕 来都来了，可以去Github上看看我写的破代码Welcome to my Treasury H">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-07-08T10:31:57.005Z">
+<meta property="article:modified_time" content="2026-07-08T10:31:57.005Z">
+<meta property="article:author" content="Skyse">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '6.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://www.nekonet.cn/about/"/>
+
+
+
+
+
+  <title>我在OpenCode里还原了ClaudeCode | The Way conforms to the natural order</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">The Way conforms to the natural order</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.nekonet.cn/2026/07/04/opencode-solo-AI%E5%88%86%E5%B7%A5%E6%9E%B6%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Way conforms to the natural order">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">我在OpenCode里还原了ClaudeCode</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2026-07-04T18:00:00+08:00">2026-07-04</time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">10k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">10 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>ClaudeCode配DeepSeek V4一直用得挺好，最近第三方模型动不动断流，也不知道是不是A&#x2F; 又在下毒。找了OpenCode当替代，引擎能力够强，但内置agent太基础了。索性扒了源码自己搓了一套配置出来。</p>
+<span id="more"></span>
+
+<h2 id="万恶之源：ClaudeCode又断流了"><a href="#万恶之源：ClaudeCode又断流了" class="headerlink" title="万恶之源：ClaudeCode又断流了"></a>万恶之源：ClaudeCode又断流了</h2><p>我一直以来的工作流是 <strong>ClaudeCode + DeepSeek V4</strong>。通过 <a target="_blank" rel="noopener" href="https://github.com/farion1231/cc-switch">CC-Switch</a> 把Haiku槽位映射到 <code>deepseek-v4-flash</code>，Opus&#x2F;Connect槽位映射到 <code>deepseek-v4-pro</code>。这套组合拳效果一直很好——v4-pro做规划和复杂推理，v4-flash做快速执行，成本比直接用Anthropic官方模型低一个数量级，体验却不差。</p>
+<p>但最近ClaudeCode对第三方模型的支持越来越差。对话到一半经常莫名其妙断掉，回复突然截断，像是被什么invisible token limit卡住了。</p>
+
+
+<p>我不确定是A&#x2F; 又在”下毒”（暗中限制非官方模型），还是CC本身的兼容性出了问题。但不管原因是什么，这都不是长久之计，<strong>我需要一个Plan B</strong>。</p>
+<h2 id="尝试OpenCode：差点意思"><a href="#尝试OpenCode：差点意思" class="headerlink" title="尝试OpenCode：差点意思"></a>尝试OpenCode：差点意思</h2><p>OpenCode是目前最活跃的开源AI编程助手之一，架构清晰，插件体系完善，还支持后台子代理。但它的内置agent只有两个：</p>
+<ul>
+<li><strong>build</strong> —— 全能型，什么都能干，什么权限都有</li>
+<li><strong>plan</strong> —— 只读分析，不能改文件</li>
+</ul>
+<p>这满足不了我。我要的不是一个AI包揽一切，而是ClaudeCode那种<strong>自主规划 + 委派执行</strong>的体验：</p>
+<ul>
+<li>一个<strong>只动脑不动手</strong>的编排器，负责理解需求、拆分任务、调度资源</li>
+<li>一群<strong>专业化的执行者</strong>，每个只干一类活，权限最小化</li>
+<li><strong>对抗性验证</strong>——改完代码后不是自我确认”看起来没问题”，而是真的去跑测试、写探针、试图break它</li>
+</ul>
+<p>OpenCode内置的build agent做不到这种分离。它是一个全能但有权限的胖代理——上下文里塞满了文件内容和工具输出，越干越慢，越干越贵。</p>
+<h2 id="扒源码"><a href="#扒源码" class="headerlink" title="扒源码"></a>扒源码</h2><p>既然OpenCode本身不支持，那就自己搓。我做了两件事：</p>
+<p><strong>第一，读OpenCode的源码。<strong>把它的运行时机制翻了个底朝天——核心循环、流式工具执行、子代理调度、权限系统、上下文压缩。结论是OpenCode的引擎能力其实很强，它已经有流式工具并行执行、实验性后台子代理、动态权限评估、多层级联压缩。缺的不是能力，是</strong>配置</strong>。</p>
+<p>**第二，找ClaudeCode的代码做参考。**ClaudeCode的源码通过<code>npm source map</code>泄露过一份（怎么找的别问）。我重点研究了三块：</p>
+<ul>
+<li><strong>Coordinator Mode</strong>——ClaudeCode的编排器模式，4阶段工作流（Research → Synthesis → Implementation → Verification），prompt撰写指南，continue-vs-spawn决策表</li>
+<li><strong>Verification Agent</strong>——对抗性验证子代理的完整prompt，包含反合理化模式（”reading code is not verification, run it”）、按改动类型的验证策略、good&#x2F;bad输出示例</li>
+<li><strong><code>/simplify</code> 技能</strong>——三分支并行代码审查（复用&#x2F;质量&#x2F;效率），维度定义非常具体</li>
+</ul>
+<p>这些是工业级的prompt工程，不是随便写的。我把其中最核心的设计理念提取出来，针对OpenCode的运行时做了适配，最终产出了一套7个agent定义文件——就是 <strong>opencode-solo</strong>。</p>
+<h2 id="搓出Solo"><a href="#搓出Solo" class="headerlink" title="搓出Solo"></a>搓出Solo</h2><p>核心思路：<strong>让主Agent只负责思考和决策（不动手），六个子代理负责干活（不深度思考）。</strong></p>
+<p>Solo是一个<strong>只读的编排器</strong>——零文件 &#x2F; Shell访问权限。它只能调度子代理干活，或者向用户提问。所有实际操作都通过专业化子代理完成：</p>
+<pre class="mermaid">graph TB
+    Solo["Solo — 编排器<br/>专家模型"]
+    Solo -->|"阶段 1"| Explore["explore<br/>快速模型 — 只读"]
+    Solo -->|"阶段 3"| Editor["editor<br/>快速模型 — 读写"]
+    Solo -->|"阶段 4"| Verify["verify<br/>专家模型 — 对抗性"]
+    Solo -.->|"按需"| Reviewer["reviewer<br/>专家模型 — 审查"]
+    Solo -.->|"按需"| Observer["observer<br/>视觉模型 — 图像"]
+    Solo -.->|"兜底"| General["general<br/>可配置"]</pre>
+
+<h3 id="上下文隔离-Token省钱"><a href="#上下文隔离-Token省钱" class="headerlink" title="上下文隔离 &#x3D; Token省钱"></a>上下文隔离 &#x3D; Token省钱</h3><p>传统单代理模式下，所有东西堆积在一个上下文里：</p>
+<pre class="mermaid">graph TB
+    subgraph Traditional ["传统 — 单代理"]
+        T1["上下文每轮增长<br/>文件读取 + 工具输出堆积"]
+        T1 --> T2["每次调用处理 100K+ token"]
+    end
+    subgraph SoloArch ["Solo — 隔离上下文"]
+        S1["Solo: ~5-10K token<br/>仅摘要 + 决策"]
+        S1 --> S2["每个子代理: 全新会话<br/>大量读取被隔离"]
+        S2 --> S3["专家模型上下文<br/>缩小 10-20 倍"]
+    end</pre>
+
+<p>Solo只看到子代理返回的<strong>简洁文本摘要</strong>，从不接触原始文件内容或冗长的工具输出。一个100Ktoken的任务，Solo的编排器可能只消耗5-10K token的上下文（我脑测的，一切以实际数据为准）。</p>
+<h3 id="别迷信模型能力——规划执行分离才是王道"><a href="#别迷信模型能力——规划执行分离才是王道" class="headerlink" title="别迷信模型能力——规划执行分离才是王道"></a>别迷信模型能力——规划执行分离才是王道</h3><p>这里要安利一下<strong>DeepSeek V4</strong>的组合用法。</p>
+<p>很多人觉得”要用就用最强的”，一个Opus&#x2F;GPT搞所有事。但这其实是最浪费的方案：</p>
+<table>
+<thead>
+<tr>
+<th>做法</th>
+<th>问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>全用专家模型</td>
+<td>读个文件也要花Opus级别的token，1M上下文每次调用都重新处理，成本爆炸</td>
+</tr>
+<tr>
+<td>全用快速模型</td>
+<td>规划能力不足，任务拆解质量差，容易跑偏</td>
+</tr>
+</tbody></table>
+<p>正确的做法是 <strong>分层</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>代理</th>
+<th>用什么模型</th>
+<th>为什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>专家</td>
+<td>Solo, verify, reviewer</td>
+<td><code>deepseek-v4-pro</code></td>
+<td>规划、对抗性分析、质量判断需要深度推理</td>
+</tr>
+<tr>
+<td>快速</td>
+<td>explore, editor</td>
+<td><code>deepseek-v4-flash</code></td>
+<td>文件搜索、代码编辑是机械任务，不需要强推理</td>
+</tr>
+<tr>
+<td>专用</td>
+<td>observer</td>
+<td>视觉模型</td>
+<td>图像分析需要多模态能力</td>
+</tr>
+</tbody></table>
+<p>因为Solo的上下文里只有子代理返回的摘要和决策，用<code>v4-pro</code>做编排的成本极低。而写代码这种机械任务交给<code>v4-flash</code>，又快又便宜（flash的吐词速度更快）。</p>
+<p><strong>规划执行分离 + 专家模型规划 + 快速模型执行 &#x3D; 比全程用强模型更好的体验，同时成本大幅降低。</strong></p>
+<p>这不只是我的个人经验。我让AI找了一些论文来论证我的观点这，一架构有活跃的学术研究支撑：</p>
+<ol>
+<li>Cai, T., Wang, X., Ma, T., Chen, X., &amp; Zhou, D. (2023). <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2305.17126">Large Language Models as Tool Makers</a>. <em>arXiv preprint arXiv:2305.17126</em>. Google DeepMind.</li>
+<li>Chen, L., Zaharia, M., &amp; Zou, J. (2023). <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2305.05176">FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance</a>. <em>arXiv preprint arXiv:2305.05176</em>. Stanford University.</li>
+<li>Ong, I., Almahairi, A., Wu, V., Chiang, W.-L., Wu, T., Gonzalez, J. E., Kadous, M. W., &amp; Stoica, I. (2024). <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2406.18665">RouteLLM: Learning to Route LLMs with Preference Data</a>. <em>arXiv preprint arXiv:2406.18665</em>. UC Berkeley.</li>
+<li>Hong, S., Zhuge, M., Chen, J., Zheng, X., Cheng, Y., Zhang, C., et al. (2024). <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2308.00352">MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework</a>. In <em>ICLR 2024</em>.</li>
+<li>Qian, C., Liu, W., Liu, H., Chen, N., Dang, Y., et al. (2024). <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2307.07924">ChatDev: Communicative Agents for Software Development</a>. In <em>ACL 2024</em>.</li>
+</ol>
+<h3 id="Solo的工作流程"><a href="#Solo的工作流程" class="headerlink" title="Solo的工作流程"></a>Solo的工作流程</h3><p>Solo收到请求后，先调度 <code>explore</code> 搜索代码库、读取项目约定（阶段1）。拿到发现后Solo自己综合分析，必要时向用户确认方案（阶段2）。确认后调度 <code>editor</code> 执行修改（阶段3），再调度 <code>verify</code> 做对抗性测试——跑真实命令、写探针、猎杀边界情况（阶段4）。如果验证失败，Solo让 <code>editor</code> 修复后重新验证，最多两轮，通过后才向用户汇报。<code>reviewer</code> 和 <code>observer</code> 随时按需调度，长任务还能后台并行。</p>
+<pre class="mermaid">flowchart TD
+    Req["用户请求"] --> P1["explore — 搜索代码库<br/>读取约定 + 架构"]
+    P1 -->|"findings"| P2{"Solo 综合分析<br/>+ 确认方案"}
+    P2 -->|"dispatch"| P3["editor — 执行修改"]
+    P3 -->|"changes"| P4{"verify — 对抗性测试<br/>跑测试 + 写探针 + 猎边界"}
+    P4 -->|"PASS"| Done["向用户汇报"]
+    P4 -->|"FAIL → editor 修复<br/>max 2 轮"| P3
+    P2 -.->|"按需"| Rev["reviewer — 代码审查"]
+    Rev -.-> Done</pre>
+
+
+
+<h2 id="开箱即用"><a href="#开箱即用" class="headerlink" title="开箱即用"></a>开箱即用</h2><p>安装OpenCode后，三步搞定：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 复制 agent 文件</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/Dqz00116/opencode-solo.git</span><br><span class="line"><span class="built_in">cp</span> opencode-solo/agent/*.md ~/.config/opencode/agent/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 配置模型（改成你自己的 provider）</span></span><br><span class="line"><span class="built_in">cp</span> opencode-solo/opencode.jsonc.example ~/.config/opencode/opencode.jsonc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 启用后台子代理（推荐）</span></span><br><span class="line"><span class="built_in">export</span> OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>在 <code>opencode.jsonc</code> 里填你自己的provider，下面是我自己的配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;agent&quot;: &#123;</span><br><span class="line">    &quot;verify&quot;:    &#123; &quot;model&quot;: &quot;deepseek/deepseek-v4-pro&quot;, &quot;variant&quot;: &quot;max&quot; &#125;,</span><br><span class="line">    &quot;explore&quot;:   &#123; &quot;model&quot;: &quot;deepseek/deepseek-v4-flash&quot;, &quot;variant&quot;: &quot;medium&quot; &#125;,</span><br><span class="line">    &quot;editor&quot;:    &#123; &quot;model&quot;: &quot;deepseek/deepseek-v4-flash&quot;, &quot;variant&quot;: &quot;medium&quot; &#125;,</span><br><span class="line">    &quot;general&quot;:   &#123; &quot;model&quot;: &quot;deepseek/deepseek-v4-pro&quot;, &quot;variant&quot;: &quot;max&quot; &#125;,</span><br><span class="line">    &quot;reviewer&quot;:  &#123; &quot;model&quot;: &quot;deepseek/deepseek-v4-pro&quot;, &quot;variant&quot;: &quot;max&quot; &#125;,</span><br><span class="line">    &quot;observer&quot;:  &#123; &quot;model&quot;: &quot;kimi-for-coding/k2p5&quot; &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后启动OpenCode，选 <code>solo</code> agent，完事。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>从ClaudeCode断流到扒源码到搓出opencode-solo，整个过程大概两天。核心收获是：</p>
+<ol>
+<li><strong>OpenCode的引擎能力很强</strong>——流式工具执行、后台子代理、动态权限、多层级联压缩都有，缺的是好配置</li>
+<li><strong>ClaudeCode的prompt工程是工业级的</strong>——反合理化模式、对抗性验证策略、good&#x2F;bad示例，值得学习</li>
+<li><strong>规划执行分离+模型分层</strong>是经过学术验证的架构——不是拍脑袋</li>
+<li><strong>DeepSeek V4 pro + flash组合很能打</strong>——别迷信模型能力，用对架构比用对模型更重要</li>
+</ol>
+<p>项目地址：<strong><a target="_blank" rel="noopener" href="https://github.com/Dqz00116/opencode-solo">github.com&#x2F;Dqz00116&#x2F;opencode-solo</a></strong></p>
+<p>MIT协议，开箱即用。如果觉得有用，给个Star ⭐~</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/AI/" rel="tag"># AI</a>
+          
+            <a href="/tags/Prompt-Engineering/" rel="tag"># Prompt Engineering</a>
+          
+            <a href="/tags/OpenCode/" rel="tag"># OpenCode</a>
+          
+            <a href="/tags/ClaudeCode/" rel="tag"># ClaudeCode</a>
+          
+            <a href="/tags/Deepseek/" rel="tag"># Deepseek</a>
+          
+            <a href="/tags/%E5%BC%80%E6%BA%90/" rel="tag"># 开源</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2026/04/18/Introducing-DevFlow-A-Universal-AI-Workflow-CLI/" rel="next" title="DevFlow：一个让任何 AI 都能"按流程办事"的 CLI 工具">
+                <i class="fa fa-chevron-left"></i> DevFlow：一个让任何 AI 都能"按流程办事"的 CLI 工具
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Dqz00116" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:d_qz@foxmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+             <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=541734&auto=1&height=66"></iframe>
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mill413.github.io/" title="彩虹岛(传奇ICPC选手)" target="_blank">彩虹岛(传奇ICPC选手)</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%87%E6%81%B6%E4%B9%8B%E6%BA%90%EF%BC%9AClaudeCode%E5%8F%88%E6%96%AD%E6%B5%81%E4%BA%86"><span class="nav-number">1.</span> <span class="nav-text">万恶之源：ClaudeCode又断流了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%9D%E8%AF%95OpenCode%EF%BC%9A%E5%B7%AE%E7%82%B9%E6%84%8F%E6%80%9D"><span class="nav-number">2.</span> <span class="nav-text">尝试OpenCode：差点意思</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%92%E6%BA%90%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">扒源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%93%E5%87%BASolo"><span class="nav-number">4.</span> <span class="nav-text">搓出Solo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E9%9A%94%E7%A6%BB-Token%E7%9C%81%E9%92%B1"><span class="nav-number">4.1.</span> <span class="nav-text">上下文隔离 &#x3D; Token省钱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%AB%E8%BF%B7%E4%BF%A1%E6%A8%A1%E5%9E%8B%E8%83%BD%E5%8A%9B%E2%80%94%E2%80%94%E8%A7%84%E5%88%92%E6%89%A7%E8%A1%8C%E5%88%86%E7%A6%BB%E6%89%8D%E6%98%AF%E7%8E%8B%E9%81%93"><span class="nav-number">4.2.</span> <span class="nav-text">别迷信模型能力——规划执行分离才是王道</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solo%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">4.3.</span> <span class="nav-text">Solo的工作流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E7%AE%B1%E5%8D%B3%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">开箱即用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Skyse</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Site words total count">53k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="Site reading time">53 mins.</span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <!-- Mermaid support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    .mermaid-container {
+      position: relative;
+      border: 1px solid #d8dee4;
+      border-radius: 10px;
+      background: #f6f8fa;
+      margin: 1.8em 0;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      transition: box-shadow 0.3s ease;
+    }
+    .mermaid-container:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .mermaid-toolbar {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+      display: flex;
+      gap: 5px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .mermaid-container:hover .mermaid-toolbar {
+      opacity: 1;
+    }
+    .mermaid-btn {
+      width: 30px;
+      height: 30px;
+      border: 1px solid #c8cdd3;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.95);
+      color: #57606a;
+      font-size: 15px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+      padding: 0;
+    }
+    .mermaid-btn:hover {
+      background: #fff;
+      color: #24292f;
+      border-color: #8c959f;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .mermaid-wrapper {
+      overflow: hidden;
+      cursor: grab;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100px;
+      background: #f6f8fa;
+    }
+    .mermaid-wrapper:active {
+      cursor: grabbing;
+    }
+    .mermaid-wrapper svg {
+      background: #f6f8fa !important;
+      transition: transform 0.15s ease-out;
+      transform-origin: center center;
+      max-width: 100%;
+      display: block;
+    }
+    /* 全屏模式 */
+    .mermaid-container.fullscreen {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 10000;
+      border-radius: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      background: #f6f8fa;
+    }
+    .mermaid-container.fullscreen .mermaid-wrapper {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      padding: 40px;
+      background: #f6f8fa;
+    }
+    .mermaid-container.fullscreen .mermaid-wrapper svg {
+      background: #f6f8fa !important;
+    }
+    .mermaid-container.fullscreen .mermaid-toolbar {
+      opacity: 1;
+      position: relative;
+      top: auto;
+      right: auto;
+      padding: 12px 20px;
+      background: #fff;
+      border-bottom: 1px solid #d8dee4;
+      justify-content: flex-end;
+    }
+    .mermaid-container.fullscreen .mermaid-btn {
+      width: 36px;
+      height: 36px;
+      font-size: 17px;
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+      
+      function initMermaidInteractive() {
+        document.querySelectorAll('.mermaid').forEach(function(el) {
+          if (el.closest('.mermaid-container')) return;
+          var svg = el.tagName === 'svg' ? el : el.querySelector('svg');
+          if (!svg) return;
+          
+          // 统一 SVG 和容器背景色
+          svg.style.background = '#f6f8fa';
+          
+          var container = document.createElement('div');
+          container.className = 'mermaid-container';
+          
+          var toolbar = document.createElement('div');
+          toolbar.className = 'mermaid-toolbar';
+          toolbar.innerHTML =
+            '<button class="mermaid-btn" title="放大" data-action="zoom-in">＋</button>' +
+            '<button class="mermaid-btn" title="缩小" data-action="zoom-out">－</button>' +
+            '<button class="mermaid-btn" title="重置" data-action="reset">↺</button>' +
+            '<button class="mermaid-btn" title="全屏" data-action="fullscreen">⛶</button>';
+          
+          var wrapper = document.createElement('div');
+          wrapper.className = 'mermaid-wrapper';
+          
+          var parent = el.parentNode;
+          parent.insertBefore(container, el);
+          wrapper.appendChild(el);
+          container.appendChild(toolbar);
+          container.appendChild(wrapper);
+          
+          var scale = 1;
+          var translateX = 0, translateY = 0;
+          var isDragging = false;
+          var startX, startY;
+          var isFullscreen = false;
+          
+          function updateTransform() {
+            el.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
+          }
+          
+          // 自动适配容器大小
+          function fitToContainer() {
+            var wrapperRect = wrapper.getBoundingClientRect();
+            var svgRect = svg.getBoundingClientRect();
+            var padding = isFullscreen ? 80 : 40;
+            
+            var availableW = wrapperRect.width - padding;
+            var availableH = wrapperRect.height - padding;
+            
+            // 获取 SVG 原始尺寸（考虑当前缩放）
+            var svgWidth = svgRect.width / scale;
+            var svgHeight = svgRect.height / scale;
+            
+            var scaleX = availableW / svgWidth;
+            var scaleY = availableH / svgHeight;
+            var newScale = Math.min(scaleX, scaleY, 1);
+            
+            if (newScale < 1 && newScale > 0.1) {
+              scale = newScale;
+            } else {
+              scale = 1;
+            }
+            translateX = 0;
+            translateY = 0;
+            updateTransform();
+          }
+          
+          toolbar.querySelectorAll('.mermaid-btn').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+              e.stopPropagation();
+              var action = this.dataset.action;
+              if (action === 'zoom-in') {
+                scale = Math.min(scale * 1.25, 5);
+                updateTransform();
+              } else if (action === 'zoom-out') {
+                scale = Math.max(scale / 1.25, 0.2);
+                updateTransform();
+              } else if (action === 'reset') {
+                fitToContainer();
+              } else if (action === 'fullscreen') {
+                if (document.fullscreenElement) {
+                  document.exitFullscreen();
+                } else {
+                  container.requestFullscreen().catch(function() {
+                    container.classList.add('fullscreen');
+                    isFullscreen = true;
+                    setTimeout(fitToContainer, 100);
+                  });
+                }
+              }
+            });
+          });
+          
+          wrapper.addEventListener('mousedown', function(e) {
+            if (e.button !== 0) return;
+            isDragging = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+            wrapper.style.cursor = 'grabbing';
+            e.preventDefault();
+          });
+          
+          document.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            updateTransform();
+          });
+          
+          document.addEventListener('mouseup', function() {
+            isDragging = false;
+            wrapper.style.cursor = 'grab';
+          });
+          
+          wrapper.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            var delta = e.deltaY > 0 ? 0.9 : 1.1;
+            scale = Math.max(0.2, Math.min(5, scale * delta));
+            updateTransform();
+          }, { passive: false });
+          
+          document.addEventListener('fullscreenchange', function() {
+            if (document.fullscreenElement === container) {
+              isFullscreen = true;
+              setTimeout(fitToContainer, 150);
+            } else {
+              isFullscreen = false;
+              container.classList.remove('fullscreen');
+              setTimeout(function() {
+                scale = 1;
+                translateX = 0;
+                translateY = 0;
+                updateTransform();
+              }, 100);
+            }
+          });
+          
+          // 初始适配
+          setTimeout(fitToContainer, 100);
+        });
+      }
+      
+      if (document.querySelectorAll('.mermaid').length > 0) {
+        var observer = new MutationObserver(function(mutations, obs) {
+          var rendered = document.querySelectorAll('.mermaid svg').length > 0;
+          if (rendered) {
+            initMermaidInteractive();
+            obs.disconnect();
+          }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+        setTimeout(function() {
+          initMermaidInteractive();
+          observer.disconnect();
+        }, 2000);
+      }
+    });
+  </script>
+</body>
+</html>
